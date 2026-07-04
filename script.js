@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
         setTimeout(() => {
             boot.classList.add('hidden');
             setTimeout(() => { boot.style.display = 'none'; }, 800);
-        }, 800);
+        }, 2000);
     }
 });
 
