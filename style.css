@@ -210,15 +210,30 @@ body {
     box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
 }
 
-/* Animations disabled for performance */
+/* Animations restored with GPU acceleration */
 .led-fast {
-    opacity: 0.8;
+    animation: pulse-fast 2s infinite alternate;
 }
 .led-slow {
-    opacity: 0.6;
+    animation: pulse-slow 6s infinite alternate;
 }
 .led-flicker {
-    opacity: 0.7;
+    animation: flicker 4s infinite;
+}
+
+@keyframes pulse-fast {
+    0% { opacity: 0.3; transform: scaleX(1) translateZ(0); }
+    100% { opacity: 0.9; transform: scaleX(2) translateZ(0); }
+}
+
+@keyframes pulse-slow {
+    0% { opacity: 0.4; transform: translateZ(0); }
+    100% { opacity: 0.8; transform: translateZ(0); }
+}
+
+@keyframes flicker {
+    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 0.9; transform: translateZ(0); }
+    20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.2; transform: translateZ(0); }
 }
 
 .cyber-grid {
@@ -247,9 +262,12 @@ body {
 .glass-panel {
     position: relative;
     z-index: 10;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* Opus Fix: Fake Glassmorphism for 0% GPU Usage */
+    background: linear-gradient(
+        135deg,
+        rgba(10, 10, 15, 0.9),
+        rgba(5, 5, 10, 0.95)
+    );
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     padding: 3rem 4rem;
