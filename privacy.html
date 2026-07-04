@@ -12,27 +12,33 @@
         .privacy-content {
             text-align: left;
             padding: 2rem;
-            max-height: 60vh;
+            max-height: 70vh;
             overflow-y: auto;
             color: #ccc;
         }
         .privacy-content h3 {
             color: var(--neon-cyan);
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
             font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding-bottom: 0.5rem;
         }
         .privacy-content p, .privacy-content ul {
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.7;
         }
         .privacy-content ul {
             padding-left: 20px;
         }
+        .privacy-content li {
+            margin-bottom: 0.5rem;
+        }
         .back-link {
             display: inline-block;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             color: var(--neon-magenta);
             text-decoration: none;
             font-weight: bold;
@@ -43,9 +49,9 @@
             color: #fff;
             text-shadow: 0 0 10px var(--neon-magenta);
         }
-        /* Custom Scrollbar for the privacy text */
+        /* Custom Scrollbar */
         .privacy-content::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         .privacy-content::-webkit-scrollbar-track {
             background: rgba(255,255,255,0.05); 
@@ -67,34 +73,56 @@
         <div class="cyber-grid"></div>
     </div>
 
-    <main class="glass-panel" style="max-width: 900px;">
+    <main class="glass-panel" style="max-width: 900px; padding: 2rem 3rem;">
         <header>
             <div class="logo-text">FUSE VOID</div>
-            <h2 class="subtitle" style="margin-top: 1rem;">PRIVACY POLICY</h2>
+            <h2 class="subtitle" style="margin-top: 0.5rem; font-size: 1.5rem;">PRIVACY POLICY</h2>
         </header>
         
         <div class="privacy-content">
-            <p><strong>Effective Date:</strong> January 2027</p>
-            
-            <h3>1. Data Collection & Cloud Processing</h3>
-            <p>FUSE VOID STEM-X is designed with a "Stateless Architecture". When you process an audio file using our App:</p>
+            <p><strong>Last Updated:</strong> July 2026</p>
+            <p>Welcome to FUSE VOID STEM-X ("we," "our," or "us"). We respect your privacy and are committed to protecting it through our compliance with this policy. This Privacy Policy describes our practices regarding the collection, use, and disclosure of information when you use our macOS, iOS, and iPadOS applications ("App").</p>
+
+            <h3>1. Information We Collect (And Do Not Collect)</h3>
+            <p>Our core philosophy is a "Stateless Architecture." We collect as little data as fundamentally possible.</p>
             <ul>
-                <li>Your audio file is temporarily uploaded to our secure edge servers (Cloudflare R2) solely for the purpose of AI separation.</li>
-                <li><strong>No Permanent Storage:</strong> Once the separation is complete, the resulting stems are available via a secure, time-limited link that expires in exactly 10 minutes.</li>
-                <li>After the link expires, all associated audio files (both input and output) are permanently deleted from our servers. We do not keep copies of your music.</li>
+                <li><strong>No Personal Identifiable Information (PII):</strong> We do not require you to create an account, log in, or provide your name, email address, or phone number to use the core features of the App.</li>
+                <li><strong>No Device Tracking:</strong> We do not collect advertising identifiers (IDFA) or precise location data.</li>
             </ul>
 
-            <h3>2. Personal Information</h3>
-            <p>We do not require you to create an account, log in, or provide personal identifiable information (PII). The app functions entirely anonymously.</p>
+            <h3>2. Audio Data & AI Processing (Crucial)</h3>
+            <p>Because STEM-X is an AI-powered vocal removal tool, it requires processing audio files.</p>
+            <ul>
+                <li><strong>Temporary Uploads:</strong> When you select an audio file for separation, it is transmitted securely (via HTTPS) to our edge cloud servers (Cloudflare R2) solely to perform the AI separation tasks.</li>
+                <li><strong>Strict Deletion Policy:</strong> Once the separation is complete, the resulting stems are provided via a secure, time-limited download link. <strong>All uploaded original files and processed output files are permanently and automatically deleted from our servers within a maximum of 10 minutes after processing.</strong></li>
+                <li><strong>No AI Training:</strong> We <u>do not</u> use your uploaded audio, stems, or music to train, refine, or improve our AI models. Your music remains your intellectual property.</li>
+            </ul>
 
-            <h3>3. Payments & Apple StoreKit</h3>
-            <p>All transactions are processed securely through Apple's App Store (StoreKit). We do not collect, process, or store your credit card information or billing details. We only receive a cryptographic receipt (JWS) from Apple to verify that a purchase was made in order to allocate processing time.</p>
+            <h3>3. Payments & Subscriptions (StoreKit)</h3>
+            <p>All in-app purchases and subscriptions are processed entirely by Apple Inc. through the App Store (StoreKit).</p>
+            <ul>
+                <li>We do not collect, see, process, or store your credit card information, billing address, or Apple ID details.</li>
+                <li>We only receive anonymous, cryptographic receipts (JWS Tokens) from Apple to verify that a transaction was successful so we can allocate server processing time to your device.</li>
+            </ul>
 
-            <h3>4. Analytics & Tracking</h3>
-            <p>We do not use any third-party tracking SDKs (like Facebook Pixel or Google Analytics) inside the macOS/iOS app that track your behavior across other apps or websites.</p>
+            <h3>4. Analytics & Third-Party Services</h3>
+            <p>To respect user privacy, FUSE VOID STEM-X does <strong>not</strong> embed third-party marketing or tracking SDKs (such as Facebook Pixel or Google Analytics) inside the App. We operate on a zero-tracking policy.</p>
 
-            <h3>5. Contact Us</h3>
-            <p>If you have any questions regarding this Privacy Policy or the security of your data, please contact our support team at: <strong>support@fusevoid.com</strong></p>
+            <h3>5. Data Security</h3>
+            <p>We implement commercially reasonable technical and organizational measures to protect your temporary data against accidental or unlawful destruction, loss, or unauthorized access. Our servers utilize stateless processing, meaning no user session data is persistently stored in any database.</p>
+
+            <h3>6. Your Privacy Rights (GDPR & CCPA)</h3>
+            <p>Depending on your location, you may have rights under the General Data Protection Regulation (GDPR) or California Consumer Privacy Act (CCPA). Because we do not store personal data or retain your audio files, there is no personal profile or history for us to export or delete upon request. You are inherently anonymous.</p>
+
+            <h3>7. Children's Privacy</h3>
+            <p>Our App is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received personal information from a visitor under the age of 13, we will delete the information from our records.</p>
+
+            <h3>8. Changes to This Privacy Policy</h3>
+            <p>We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+
+            <h3>9. Contact Us</h3>
+            <p>If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at:</p>
+            <p><strong>Email:</strong> fusevoidmusic@gmail.com</p>
         </div>
 
         <a href="index.html" class="back-link">< RETURN TO MAIN SECURE TERMINAL</a>
