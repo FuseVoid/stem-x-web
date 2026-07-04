@@ -3,7 +3,6 @@
 window.addEventListener('load', () => {
     const boot = document.getElementById('site-boot');
     if (boot && boot.style.display !== 'none') {
-        sessionStorage.setItem('fv_boot_played', 'true');
         setTimeout(() => {
             boot.classList.add('hidden');
             setTimeout(() => { boot.style.display = 'none'; }, 800);
