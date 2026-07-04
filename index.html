@@ -30,6 +30,11 @@
             <div class="site-boot__loader"></div>
         </div>
     </div>
+    <script>
+        if (sessionStorage.getItem('fv_boot_played')) {
+            document.getElementById('site-boot').style.display = 'none';
+        }
+    </script>
     <!-- Top Navigation -->
     <nav class="main-nav">
         <div class="nav-links">
