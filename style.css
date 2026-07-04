@@ -197,7 +197,7 @@ body {
     width: 4px;
     height: 120%;
     opacity: 0.7;
-    filter: blur(2px);
+    will-change: transform, opacity;
 }
 
 .led-cyan {
@@ -247,7 +247,7 @@ body {
     perspective: 1000px;
     transform: rotateX(60deg) translateY(-100px) scale(2);
     transform-origin: top;
-    animation: gridMove 20s linear infinite;
+    /* Animation removed for performance (prevents heavy GPU usage on Macs) */
 }
 
 @keyframes gridMove {
