@@ -27,6 +27,91 @@ body {
 }
 
 /* ========================================= */
+/* Boot Screen (Loading) */
+/* ========================================= */
+.site-boot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+}
+
+.site-boot.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.site-boot__inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.site-boot__mark {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.4));
+}
+
+.site-boot__brand {
+    font-family: 'SEGA LOGO FONT', sans-serif;
+    color: var(--neon-magenta);
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.site-boot__product {
+    font-family: 'SEGA LOGO FONT', sans-serif;
+    color: #fff;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 243, 255, 0.5);
+    margin-bottom: 30px;
+}
+
+.site-boot__loader {
+    width: 150px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.site-boot__loader::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    animation: slideLoader 1.5s infinite ease-in-out;
+}
+
+@keyframes slideLoader {
+    0% { left: -40%; }
+    100% { left: 100%; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.98); opacity: 0.8; }
+}
+
+/* ========================================= */
 /* Top Navigation */
 /* ========================================= */
 

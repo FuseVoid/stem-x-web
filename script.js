@@ -1,5 +1,15 @@
 // Animations disabled for a more stable UI feel
 
+window.addEventListener('load', () => {
+    const boot = document.getElementById('site-boot');
+    if (boot) {
+        setTimeout(() => {
+            boot.classList.add('hidden');
+            setTimeout(() => { boot.style.display = 'none'; }, 800);
+        }, 800);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const billingSwitch = document.getElementById('billing-switch');
     
