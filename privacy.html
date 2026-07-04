@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | FUSE VOID STEM-X</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .privacy-content {
+            text-align: left;
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            color: #ccc;
+        }
+        .privacy-content h3 {
+            color: var(--neon-cyan);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .privacy-content p, .privacy-content ul {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .privacy-content ul {
+            padding-left: 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--neon-magenta);
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-magenta);
+        }
+        /* Custom Scrollbar for the privacy text */
+        .privacy-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .privacy-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05); 
+            border-radius: 4px;
+        }
+        .privacy-content::-webkit-scrollbar-thumb {
+            background: rgba(0, 243, 255, 0.3); 
+            border-radius: 4px;
+        }
+        .privacy-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 243, 255, 0.6); 
+        }
+    </style>
+</head>
+<body>
+    <div class="led-container">
+        <div class="led led-left led-cyan led-fast" style="left: 5vw;"></div>
+        <div class="led led-right led-magenta led-flicker" style="right: 5vw;"></div>
+        <div class="cyber-grid"></div>
+    </div>
+
+    <main class="glass-panel" style="max-width: 900px;">
+        <header>
+            <div class="logo-text">FUSE VOID</div>
+            <h2 class="subtitle" style="margin-top: 1rem;">PRIVACY POLICY</h2>
+        </header>
+        
+        <div class="privacy-content">
+            <p><strong>Effective Date:</strong> January 2027</p>
+            
+            <h3>1. Data Collection & Cloud Processing</h3>
+            <p>FUSE VOID STEM-X is designed with a "Stateless Architecture". When you process an audio file using our App:</p>
+            <ul>
+                <li>Your audio file is temporarily uploaded to our secure edge servers (Cloudflare R2) solely for the purpose of AI separation.</li>
+                <li><strong>No Permanent Storage:</strong> Once the separation is complete, the resulting stems are available via a secure, time-limited link that expires in exactly 10 minutes.</li>
+                <li>After the link expires, all associated audio files (both input and output) are permanently deleted from our servers. We do not keep copies of your music.</li>
+            </ul>
+
+            <h3>2. Personal Information</h3>
+            <p>We do not require you to create an account, log in, or provide personal identifiable information (PII). The app functions entirely anonymously.</p>
+
+            <h3>3. Payments & Apple StoreKit</h3>
+            <p>All transactions are processed securely through Apple's App Store (StoreKit). We do not collect, process, or store your credit card information or billing details. We only receive a cryptographic receipt (JWS) from Apple to verify that a purchase was made in order to allocate processing time.</p>
+
+            <h3>4. Analytics & Tracking</h3>
+            <p>We do not use any third-party tracking SDKs (like Facebook Pixel or Google Analytics) inside the macOS/iOS app that track your behavior across other apps or websites.</p>
+
+            <h3>5. Contact Us</h3>
+            <p>If you have any questions regarding this Privacy Policy or the security of your data, please contact our support team at: <strong>support@fusevoid.com</strong></p>
+        </div>
+
+        <a href="index.html" class="back-link">< RETURN TO MAIN SECURE TERMINAL</a>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
