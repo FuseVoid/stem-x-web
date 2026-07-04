@@ -97,8 +97,8 @@ body {
     left: 0;
     height: 100%;
     width: 0%;
-    background: #ff0033;
-    box-shadow: 0 0 10px #ff0033, 0 0 20px #ff0033;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     animation: fillLoader 1.8s ease-out forwards;
 }
 
@@ -206,34 +206,19 @@ body {
 }
 
 .led-magenta {
-    background: var(--neon-magenta);
-    box-shadow: 0 0 20px var(--neon-magenta), 0 0 40px var(--neon-magenta);
+    background: var(--neon-cyan);
+    box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
 }
 
-/* Animations */
+/* Animations disabled for performance */
 .led-fast {
-    animation: pulse-fast 2s infinite alternate;
+    opacity: 0.8;
 }
 .led-slow {
-    animation: pulse-slow 6s infinite alternate;
+    opacity: 0.6;
 }
 .led-flicker {
-    animation: flicker 4s infinite;
-}
-
-@keyframes pulse-fast {
-    0% { opacity: 0.3; transform: scaleX(1); }
-    100% { opacity: 0.9; transform: scaleX(2); }
-}
-
-@keyframes pulse-slow {
-    0% { opacity: 0.4; }
-    100% { opacity: 0.8; }
-}
-
-@keyframes flicker {
-    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 0.9; }
-    20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.2; }
+    opacity: 0.7;
 }
 
 .cyber-grid {
