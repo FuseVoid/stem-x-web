@@ -288,7 +288,7 @@ body {
 }
 
 /* Ensure children sit above the WebGL canvas and apply text distortion */
-.liquid-panel > * {
+.liquid-panel > .panel-inner {
     position: relative;
     z-index: 1;
     filter: url(#liquid-text-filter);
