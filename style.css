@@ -287,10 +287,13 @@ body {
     overflow: hidden;
 }
 
-/* Ensure children sit above the WebGL canvas */
-.liquid-panel > * {
+/* Ensure children sit above the WebGL canvas and apply text distortion */
+.liquid-panel > header,
+.liquid-panel > .content {
     position: relative;
     z-index: 1;
+    filter: url(#liquid-text-filter);
+    transform: translateZ(0); /* Hardware acceleration for smooth filter render */
 }
 
 .top-icon {

@@ -360,21 +360,64 @@ document.addEventListener('DOMContentLoaded', () => {
     // Disable WebGL Liquid Glass on touch devices for performance
     if (!('ontouchstart' in window)) {
         const liquidPanels = document.querySelectorAll('.liquid-panel');
+        
+        // Inject SVG Filter for Text Liquid Distortion
+        if (!document.getElementById('liquid-text-svg')) {
+            const svgNS = 'http://www.w3.org/2000/svg';
+            const svg = document.createElementNS(svgNS, 'svg');
+            svg.id = 'liquid-text-svg';
+            svg.style.cssText = 'position:absolute; width:0; height:0; pointer-events:none;';
+            svg.innerHTML = `
+                <defs>
+                    <filter id="liquid-text-filter" x="-20%" y="-20%" width="140%" height="140%">
+                        <!-- Neutral Gray (No displacement) -->
+                        <feFlood flood-color="#808080" result="neutral"/>
+                        
+                        <!-- Water Ripple Noise -->
+                        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise">
+                            <animate attributeName="baseFrequency" values="0.04;0.05;0.04" dur="4s" repeatCount="indefinite" />
+                        </feTurbulence>
+                        
+                        <!-- Cursor Mask (White circle fading to transparent) -->
+                        <feImage id="drop-mask" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><defs><radialGradient id='g'><stop offset='0%' stop-color='white' stop-opacity='1'/><stop offset='50%' stop-color='white' stop-opacity='0.8'/><stop offset='100%' stop-color='white' stop-opacity='0'/></radialGradient></defs><circle cx='150' cy='150' r='150' fill='url(%23g)'/></svg>" x="-1000" y="-1000" width="300" height="300" result="maskImage" />
+                        
+                        <!-- Mask the noise with the circle -->
+                        <feComposite in="noise" in2="maskImage" operator="in" result="maskedNoise" />
+                        
+                        <!-- Put the masked noise over the neutral gray background -->
+                        <feComposite in="maskedNoise" in2="neutral" operator="over" result="displacementMap" />
+                        
+                        <!-- Displace the text elements! -->
+                        <feDisplacementMap in="SourceGraphic" in2="displacementMap" scale="35" xChannelSelector="R" yChannelSelector="G" />
+                    </filter>
+                </defs>
+            `;
+            document.body.appendChild(svg);
+        }
+
         liquidPanels.forEach(panel => {
             new LiquidGlass(panel);
             
-            // Keep the Katman 1 3D tilt effect on the panel itself
+            const dropMask = document.getElementById('drop-mask');
+            
             panel.addEventListener('mousemove', (e) => {
                 const rect = panel.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                const rx = (x / rect.width - 0.5) * 2;
-                const ry = (y / rect.height - 0.5) * 2;
-                const maxTilt = 3;
-                panel.style.transform = `perspective(1000px) rotateY(${rx * maxTilt}deg) rotateX(${-ry * maxTilt}deg)`;
+                
+                // Move the SVG mask image so it's centered on the cursor (300x300 image -> offset by 150)
+                if (dropMask) {
+                    dropMask.setAttribute('x', x - 150);
+                    dropMask.setAttribute('y', y - 150);
+                }
             });
+            
             panel.addEventListener('mouseleave', () => {
-                panel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+                // Move mask off-screen to remove text distortion when mouse leaves
+                if (dropMask) {
+                    dropMask.setAttribute('x', -1000);
+                    dropMask.setAttribute('y', -1000);
+                }
             });
         });
     }
