@@ -137,3 +137,34 @@ class SecurityManager {
 
 // Initialize Security Protocol
 new SecurityManager();
+
+// ==========================================
+// LIQUID GLASS UI (Performance Optimized)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const panels = document.querySelectorAll('.glass-panel');
+    panels.forEach(panel => {
+        panel.addEventListener('mousemove', (e) => {
+            const rect = panel.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Katman 2: Radial Işık Takibi
+            panel.style.setProperty('--mx', `${x}px`);
+            panel.style.setProperty('--my', `${y}px`);
+            
+            // Katman 1: 3D Bükülme İllüzyonu (Sıfır GPU Maliyeti)
+            const rx = (x / rect.width - 0.5) * 2; // -1 to 1
+            const ry = (y / rect.height - 0.5) * 2; // -1 to 1
+            
+            const maxTilt = 3; // Derece
+            panel.style.transform = `perspective(1000px) rotateY(${rx * maxTilt}deg) rotateX(${-ry * maxTilt}deg)`;
+        });
+        
+        panel.addEventListener('mouseleave', () => {
+            panel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+            panel.style.setProperty('--mx', `50%`);
+            panel.style.setProperty('--my', `50%`);
+        });
+    });
+});
