@@ -287,10 +287,15 @@ body {
     overflow: hidden;
 }
 
-/* Ensure children sit above the WebGL canvas and apply text distortion */
-.liquid-panel > .panel-inner {
+/* Ensure children sit above the WebGL canvas */
+.liquid-panel > .panel-inner,
+.liquid-panel > footer {
     position: relative;
     z-index: 1;
+}
+
+/* Apply text distortion ONLY to the inner panel wrapper */
+.liquid-panel > .panel-inner {
     filter: url(#liquid-text-filter);
     transform: translateZ(0); /* Hardware acceleration for smooth filter render */
 }
