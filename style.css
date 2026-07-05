@@ -35,17 +35,18 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--bg-color);
+    background-color: #020203;
     z-index: 99999;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+    transition: opacity 1.5s cubic-bezier(0.8, 0, 0.2, 1), visibility 1.5s ease-out;
 }
 
 .site-boot.hidden {
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
 }
 
 .site-boot__inner {
@@ -53,63 +54,73 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: pulse 2s infinite ease-in-out;
+    position: relative;
+    /* Framer 3.0 style slow majestic reveal */
+    animation: majesticReveal 3.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.site-boot__glow {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0,243,255,0.1) 0%, rgba(255,0,119,0.05) 40%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulseGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+@keyframes majesticReveal {
+    0% { 
+        transform: scale(0.9); 
+        opacity: 0; 
+        filter: blur(20px); 
+    }
+    30% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+    100% { 
+        transform: scale(1.05); 
+        opacity: 1;
+        filter: blur(0px); 
+    }
 }
 
 .site-boot__mark {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.4));
+    width: 60px;
+    height: 60px;
+    margin-bottom: 24px;
+    border-radius: 14px;
+    filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.3));
 }
 
 .site-boot__brand {
-    font-family: 'SEGA LOGO FONT', sans-serif;
-    color: #ff0033;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
     font-size: 1.2rem;
-    letter-spacing: 5px;
+    font-weight: 700;
+    letter-spacing: 12px;
     margin-bottom: 5px;
-    text-shadow: 0 0 10px rgba(255, 0, 51, 0.7), 0 0 20px rgba(255, 0, 51, 0.4);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .site-boot__product {
-    font-family: 'SEGA LOGO FONT', sans-serif;
-    color: #fff;
-    font-size: 2.5rem;
-    letter-spacing: 2px;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(0, 243, 255, 0.5);
-    margin-bottom: 30px;
-}
-
-.site-boot__loader {
-    width: 200px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-}
-
-.site-boot__loader::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    animation: fillLoader 1.8s ease-out forwards;
-}
-
-@keyframes fillLoader {
-    0% { width: 0%; }
-    100% { width: 100%; }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(0.98); opacity: 0.8; }
+    font-family: 'Inter', sans-serif;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+    letter-spacing: 15px;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    padding-left: 15px; /* offset tracking */
 }
 
 /* ========================================= */

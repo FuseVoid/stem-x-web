@@ -5,8 +5,8 @@ window.addEventListener('load', () => {
     if (boot && boot.style.display !== 'none') {
         setTimeout(() => {
             boot.classList.add('hidden');
-            setTimeout(() => { boot.style.display = 'none'; }, 800);
-        }, 2000);
+            setTimeout(() => { boot.style.display = 'none'; }, 1500); // Wait for CSS transition
+        }, 3500);
     }
 });
 
