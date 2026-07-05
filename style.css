@@ -117,6 +117,60 @@ body {
     100% { opacity: 1; transform: scale(1.1); filter: blur(0px) brightness(1); }
 }
 
+.gaspar-flash {
+    position: absolute;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    opacity: 0;
+    white-space: nowrap;
+    animation: flashStrobe 2.5s steps(1) forwards;
+}
+
+.text-1 { font-size: 15vw; top: 15%; left: -10%; color: #00f3ff; animation-name: flashStrobeA; }
+.text-2 { font-size: 8vw; bottom: 30%; right: -5%; color: #ffeb3b; font-family: 'Inter', sans-serif; transform: rotate(-5deg); animation-name: flashStrobeB; }
+.text-3 { font-size: 18vw; top: 40%; left: -5%; color: transparent; -webkit-text-stroke: 4px #ff0055; z-index: 2; animation-name: flashStrobeC; }
+.text-4 { font-size: 12vw; bottom: 10%; left: 5%; color: #fff; transform: rotate(5deg); animation-name: flashStrobeA; animation-direction: reverse; }
+.text-5 { font-size: 9vw; top: 60%; right: 10%; color: #ff0055; font-family: 'Inter', sans-serif; animation-name: flashStrobeB; animation-direction: reverse; }
+.text-6 { font-size: 14vw; top: 5%; right: -10%; color: transparent; -webkit-text-stroke: 4px #00f3ff; transform: rotate(-10deg); animation-name: flashStrobeC; animation-direction: reverse; }
+
+@keyframes flashStrobeA {
+    0%   { opacity: 0; }
+    15%  { opacity: 1; transform: scale(1.1); }
+    20%  { opacity: 0; }
+    40%  { opacity: 1; filter: invert(1); }
+    45%  { opacity: 0; }
+    70%  { opacity: 1; transform: scale(0.9); }
+    75%  { opacity: 0; }
+    90%  { opacity: 1; transform: scale(1.2); }
+    95%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@keyframes flashStrobeB {
+    0%   { opacity: 0; }
+    5%   { opacity: 1; }
+    10%  { opacity: 0; }
+    30%  { opacity: 1; transform: scale(1.3); }
+    35%  { opacity: 0; }
+    50%  { opacity: 1; transform: translateX(20px); }
+    55%  { opacity: 0; }
+    80%  { opacity: 1; filter: invert(1); }
+    85%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+@keyframes flashStrobeC {
+    0%   { opacity: 0; }
+    25%  { opacity: 1; transform: scale(1.2); }
+    30%  { opacity: 0; }
+    55%  { opacity: 1; transform: skewX(10deg); }
+    60%  { opacity: 0; }
+    85%  { opacity: 1; }
+    90%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
 /* ========================================= */
 /* Top Navigation */
 /* ========================================= */
