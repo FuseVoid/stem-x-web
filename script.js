@@ -161,46 +161,94 @@ uniform vec2 u_resolution;   // Canvas pixel size
 uniform float u_time;         // Seconds
 uniform float u_intensity;   // 0 = idle, 1 = active hover
 
+// Function to generate slow moving noise / fluid shapes
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+// Fractional Brownian Motion for organic flow
+float fbm(vec2 p) {
+    float v = 0.0;
+    float a = 0.5;
+    for (int i = 0; i < 4; i++) {
+        v += a * noise(p);
+        p *= 2.0;
+        a *= 0.5;
+    }
+    return v;
+}
+
 void main() {
     vec2 uv = v_uv;
     vec2 aspect = vec2(u_resolution.x / u_resolution.y, 1.0);
+    vec2 centerUv = (uv - 0.5) * aspect; // -0.5 to 0.5 aspect corrected
 
-    // Ripple Displacement
+    // Ripple Displacement (Liquid Glass from cursor)
     vec2 diff = (uv - u_mouse) * aspect;
-    float dist = length(diff);
-
-    // Concentric rings that decay with distance
-    float wave = sin(dist * 40.0 - u_time * 4.0);
-    float envelope = smoothstep(0.35, 0.0, dist);  // Fade out beyond 35% radius
-    float ripple = wave * envelope * u_intensity * 0.012;
-
-    // Displace UV radially from cursor
+    float distToMouse = length(diff);
+    float wave = sin(distToMouse * 35.0 - u_time * 4.0);
+    float envelope = smoothstep(0.4, 0.0, distToMouse);
+    float ripple = wave * envelope * u_intensity * 0.015;
+    
+    // Displace UVs radially from cursor
     vec2 displaced = uv + normalize(diff + 0.0001) * ripple;
+    vec2 displacedCenter = (displaced - 0.5) * aspect;
 
-    // Background Rendering
-    // Dark base with subtle depth gradient
-    vec3 col = mix(
-        vec3(0.020, 0.020, 0.045),   // Deep dark blue
-        vec3(0.035, 0.030, 0.060),   // Slightly lighter center
-        1.0 - length(displaced - 0.5) * 0.8
-    );
+    // --- The Atom / Framer 3.0 Energy Core ---
+    // Slow rotational domain warping
+    float slowTime = u_time * 0.15;
+    mat2 rot = mat2(cos(slowTime), -sin(slowTime), sin(slowTime), cos(slowTime));
+    vec2 warpUv = rot * displacedCenter * 2.5; // Zoom out slightly
 
-    // Subtle cyan vignette from center
-    float vignette = 1.0 - length(displaced - 0.5) * 1.2;
-    col += vec3(0.0, 0.12, 0.14) * vignette * 0.15;
+    // Create a fluid, glowing structure
+    float n1 = fbm(warpUv + vec2(sin(slowTime), cos(slowTime)));
+    float n2 = fbm(warpUv * 1.5 - vec2(cos(slowTime*0.8), sin(slowTime*0.8)) + n1);
 
-    // Cyber grid lines
-    vec2 grid = fract(displaced * 16.0);
-    float line = smoothstep(0.97, 1.0, grid.x) + smoothstep(0.97, 1.0, grid.y);
-    col += vec3(0.0, 0.6, 0.65) * line * 0.06;
+    // Glowing core masks
+    float coreMask = smoothstep(0.7, 0.0, length(displacedCenter));
+    
+    // Prismatic Colors (FUSE VOID Palette: Cyan & Magenta)
+    vec3 colorCyan = vec3(0.0, 0.8, 1.0);
+    vec3 colorMagenta = vec3(0.9, 0.0, 0.7);
+    vec3 colorDark = vec3(0.02, 0.02, 0.035);
+    
+    // Mix the fluid noise into colors
+    vec3 fluidColor = mix(colorMagenta, colorCyan, n2);
+    
+    // Combine background with the glowing fluid core
+    vec3 col = mix(colorDark, fluidColor, n1 * coreMask * 0.8);
 
-    // Ripple highlight (bright ring at wave peaks)
-    float highlight = abs(ripple) * 60.0;
-    col += vec3(0.0, 0.85, 1.0) * highlight * u_intensity;
+    // Add subtle structural rings/atoms spinning
+    float ring1 = abs(sin(length(warpUv) * 5.0 - u_time * 0.5));
+    ring1 = smoothstep(0.9, 1.0, 1.0 - ring1) * 0.4 * coreMask;
+    
+    float ring2 = abs(cos(length(warpUv * rot) * 8.0 + u_time * 0.3));
+    ring2 = smoothstep(0.95, 1.0, 1.0 - ring2) * 0.5 * coreMask;
 
-    // Ambient slow pulse (alive feel even without hover)
-    float ambient = sin(u_time * 0.5) * 0.5 + 0.5;
-    col += vec3(0.0, 0.04, 0.05) * ambient * 0.3;
+    col += colorCyan * ring1;
+    col += colorMagenta * ring2;
+
+    // Add the Ripple Highlight (Liquid Glass specular reflection)
+    float highlight = abs(ripple) * 50.0;
+    col += vec3(0.8, 0.9, 1.0) * highlight * u_intensity * 0.8;
+
+    // Global vignette to keep edges dark and seamless
+    float globalVignette = 1.0 - smoothstep(0.3, 0.8, length(centerUv));
+    col *= globalVignette;
+
+    // Pure black edge clamp to prevent any artifacts
+    col = max(col, colorDark);
 
     gl_FragColor = vec4(col, 1.0);
 }
@@ -311,8 +359,8 @@ class LiquidGlass {
 document.addEventListener('DOMContentLoaded', () => {
     // Disable WebGL Liquid Glass on touch devices for performance
     if (!('ontouchstart' in window)) {
-        const panels = document.querySelectorAll('.liquid-panel');
-        panels.forEach(panel => {
+        const liquidPanels = document.querySelectorAll('.liquid-panel');
+        liquidPanels.forEach(panel => {
             new LiquidGlass(panel);
             
             // Keep the Katman 1 3D tilt effect on the panel itself
