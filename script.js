@@ -311,7 +311,7 @@ class LiquidGlass {
 document.addEventListener('DOMContentLoaded', () => {
     // Disable WebGL Liquid Glass on touch devices for performance
     if (!('ontouchstart' in window)) {
-        const panels = document.querySelectorAll('.glass-panel');
+        const panels = document.querySelectorAll('.liquid-panel');
         panels.forEach(panel => {
             new LiquidGlass(panel);
             
