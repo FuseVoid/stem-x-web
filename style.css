@@ -287,9 +287,8 @@ body {
     overflow: hidden;
 }
 
-/* Ensure children sit above the WebGL canvas */
-.liquid-panel > .panel-inner,
-.liquid-panel > footer {
+/* Ensure all children sit above the WebGL canvas */
+.liquid-panel > * {
     position: relative;
     z-index: 1;
 }
