@@ -12,7 +12,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="favicon.png">
-    <link rel="stylesheet" href="style.css?v=22">
+    <link rel="stylesheet" href="style.css?v=25">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -160,93 +160,94 @@
         <div class="cyber-grid"></div>
     </div>
 
-    <main class="glass-panel">
-        <header class="pricing-header">
+    <main class="glass-panel" style="max-width: 900px; padding: 2rem 3rem;">
+        
+        <div class="top-nav-container">
+            <div class="top-icon">
                 <img src="favicon.png" alt="STEM-X Icon">
-            </header>
-            <div class="top-nav-container">
-                <div class="top-brand">FUSE VOID · STEM-X</div>
-                
-                <div class="top-buttons">
-                    <a href="index.html" class="nav-btn">HOME</a>
-                    <a href="mailto:fusevoidmusic@gmail.com" class="nav-btn">SUPPORT</a>
-                </div>
             </div>
+            <div class="top-brand">FUSE VOID · STEM-X</div>
             
-            <div class="nav-divider"></div>
+            <div class="top-buttons">
+                <a href="index.html" class="nav-btn">HOME</a>
+                <a href="mailto:fusevoidmusic@gmail.com" class="nav-btn">SUPPORT</a>
+            </div>
+        </div>
+        
+        <div class="nav-divider"></div>
 
-            <header>
-                <h1 style="font-size: 2.5rem; letter-spacing: 2px;">Privacy Policy</h1>
-                <div style="color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px;">Last updated: July 4, 2026</div>
-            </header>
-            
-            <section class="privacy-content">
-                <p><strong>Last Updated:</strong> July 2026</p>
-                <p>Welcome to FUSE VOID STEM-X ("we," "our," or "us"). We respect your privacy and are committed to protecting it through our compliance with this policy. This Privacy Policy describes our practices regarding the collection, use, and disclosure of information when you use our macOS, iOS, and iPadOS applications ("App").</p>
+        <header>
+            <h1 style="font-size: 2.5rem; letter-spacing: 2px;">Privacy Policy</h1>
+            <div style="color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px;">Last updated: July 4, 2026</div>
+        </header>
+        
+        <div class="privacy-content">
+            <p><strong>Last Updated:</strong> July 2026</p>
+            <p>Welcome to FUSE VOID STEM-X ("we," "our," or "us"). We respect your privacy and are committed to protecting it through our compliance with this policy. This Privacy Policy describes our practices regarding the collection, use, and disclosure of information when you use our macOS, iOS, and iPadOS applications ("App").</p>
 
-                <h3>1. Information We Collect (And Do Not Collect)</h3>
-                <p>Our core philosophy is a "Stateless Architecture." We collect as little data as fundamentally possible.</p>
-                <ul>
-                    <li><strong>No Personal Identifiable Information (PII):</strong> We do not require you to create an account, log in, or provide your name, email address, or phone number to use the core features of the App.</li>
-                    <li><strong>No Device Tracking:</strong> We do not collect advertising identifiers (IDFA) or precise location data.</li>
-                </ul>
+            <h3>1. Information We Collect (And Do Not Collect)</h3>
+            <p>Our core philosophy is a "Stateless Architecture." We collect as little data as fundamentally possible.</p>
+            <ul>
+                <li><strong>No Personal Identifiable Information (PII):</strong> We do not require you to create an account, log in, or provide your name, email address, or phone number to use the core features of the App.</li>
+                <li><strong>No Device Tracking:</strong> We do not collect advertising identifiers (IDFA) or precise location data.</li>
+            </ul>
 
-                <h3>2. Audio Data & AI Processing (Crucial)</h3>
-                <p>Because STEM-X is an AI-powered vocal removal tool, it requires processing audio files.</p>
-                <ul>
-                    <li><strong>Temporary Uploads:</strong> When you select an audio file for separation, it is transmitted securely (via HTTPS) to our edge cloud servers (Cloudflare R2) solely to perform the AI separation tasks.</li>
-                    <li><strong>Strict Deletion Policy:</strong> Once the separation is complete, the resulting stems are provided via a secure, time-limited download link. <strong>All uploaded original files and processed output files are permanently and automatically deleted from our servers within a maximum of 10 minutes after processing.</strong></li>
-                    <li><strong>No AI Training:</strong> We <u>do not</u> use your uploaded audio, stems, or music to train, refine, or improve our AI models. Your music remains your intellectual property.</li>
-                </ul>
+            <h3>2. Audio Data & AI Processing (Crucial)</h3>
+            <p>Because STEM-X is an AI-powered vocal removal tool, it requires processing audio files.</p>
+            <ul>
+                <li><strong>Temporary Uploads:</strong> When you select an audio file for separation, it is transmitted securely (via HTTPS) to our edge cloud servers (Cloudflare R2) solely to perform the AI separation tasks.</li>
+                <li><strong>Strict Deletion Policy:</strong> Once the separation is complete, the resulting stems are provided via a secure, time-limited download link. <strong>All uploaded original files and processed output files are permanently and automatically deleted from our servers within a maximum of 10 minutes after processing.</strong></li>
+                <li><strong>No AI Training:</strong> We <u>do not</u> use your uploaded audio, stems, or music to train, refine, or improve our AI models. Your music remains your intellectual property.</li>
+            </ul>
 
-                <h3>3. Payments & Subscriptions (StoreKit)</h3>
-                <p>All in-app purchases and subscriptions are processed entirely by Apple Inc. through the App Store (StoreKit).</p>
-                <ul>
-                    <li>We do not collect, see, process, or store your credit card information, billing address, or Apple ID details.</li>
-                    <li>We only receive anonymous, cryptographic receipts (JWS Tokens) from Apple to verify that a transaction was successful so we can allocate server processing time to your device.</li>
-                </ul>
+            <h3>3. Payments & Subscriptions (StoreKit)</h3>
+            <p>All in-app purchases and subscriptions are processed entirely by Apple Inc. through the App Store (StoreKit).</p>
+            <ul>
+                <li>We do not collect, see, process, or store your credit card information, billing address, or Apple ID details.</li>
+                <li>We only receive anonymous, cryptographic receipts (JWS Tokens) from Apple to verify that a transaction was successful so we can allocate server processing time to your device.</li>
+            </ul>
 
-                <h3>4. Analytics & Third-Party Services</h3>
-                <p>To respect user privacy, FUSE VOID STEM-X does <strong>not</strong> embed third-party marketing or tracking SDKs (such as Facebook Pixel or Google Analytics) inside the App. We operate on a zero-tracking policy.</p>
+            <h3>4. Analytics & Third-Party Services</h3>
+            <p>To respect user privacy, FUSE VOID STEM-X does <strong>not</strong> embed third-party marketing or tracking SDKs (such as Facebook Pixel or Google Analytics) inside the App. We operate on a zero-tracking policy.</p>
 
-                <h3>5. Data Security</h3>
-                <p>We implement commercially reasonable technical and organizational measures to protect your temporary data against accidental or unlawful destruction, loss, or unauthorized access. Our servers utilize stateless processing, meaning no user session data is persistently stored in any database.</p>
+            <h3>5. Data Security</h3>
+            <p>We implement commercially reasonable technical and organizational measures to protect your temporary data against accidental or unlawful destruction, loss, or unauthorized access. Our servers utilize stateless processing, meaning no user session data is persistently stored in any database.</p>
 
-                <h3>6. Your Privacy Rights (GDPR & CCPA)</h3>
-                <p>Depending on your location, you may have rights under the General Data Protection Regulation (GDPR) or California Consumer Privacy Act (CCPA). Because we do not store personal data or retain your audio files, there is no personal profile or history for us to export or delete upon request. You are inherently anonymous.</p>
+            <h3>6. Your Privacy Rights (GDPR & CCPA)</h3>
+            <p>Depending on your location, you may have rights under the General Data Protection Regulation (GDPR) or California Consumer Privacy Act (CCPA). Because we do not store personal data or retain your audio files, there is no personal profile or history for us to export or delete upon request. You are inherently anonymous.</p>
 
-                <h3>7. Children's Privacy</h3>
-                <p>Our App is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received personal information from a visitor under the age of 13, we will delete the information from our records.</p>
+            <h3>7. Children's Privacy</h3>
+            <p>Our App is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received personal information from a visitor under the age of 13, we will delete the information from our records.</p>
 
-                <h3>8. Changes to This Privacy Policy</h3>
-                <p>We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+            <h3>8. Changes to This Privacy Policy</h3>
+            <p>We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
 
-                <h3>9. Open Source Licenses</h3>
-                <p>Our application utilizes open-source technologies. In compliance with their respective licenses, we provide the following attributions:</p>
-                <p>
-                    <strong>MIT License</strong><br><br>
-                    Copyright (c) 2021-2024 Zhi-Su<br>
-                    Copyright (c) Meta Platforms, Inc. and affiliates<br><br>
-                    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>
-                    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br><br>
-                    The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement.
-                </p>
+            <h3>9. Open Source Licenses</h3>
+            <p>Our application utilizes open-source technologies. In compliance with their respective licenses, we provide the following attributions:</p>
+            <p>
+                <strong>MIT License</strong><br><br>
+                Copyright (c) 2021-2024 Zhi-Su<br>
+                Copyright (c) Meta Platforms, Inc. and affiliates<br><br>
+                Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>
+                The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br><br>
+                The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement.
+            </p>
 
-                <h3>10. Contact Us</h3>
-                <p>If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at:</p>
-                <p><strong>Email:</strong> <a href="mailto:fusevoidmusic@gmail.com" style="color: var(--neon-cyan); text-decoration: none;">fusevoidmusic@gmail.com</a></p>
+            <h3>10. Contact Us</h3>
+            <p>If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at:</p>
+            <p><strong>Email:</strong> <a href="mailto:fusevoidmusic@gmail.com" style="color: var(--neon-cyan); text-decoration: none;">fusevoidmusic@gmail.com</a></p>
 
-                <div style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; text-align: center;">
-                    <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #888;">
-                        <svg viewBox="0 0 170 170" width="14" height="14" fill="currentColor"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
-                        Exclusive for iOS & macOS
-                    </span>
-                </div>
+            <div style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; text-align: center;">
+                <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #888;">
+                    <svg viewBox="0 0 170 170" width="14" height="14" fill="currentColor"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
+                    Exclusive for iOS & macOS
+                </span>
+            </div>
 
-                <a href="index.html" class="back-link">&lt; RETURN TO HOME</a>
-            </section>
+            <a href="index.html" class="back-link">&lt; RETURN TO HOME</a>
+        </div>
     </main>
     
-    <script src="script.js?v=24"></script>
+    <script src="script.js?v=25"></script>
 </body>
 </html>
