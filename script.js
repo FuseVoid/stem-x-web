@@ -156,10 +156,8 @@ const FRAGMENT_SRC = `
 precision mediump float;
 
 varying vec2 v_uv;
-uniform vec2 u_mouse;        // Normalized mouse (0-1), Y inverted
 uniform vec2 u_resolution;   // Canvas pixel size
-uniform float u_time;         // Seconds
-uniform float u_intensity;   // 0 = idle, 1 = active hover
+uniform float u_time;        // Seconds
 
 // Function to generate slow moving noise / fluid shapes
 float hash(vec2 p) {
@@ -194,29 +192,18 @@ void main() {
     vec2 aspect = vec2(u_resolution.x / u_resolution.y, 1.0);
     vec2 centerUv = (uv - 0.5) * aspect; // -0.5 to 0.5 aspect corrected
 
-    // Ripple Displacement (Liquid Glass from cursor)
-    vec2 diff = (uv - u_mouse) * aspect;
-    float distToMouse = length(diff);
-    float wave = sin(distToMouse * 35.0 - u_time * 4.0);
-    float envelope = smoothstep(0.4, 0.0, distToMouse);
-    float ripple = wave * envelope * u_intensity * 0.015;
-    
-    // Displace UVs radially from cursor
-    vec2 displaced = uv + normalize(diff + 0.0001) * ripple;
-    vec2 displacedCenter = (displaced - 0.5) * aspect;
-
     // --- The Atom / Framer 3.0 Energy Core ---
     // Slow rotational domain warping
     float slowTime = u_time * 0.15;
     mat2 rot = mat2(cos(slowTime), -sin(slowTime), sin(slowTime), cos(slowTime));
-    vec2 warpUv = rot * displacedCenter * 2.5; // Zoom out slightly
+    vec2 warpUv = rot * centerUv * 2.5; // Zoom out slightly
 
     // Create a fluid, glowing structure
     float n1 = fbm(warpUv + vec2(sin(slowTime), cos(slowTime)));
     float n2 = fbm(warpUv * 1.5 - vec2(cos(slowTime*0.8), sin(slowTime*0.8)) + n1);
 
     // Glowing core masks
-    float coreMask = smoothstep(0.7, 0.0, length(displacedCenter));
+    float coreMask = smoothstep(0.7, 0.0, length(centerUv));
     
     // Prismatic Colors (FUSE VOID Palette: Cyan & Magenta)
     vec3 colorCyan = vec3(0.0, 0.8, 1.0);
@@ -238,10 +225,6 @@ void main() {
 
     col += colorCyan * ring1;
     col += colorMagenta * ring2;
-
-    // Add the Ripple Highlight (Liquid Glass specular reflection)
-    float highlight = abs(ripple) * 50.0;
-    col += vec3(0.8, 0.9, 1.0) * highlight * u_intensity * 0.8;
 
     // Global vignette to keep edges dark and seamless
     float globalVignette = 1.0 - smoothstep(0.3, 0.8, length(centerUv));
