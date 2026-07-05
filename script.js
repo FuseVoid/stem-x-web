@@ -323,10 +323,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rx = (x / rect.width - 0.5) * 2;
                 const ry = (y / rect.height - 0.5) * 2;
                 const maxTilt = 3;
-                panel.style.transform = \`perspective(1000px) rotateY(\${rx * maxTilt}deg) rotateX(\${-ry * maxTilt}deg)\`;
+                panel.style.transform = `perspective(1000px) rotateY(${rx * maxTilt}deg) rotateX(${-ry * maxTilt}deg)`;
             });
             panel.addEventListener('mouseleave', () => {
-                panel.style.transform = \`perspective(1000px) rotateY(0deg) rotateX(0deg)\`;
+                panel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
             });
         });
     }
