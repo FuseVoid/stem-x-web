@@ -139,32 +139,195 @@ class SecurityManager {
 new SecurityManager();
 
 // ==========================================
-// LIQUID GLASS UI (Performance Optimized)
+// LIQUID GLASS UI (WebGL Pixel Distortion)
 // ==========================================
+
+const VERTEX_SRC = `
+attribute vec2 a_position;
+varying vec2 v_uv;
+
+void main() {
+    v_uv = a_position * 0.5 + 0.5;
+    gl_Position = vec4(a_position, 0.0, 1.0);
+}
+`;
+
+const FRAGMENT_SRC = `
+precision mediump float;
+
+varying vec2 v_uv;
+uniform vec2 u_mouse;        // Normalized mouse (0-1), Y inverted
+uniform vec2 u_resolution;   // Canvas pixel size
+uniform float u_time;         // Seconds
+uniform float u_intensity;   // 0 = idle, 1 = active hover
+
+void main() {
+    vec2 uv = v_uv;
+    vec2 aspect = vec2(u_resolution.x / u_resolution.y, 1.0);
+
+    // Ripple Displacement
+    vec2 diff = (uv - u_mouse) * aspect;
+    float dist = length(diff);
+
+    // Concentric rings that decay with distance
+    float wave = sin(dist * 40.0 - u_time * 4.0);
+    float envelope = smoothstep(0.35, 0.0, dist);  // Fade out beyond 35% radius
+    float ripple = wave * envelope * u_intensity * 0.012;
+
+    // Displace UV radially from cursor
+    vec2 displaced = uv + normalize(diff + 0.0001) * ripple;
+
+    // Background Rendering
+    // Dark base with subtle depth gradient
+    vec3 col = mix(
+        vec3(0.020, 0.020, 0.045),   // Deep dark blue
+        vec3(0.035, 0.030, 0.060),   // Slightly lighter center
+        1.0 - length(displaced - 0.5) * 0.8
+    );
+
+    // Subtle cyan vignette from center
+    float vignette = 1.0 - length(displaced - 0.5) * 1.2;
+    col += vec3(0.0, 0.12, 0.14) * vignette * 0.15;
+
+    // Cyber grid lines
+    vec2 grid = fract(displaced * 16.0);
+    float line = smoothstep(0.97, 1.0, grid.x) + smoothstep(0.97, 1.0, grid.y);
+    col += vec3(0.0, 0.6, 0.65) * line * 0.06;
+
+    // Ripple highlight (bright ring at wave peaks)
+    float highlight = abs(ripple) * 60.0;
+    col += vec3(0.0, 0.85, 1.0) * highlight * u_intensity;
+
+    // Ambient slow pulse (alive feel even without hover)
+    float ambient = sin(u_time * 0.5) * 0.5 + 0.5;
+    col += vec3(0.0, 0.04, 0.05) * ambient * 0.3;
+
+    gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+class LiquidGlass {
+    constructor(panel) {
+        this.panel = panel;
+        this.canvas = document.createElement('canvas');
+        this.canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border-radius:inherit;pointer-events:none;z-index:0;';
+        panel.prepend(this.canvas);
+
+        this.gl = this.canvas.getContext('webgl', { alpha: false, antialias: false });
+        if (!this.gl) return;
+
+        this.mouse = { x: 0.5, y: 0.5 };
+        this.target = { x: 0.5, y: 0.5 };
+        this.intensity = 0;
+        this.targetIntensity = 0;
+        this.time = 0;
+        this.raf = null;
+
+        this.initShaders();
+        this.initGeometry();
+        this.resize();
+        this.bind();
+        this.loop();
+    }
+
+    initShaders() {
+        const gl = this.gl;
+        const vs = this.compile(gl.VERTEX_SHADER, VERTEX_SRC);
+        const fs = this.compile(gl.FRAGMENT_SHADER, FRAGMENT_SRC);
+        this.program = gl.createProgram();
+        gl.attachShader(this.program, vs);
+        gl.attachShader(this.program, fs);
+        gl.linkProgram(this.program);
+        gl.useProgram(this.program);
+
+        this.loc = {
+            mouse: gl.getUniformLocation(this.program, 'u_mouse'),
+            resolution: gl.getUniformLocation(this.program, 'u_resolution'),
+            time: gl.getUniformLocation(this.program, 'u_time'),
+            intensity: gl.getUniformLocation(this.program, 'u_intensity'),
+        };
+    }
+
+    compile(type, src) {
+        const gl = this.gl;
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        return s;
+    }
+
+    initGeometry() {
+        const gl = this.gl;
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+            -1, -1,  1, -1,  -1, 1,
+            -1,  1,  1, -1,   1, 1
+        ]), gl.STATIC_DRAW);
+        const pos = gl.getAttribLocation(this.program, 'a_position');
+        gl.enableVertexAttribArray(pos);
+        gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+    }
+
+    resize() {
+        const scale = 0.75;
+        const rect = this.panel.getBoundingClientRect();
+        this.canvas.width = rect.width * scale * (window.devicePixelRatio || 1);
+        this.canvas.height = rect.height * scale * (window.devicePixelRatio || 1);
+        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    bind() {
+        this.panel.addEventListener('mousemove', (e) => {
+            const r = this.panel.getBoundingClientRect();
+            this.target.x = (e.clientX - r.left) / r.width;
+            this.target.y = 1.0 - (e.clientY - r.top) / r.height;
+            this.targetIntensity = 1.0;
+        });
+        this.panel.addEventListener('mouseleave', () => {
+            this.targetIntensity = 0.0;
+        });
+        window.addEventListener('resize', () => this.resize());
+    }
+
+    loop() {
+        const gl = this.gl;
+        this.time += 0.016;
+
+        this.mouse.x += (this.target.x - this.mouse.x) * 0.08;
+        this.mouse.y += (this.target.y - this.mouse.y) * 0.08;
+        this.intensity += (this.targetIntensity - this.intensity) * 0.06;
+
+        gl.uniform2f(this.loc.mouse, this.mouse.x, this.mouse.y);
+        gl.uniform2f(this.loc.resolution, this.canvas.width, this.canvas.height);
+        gl.uniform1f(this.loc.time, this.time);
+        gl.uniform1f(this.loc.intensity, this.intensity);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        this.raf = requestAnimationFrame(() => this.loop());
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    const panels = document.querySelectorAll('.glass-panel');
-    panels.forEach(panel => {
-        panel.addEventListener('mousemove', (e) => {
-            const rect = panel.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+    // Disable WebGL Liquid Glass on touch devices for performance
+    if (!('ontouchstart' in window)) {
+        const panels = document.querySelectorAll('.glass-panel');
+        panels.forEach(panel => {
+            new LiquidGlass(panel);
             
-            // Katman 2: Radial Işık Takibi
-            panel.style.setProperty('--mx', `${x}px`);
-            panel.style.setProperty('--my', `${y}px`);
-            
-            // Katman 1: 3D Bükülme İllüzyonu (Sıfır GPU Maliyeti)
-            const rx = (x / rect.width - 0.5) * 2; // -1 to 1
-            const ry = (y / rect.height - 0.5) * 2; // -1 to 1
-            
-            const maxTilt = 3; // Derece
-            panel.style.transform = `perspective(1000px) rotateY(${rx * maxTilt}deg) rotateX(${-ry * maxTilt}deg)`;
+            // Keep the Katman 1 3D tilt effect on the panel itself
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const rx = (x / rect.width - 0.5) * 2;
+                const ry = (y / rect.height - 0.5) * 2;
+                const maxTilt = 3;
+                panel.style.transform = \`perspective(1000px) rotateY(\${rx * maxTilt}deg) rotateX(\${-ry * maxTilt}deg)\`;
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.transform = \`perspective(1000px) rotateY(0deg) rotateX(0deg)\`;
+            });
         });
-        
-        panel.addEventListener('mouseleave', () => {
-            panel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
-            panel.style.setProperty('--mx', `50%`);
-            panel.style.setProperty('--my', `50%`);
-        });
-    });
+    }
 });
