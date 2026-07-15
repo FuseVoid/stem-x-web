@@ -742,6 +742,12 @@ input:checked + .slider:before {
     font-weight: 400;
 }
 
+#basic-price, #pro-price {
+    font-size: 3rem;
+    color: #fff;
+    font-weight: 700;
+}
+
 .or-yearly {
     display: block;
     font-size: 0.8rem !important;
