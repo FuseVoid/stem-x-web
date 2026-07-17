@@ -330,6 +330,13 @@ body {
     transform: translateZ(0); /* Hardware acceleration for smooth filter render */
 }
 
+/* SAFARI HOTFIX: Disable the SVG filter ONLY on Safari to prevent text disappearance */
+@supports (background: -webkit-named-image(i)) {
+    .liquid-panel > .panel-inner {
+        filter: none !important;
+    }
+}
+
 .top-icon {
     width: 80px;
     height: 80px;
