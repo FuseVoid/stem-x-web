@@ -326,7 +326,7 @@ body {
 
 /* Apply text distortion ONLY to the inner panel wrapper */
 .liquid-panel > .panel-inner {
-    filter: url(#liquid-text-filter);
+    /* filter: url(#liquid-text-filter); Safari Rendering Bug Fix: Disabled SVG text distortion */
     transform: translateZ(0); /* Hardware acceleration for smooth filter render */
 }
 
