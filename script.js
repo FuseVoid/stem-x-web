@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Basic Plan update
                 basicOriginalPrice.style.display = 'inline';
-                basicPrice.innerHTML = '$99.90<span>/yr</span>';
+                basicPrice.innerHTML = '$99.99<span>/yr</span>';
                 basicSubPrice.innerHTML = 'or $9.99/mo';
                 basicBadge.style.display = 'inline-block';
                 basicBadge.textContent = '2 MONTHS FREE';
                 
                 // Pro Plan update
                 proOriginalPrice.style.display = 'inline';
-                proPrice.innerHTML = '$199.90<span>/yr</span>';
+                proPrice.innerHTML = '$199.99<span>/yr</span>';
                 proSubPrice.innerHTML = 'or $19.99/mo';
                 proBadge.textContent = 'SAVE $40';
             } else {
@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Basic Plan update
                 basicOriginalPrice.style.display = 'none';
                 basicPrice.innerHTML = '$9.99<span>/mo</span>';
-                basicSubPrice.innerHTML = 'or $99.90/yr';
+                basicSubPrice.innerHTML = 'or $99.99/yr';
                 basicBadge.style.display = 'none';
                 
                 // Pro Plan update
                 proOriginalPrice.style.display = 'none';
                 proPrice.innerHTML = '$19.99<span>/mo</span>';
-                proSubPrice.innerHTML = 'or $199.90/yr';
+                proSubPrice.innerHTML = 'or $199.99/yr';
                 proBadge.textContent = 'MOST POPULAR';
             }
         });
