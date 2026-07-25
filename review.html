@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEM-X — App Review Demo | FUSE VOID</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070709;
+      --surface: #0f1014;
+      --border: #1e2028;
+      --neon-teal: #00f5c4;
+      --neon-red: #ff2d55;
+      --neon-amber: #ffcc00;
+      --text: #e8eaf0;
+      --muted: #6b7280;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID BG ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,196,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,196,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── HEADER ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,245,196,0.08);
+      border: 1px solid rgba(0,245,196,0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--neon-teal);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--neon-teal);
+      box-shadow: 0 0 8px var(--neon-teal);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    h1 span { color: var(--neon-teal); }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    /* ─── INFO CARDS ─── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .info-card .label {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .info-card .value {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .info-card .value.green { color: var(--neon-teal); }
+    .info-card .value.red { color: var(--neon-red); }
+
+    /* ─── VIDEO PLAYER ─── */
+    .video-section {
+      margin-bottom: 56px;
+    }
+    .video-section h2 {
+      font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--neon-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .video-wrapper {
+      position: relative;
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0,245,196,0.07), 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      max-height: 560px;
+      object-fit: contain;
+      background: #000;
+    }
+
+    /* ─── STEPS ─── */
+    .steps-section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .steps-section .steps-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      transition: border-color 0.2s;
+    }
+    .step:hover { border-color: rgba(0,245,196,0.3); }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(0,245,196,0.1);
+      border: 1px solid rgba(0,245,196,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--neon-teal);
+    }
+    .step-content .step-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .step-content .step-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .step-content .step-note {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--neon-amber);
+      background: rgba(255,204,0,0.08);
+      border: 1px solid rgba(255,204,0,0.2);
+      border-radius: 6px;
+      padding: 4px 10px;
+    }
+
+    /* ─── APPLE NOTE ─── */
+    .apple-note {
+      margin-top: 48px;
+      background: rgba(255,45,85,0.06);
+      border: 1px solid rgba(255,45,85,0.2);
+      border-radius: 14px;
+      padding: 28px;
+    }
+    .apple-note h3 {
+      font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--neon-red);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .apple-note p {
+      font-size: 14px;
+      color: #aaa;
+      line-height: 1.7;
+    }
+    .apple-note p + p { margin-top: 10px; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer .brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer .brand span { color: var(--neon-teal); }
+    .footer .contact {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .footer .contact a {
+      color: var(--neon-teal);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="badge">Apple App Review — Confidential Demo</div>
+  <h1>STEM-X: <span>AI Vocal Remover</span><br>— Live Demo</h1>
+  <p class="subtitle">
+    This page was prepared exclusively for the Apple App Review Team.
+    The video below demonstrates the full functionality of STEM-X v1.0 running on a physical iPad Air (M3) device.
+  </p>
+
+  <!-- Info Cards -->
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">App Name</div>
+      <div class="value">STEM-X: AI Vocal Remover</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Bundle ID</div>
+      <div class="value" style="font-family:'JetBrains Mono',monospace;font-size:13px;">com.fusevoid.stemx</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Test Device</div>
+      <div class="value">iPad Air M3 (Physical)</div>
+    </div>
+    <div class="info-card">
+      <div class="label">AI Engine Status</div>
+      <div class="value green">● LIVE / Online</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Version Reviewed</div>
+      <div class="value">1.0 (Build 2)</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Support Email</div>
+      <div class="value" style="font-size:13px;">support@fusevoid.com</div>
+    </div>
+  </div>
+
+  <!-- Video -->
+  <div class="video-section">
+    <h2>// Demo Video — Physical iPad Recording</h2>
+    <div class="video-wrapper">
+      <video controls playsinline preload="metadata">
+        <source src="apple_review_demo.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps-section">
+    <h2>Step-by-Step Walkthrough</h2>
+    <p class="steps-sub">What you will see in the demo video, explained in sequence:</p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">App Launch & Cinematic Intro</div>
+          <div class="step-desc">
+            The app opens with a full-screen cinematic intro animation — bold text captions such as "ISOLATE DRUMS", "EXTRACT VOCALS" appear, establishing the app's core capabilities. This intro lasts approximately 10 seconds and can be skipped by tapping.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Main Dashboard — Premium UI</div>
+          <div class="step-desc">
+            The main dashboard appears: a central analog gauge, a premium session timer (59:30 MIN), and 5 empty stem channels (VOCALS / BEAT / BASS / MELODY / DRUMS). The interface is fully functional and responsive.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Load Track — File Picker</div>
+          <div class="step-desc">
+            The user taps "LOAD TRACK". The native iOS Files picker opens. A real audio file (MP3/WAV) is selected from the device. The track name appears in a scrolling ticker on the dashboard.
+          </div>
+          <div class="step-note">⚠ NOTE: A valid audio file must be selected. The app rejects non-audio files by design.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Terms & Privacy Agreement</div>
+          <div class="step-desc">
+            Before processing, the app requires the user to read and accept the Terms of Service and Privacy Policy. The user scrolls through the legal agreement and taps "Accept". This is a required step — without acceptance, the AI processing does not begin.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-title">AI Separation — Cloud Processing (Demucs + Roformer)</div>
+          <div class="step-desc">
+            The user taps "SEPARATE 5-STEM". The gauge displays "STEM-DECONSTRUCTION // ACTIVE". The audio is securely uploaded to our serverless GPU cloud (RunPod), processed by the Demucs AI model, and the 5 separated stems are returned — typically in 30–90 seconds depending on track length.
+          </div>
+          <div class="step-note">⚡ Cloud AI is live and online during your review.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <div class="step-title">Playback & Mixer Controls</div>
+          <div class="step-desc">
+            Once separation completes, all 5 stem channels light up with live VU meters. The user taps PLAY. Each channel (VOCALS, BEAT, BASS, MELODY, DRUMS) can be individually SOLO'd or MUTED in real-time, demonstrating the app's full interactive mixer functionality.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">07</div>
+        <div class="step-content">
+          <div class="step-title">Export — All 5 Stems</div>
+          <div class="step-desc">
+            The user taps "EXPORT ALL". All 5 separated stems are available for individual or bulk export in high-quality audio format, ready for use in any DAW or audio workflow.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Apple Note -->
+  <div class="apple-note">
+    <h3>// Notes for Apple Review Team</h3>
+    <p>
+      This application uses a <strong>cloud-based AI engine (RunPod serverless GPU)</strong> to separate audio stems. The core AI processing happens server-side and requires an active internet connection. The cloud backend is live and fully operational during your review period.
+    </p>
+    <p>
+      Please use a valid <strong>.mp3, .wav, or .m4a</strong> audio file when testing. Non-audio files or corrupted files are intentionally rejected by our internal validation logic. If no audio file is available on the review device, any standard music file will work.
+    </p>
+    <p>
+      <strong>In-App Purchases & Subscriptions (all via Apple StoreKit 2):</strong><br/>
+      • <strong>Energy Token — $4.99 (One-Time)</strong>: A single-use credit that allows users without an active subscription to run one AI stem separation job. Ideal for pay-per-use access.<br/>
+      • <strong>Basic Monthly — $9.99/mo</strong>: Unlimited separations, standard quality.<br/>
+      • <strong>Pro Monthly — $19.99/mo</strong>: Unlimited separations, max quality + priority GPU.<br/>
+      • <strong>Yearly plans</strong> also available at discounted rates.<br/>
+      No external payment processor is involved. All transactions are handled natively by Apple.
+    </p>
+    <p>
+      For any questions: <strong>support@fusevoid.com</strong>
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="brand">FUSE VOID STUDIO — <span>STEM-X</span> v1.0</div>
+    <div class="contact">Questions? <a href="mailto:support@fusevoid.com">support@fusevoid.com</a></div>
+  </div>
+
+</div>
+</body>
+</html>
