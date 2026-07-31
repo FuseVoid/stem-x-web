@@ -3,6 +3,16 @@
 const API_URL = "https://fuse-void-api.fuseboogie.workers.dev";
 let authToken = null;
 
+// --- SİBER GÜVENLİK (ANTI-COPY & ANTI-INSPECT) ---
+document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
+document.addEventListener('selectstart', (e) => { e.preventDefault(); });
+document.addEventListener('keydown', (e) => {
+    if(e.keyCode === 123 || 
+       (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 67 || e.keyCode === 74)) ||
+       (e.ctrlKey && e.keyCode === 85) || (e.metaKey && e.altKey && e.keyCode === 73)) {
+        e.preventDefault();
+    }
+});
 // System Modal Logic
 window.showSysMsg = function(message, isError = true) {
     const modal = document.getElementById('sys-modal');
