@@ -97,13 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- AUTHENTICATION LOGIC ---
-    /* 
-    // GEÇİCİ OLARAK KAPATILDI (WEB ÖDEMELERİ AÇILANA KADAR)
     userAvatar.addEventListener('click', () => {
         authModal.style.display = 'flex';
         authError.style.display = 'none';
     });
-    */
 
     closeAuthBtn.addEventListener('click', () => {
         authModal.style.display = 'none';

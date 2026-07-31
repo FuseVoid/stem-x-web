@@ -209,17 +209,18 @@
             <img src="favicon.png" alt="FUSE VOID Logo" class="nav-logo" style="width: 36px; height: 36px; border-radius: 8px; filter: drop-shadow(0 0 10px rgba(0,243,255,0.3));">
             <span class="logo-text">STEM-X STUDIO</span>
         </div>
-        <div class="app-user-panel" style="position: relative; z-index: 10000; pointer-events: auto;">
-            <!-- Buton GİZLENDİ ve TIKLAMA (onclick) ÖZELLİĞİ TAMAMEN SİLİNDİ (Web açılana kadar) -->
-            <a href="javascript:void(0);" id="add-credits-btn-top" class="add-credits-btn" style="color: #ff0032; background: transparent; cursor: pointer; text-decoration: none; border: 1px solid #ff0032; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; letter-spacing: 1.5px; font-weight: 600; margin-right: 15px; box-shadow: 0 0 10px rgba(255, 0, 50, 0.2); transition: all 0.3s ease; text-transform: uppercase; z-index: 999999; display: none !important;">
+        <div class="app-user-panel" style="position: relative; z-index: 10000; filter: blur(4px); opacity: 0.6;">
+            <!-- SIBER KALKAN: Bu görünmez div, alttaki tüm butonlara tıklanmasını fiziksel olarak engeller -->
+            <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; z-index: 99999999; cursor: not-allowed; background: transparent;"></div>
+            
+            <a href="javascript:void(0);" id="add-credits-btn-top" onclick="document.getElementById('pricing-modal').style.display='flex';" class="add-credits-btn" style="color: #ff0032; background: transparent; cursor: pointer; text-decoration: none; border: 1px solid #ff0032; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; letter-spacing: 1.5px; font-weight: 600; margin-right: 15px; box-shadow: 0 0 10px rgba(255, 0, 50, 0.2); transition: all 0.3s ease; text-transform: uppercase; display: inline-block;">
                 + ADD CREDITS
             </a>
             <div class="credit-badge">
                 <span class="credit-label">BALANCE</span>
                 <span class="credit-value">OFFLINE</span>
             </div>
-            <!-- Profil ikonu TIKLAMA (onclick) ÖZELLİĞİ TAMAMEN SİLİNDİ (Web açılana kadar) -->
-            <div class="user-avatar" style="cursor: default; pointer-events: none;" title="Profile">
+            <div class="user-avatar" onclick="document.getElementById('auth-modal').style.display='flex';" style="cursor: pointer;" title="Profile">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
             <button id="logout-btn" style="display: none; background: none; border: 1px solid #ff0032; color: #ff0032; padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-family: 'Space Mono', monospace; cursor: pointer; margin-left: 10px; opacity: 0.7; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'" title="Logout">LOGOUT</button>
