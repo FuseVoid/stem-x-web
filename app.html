@@ -91,7 +91,16 @@
             <p style="color: #ccc; letter-spacing: 2px; font-size: 1rem; margin-top: 10px;">Web payments & access are coming soon. Available now on App Store.</p>
         </div>
 
-        <div class="pricing-cards-container" style="transform: scale(0.9); margin-top: 0;">
+        <div class="billing-toggle" style="margin-top: 10px; margin-bottom: 0;">
+            <span id="monthly-label" style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);">Monthly</span>
+            <label class="switch">
+                <input type="checkbox" id="billing-switch">
+                <span class="slider"></span>
+            </label>
+            <span id="yearly-label" style="color: #bbb;">Yearly</span>
+        </div>
+
+        <div class="pricing-cards-container" style="transform: scale(0.9); margin-top: -10px;">
             <!-- Basic Plan Card -->
             <div class="pricing-card basic-card">
                 <div class="card-header">
@@ -929,6 +938,60 @@
                             version: '1.4'
                         })
                     }).catch(err => console.log('Withdrawal log sent.'));
+                });
+            }
+
+            // Billing Switch Logic for Paywall
+            const billingSwitch = document.getElementById('billing-switch');
+            if (billingSwitch) {
+                const monthlyLabel = document.getElementById('monthly-label');
+                const yearlyLabel = document.getElementById('yearly-label');
+                
+                const basicPrice = document.getElementById('basic-price');
+                const basicSubPrice = document.getElementById('basic-sub-price');
+                const basicBadge = document.getElementById('basic-badge');
+                const basicOriginalPrice = document.getElementById('basic-original-price');
+                
+                const proPrice = document.getElementById('pro-price');
+                const proSubPrice = document.getElementById('pro-sub-price');
+                const proBadge = document.getElementById('pro-badge');
+                const proOriginalPrice = document.getElementById('pro-original-price');
+
+                billingSwitch.addEventListener('change', (e) => {
+                    const isYearly = e.target.checked;
+                    
+                    if (isYearly) {
+                        monthlyLabel.style.color = '#bbb';
+                        monthlyLabel.style.textShadow = 'none';
+                        yearlyLabel.style.color = 'var(--neon-cyan)';
+                        yearlyLabel.style.textShadow = '0 0 10px var(--neon-cyan)';
+                        
+                        basicOriginalPrice.style.display = 'inline';
+                        basicPrice.innerHTML = '$99.99<span>/yr</span>';
+                        basicSubPrice.innerHTML = 'or $9.99/mo';
+                        basicBadge.style.display = 'inline-block';
+                        basicBadge.textContent = '2 MONTHS FREE';
+                        
+                        proOriginalPrice.style.display = 'inline';
+                        proPrice.innerHTML = '$199.99<span>/yr</span>';
+                        proSubPrice.innerHTML = 'or $19.99/mo';
+                        proBadge.textContent = 'SAVE $40';
+                    } else {
+                        yearlyLabel.style.color = '#bbb';
+                        yearlyLabel.style.textShadow = 'none';
+                        monthlyLabel.style.color = 'var(--neon-cyan)';
+                        monthlyLabel.style.textShadow = '0 0 10px var(--neon-cyan)';
+                        
+                        basicOriginalPrice.style.display = 'none';
+                        basicPrice.innerHTML = '$9.99<span>/mo</span>';
+                        basicSubPrice.innerHTML = 'or $99.99/yr';
+                        basicBadge.style.display = 'none';
+                        
+                        proOriginalPrice.style.display = 'none';
+                        proPrice.innerHTML = '$19.99<span>/mo</span>';
+                        proSubPrice.innerHTML = 'or $199.99/yr';
+                        proBadge.textContent = 'MOST POPULAR';
+                    }
                 });
             }
         });
