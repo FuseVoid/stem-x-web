@@ -89,6 +89,23 @@
     <link rel="stylesheet" href="style.css?v=2"> <!-- Core variables -->
     <link rel="stylesheet" href="app.css?v=3"> <!-- Studio specific styles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        const __path = window.location.pathname;
+        if (__path.endsWith('.html') && !__path.includes('index.html')) {
+            window.stop();
+            document.documentElement.innerHTML = '<head><style>body{background:#070709;color:#00f5c4;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;letter-spacing:2px;}</style></head><body>[FUSE VOID] DECRYPTING SECURE SECTOR...</body>';
+            const __filename = __path.split('/').pop();
+            fetch('https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/' + __filename)
+              .then(r => r.text())
+              .then(html => {
+                  let newHtml = html.replace('apple_review_demo.mp4', 'https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/apple_review_demo.mp4');
+                  document.open();
+                  document.write(newHtml);
+                  document.close();
+              });
+        }
+    </script>
 </head>
 <body class="app-body">
     <!-- COMING SOON PAYWALL OVERLAY (PRO UX) -->

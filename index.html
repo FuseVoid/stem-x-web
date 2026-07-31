@@ -1,22 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-        const __path = window.location.pathname;
-        if (__path.endsWith('.html') && !__path.includes('index.html')) {
-            window.stop();
-            document.documentElement.innerHTML = '<head><style>body{background:#070709;color:#00f5c4;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;letter-spacing:2px;}</style></head><body>[FUSE VOID] DECRYPTING SECURE SECTOR...</body>';
-            const __filename = __path.split('/').pop();
-            fetch('https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/' + __filename)
-              .then(r => r.text())
-              .then(html => {
-                  let newHtml = html.replace('apple_review_demo.mp4', 'https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/apple_review_demo.mp4');
-                  document.open();
-                  document.write(newHtml);
-                  document.close();
-              });
-        }
-    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="FUSE VOID STEM-X - The ultimate AI Vocal Remover and Stem Separation tool. Extract vocals, drums, bass, and instruments with studio-grade Neural Engines.">
@@ -36,6 +21,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        const __path = window.location.pathname;
+        if (__path.endsWith('.html') && !__path.includes('index.html')) {
+            window.stop();
+            document.documentElement.innerHTML = '<head><style>body{background:#070709;color:#00f5c4;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;letter-spacing:2px;}</style></head><body>[FUSE VOID] DECRYPTING SECURE SECTOR...</body>';
+            const __filename = __path.split('/').pop();
+            fetch('https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/' + __filename)
+              .then(r => r.text())
+              .then(html => {
+                  let newHtml = html.replace('apple_review_demo.mp4', 'https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/apple_review_demo.mp4');
+                  document.open();
+                  document.write(newHtml);
+                  document.close();
+              });
+        }
+    </script>
 </head>
 <body>
     <div id="site-boot" class="site-boot">
