@@ -90,146 +90,10 @@
     <link rel="stylesheet" href="app.css?v=3"> <!-- Studio specific styles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script>
-        const __path = window.location.pathname;
-        if (__path.endsWith('.html') && !__path.includes('index.html')) {
-            window.stop();
-            document.documentElement.innerHTML = '<head><style>body{background:#070709;color:#00f5c4;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;letter-spacing:2px;}</style></head><body>[FUSE VOID] DECRYPTING SECURE SECTOR...</body>';
-            const __filename = __path.split('/').pop();
-            fetch('https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/' + __filename)
-              .then(r => r.text())
-              .then(html => {
-                  let newHtml = html.replace('apple_review_demo.mp4', 'https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/apple_review_demo.mp4');
-                  document.open();
-                  document.write(newHtml);
-                  document.close();
-              });
-        }
-    </script>
+
 </head>
 <body class="app-body">
-    <!-- COMING SOON PAYWALL OVERLAY (PRO UX) -->
-    <div id="coming-soon-paywall" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999999; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 40px 20px;">
-        
-        <div style="text-align: center; margin-bottom: 1rem;">
-            <h1 style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 2.5rem; letter-spacing: 2px; color: #fff; margin-bottom: 5px; margin-top:0;">Unlock Pro Features</h1>
-            <p style="text-align: center; color: #888; font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase;">SELECT YOUR STEM SEPARATION ENGINE</p>
-            <!-- SIHIRLI KUTU (Interactive Gateway Box) -->
-            <div class="gateway-status-box" style="margin-top: 15px; text-align: center; cursor: pointer; user-select: none;" onclick="const info = document.getElementById('gateway-info'); const icon = document.getElementById('gateway-icon'); if(info.style.maxHeight && info.style.maxHeight !== '0px'){ info.style.maxHeight = '0px'; info.style.opacity = '0'; info.style.marginTop = '0px'; icon.style.transform = 'rotate(0deg)'; } else { info.style.maxHeight = '200px'; info.style.opacity = '1'; info.style.marginTop = '15px'; icon.style.transform = 'rotate(180deg)'; }">
-                <div style="display: inline-flex; align-items: center; justify-content: center; background: rgba(0,243,255,0.05); border: 1px solid rgba(0,243,255,0.3); padding: 10px 20px; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(0,243,255,0.1);" onmouseover="this.style.background='rgba(0,243,255,0.1)'; this.style.boxShadow='0 0 25px rgba(0,243,255,0.3)';" onmouseout="this.style.background='rgba(0,243,255,0.05)'; this.style.boxShadow='0 0 15px rgba(0,243,255,0.1)';">
-                    <h2 style="font-size: 1.3rem; letter-spacing: 3px; text-transform: uppercase; color: #fff; margin: 0; text-shadow: 0 0 10px rgba(0,243,255,0.5); display: flex; align-items: center; gap: 10px;">
-                        PAYMENT GATEWAY SECURING 
-                        <svg id="gateway-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" style="transition: transform 0.3s ease;"><path d="M6 9l6 6 6-6"/></svg>
-                    </h2>
-                </div>
-                <div id="gateway-info" style="max-height: 0px; opacity: 0; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); margin-top: 0px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(0,243,255,0.2); border-radius: 8px; padding: 15px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);">
-                        <p style="color: #ccc; letter-spacing: 1.5px; font-size: 0.9rem; margin: 0; line-height: 1.6; font-family: 'Space Mono', monospace;">
-                            <strong style="color: #fff;">INFO:</strong> To ensure maximum security and global compliance, our web payment gateway is undergoing final regulatory clearance. The AI Engine is fully operational and available now on the Mac App Store.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="billing-toggle" style="margin-top: 30px; margin-bottom: 0;">
-            <span id="monthly-label" style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);">Monthly</span>
-            <label class="switch">
-                <input type="checkbox" id="billing-switch">
-                <span class="slider"></span>
-            </label>
-            <span id="yearly-label" style="color: #bbb;">Yearly</span>
-        </div>
-
-        <div class="pricing-cards-container" style="transform: scale(0.9); margin-top: -10px;">
-            <!-- Basic Plan Card -->
-            <div class="pricing-card basic-card">
-                <div class="card-header">
-                    <div class="badge" id="basic-badge" style="display: none; background: var(--neon-cyan);">2 MONTHS FREE</div>
-                    <h2>BASIC PLAN</h2>
-                    <div style="font-size: 0.8rem; letter-spacing: 2px; color: var(--neon-cyan); margin-bottom: 1rem;" id="basic-mins">120 MIN / MO</div>
-                    <div class="price">
-                        <span id="basic-original-price" style="display: none; text-decoration: line-through; color: #888; font-size: 1.5rem; margin-right: 10px; font-weight: 400;">$119.88</span>
-                        <span id="basic-price">$9.99<span>/mo</span></span>
-                    </div>
-                    <div class="or-yearly" id="basic-sub-price">or $99.99/yr</div>
-                </div>
-                <div class="card-features">
-                    <p>✓ Dual-AI Hybrid Engine</p>
-                    <p>✓ 5-Stem Lossless WAV</p>
-                    <p>✓ All Audio Formats</p>
-                    <p>✓ Zero Wait Time</p>
-                </div>
-                <a href="javascript:void(0)" class="select-btn basic-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.5; cursor: not-allowed; border: 1px dashed #888; background: transparent;">
-                    🔒 COMING SOON
-                </a>
-                <a href="https://apps.apple.com/app/stem-x-vocal-isolation/id6791375004" target="_blank" class="app-store-badge" style="margin-top: 15px; transform: scale(0.9);">
-                    <svg viewBox="0 0 170 170" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
-                    <div class="badge-text" style="text-align: left;">
-                        <span class="small-text">Download on the</span>
-                        <span class="big-text">App Store</span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Pro Plan Card -->
-            <div class="pricing-card pro-card">
-                <div class="card-header">
-                    <div class="badge" id="pro-badge">MOST POPULAR</div>
-                    <h2>PRO PLAN</h2>
-                    <div style="font-size: 0.8rem; letter-spacing: 2px; color: #ffeb3b; margin-bottom: 1rem;" id="pro-mins">300 MIN / MO</div>
-                    <div class="price">
-                        <span id="pro-original-price" style="display: none; text-decoration: line-through; color: #888; font-size: 1.5rem; margin-right: 10px; font-weight: 400;">$239.88</span>
-                        <span id="pro-price">$19.99<span>/mo</span></span>
-                    </div>
-                    <div class="or-yearly" id="pro-sub-price" style="color: #ffeb3b !important;">or $199.99/yr</div>
-                </div>
-                <div class="card-features">
-                    <p>✓ Dual-AI Hybrid Engine</p>
-                    <p>✓ 5-Stem Lossless WAV</p>
-                    <p>✓ All Audio Formats</p>
-                    <p>✓ Zero Wait Time</p>
-                </div>
-                <a href="javascript:void(0)" class="select-btn pro-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.5; cursor: not-allowed; border: 1px dashed #888; background: transparent;">
-                    🔒 COMING SOON
-                </a>
-                <a href="https://apps.apple.com/app/stem-x-vocal-isolation/id6791375004" target="_blank" class="app-store-badge" style="margin-top: 15px; transform: scale(0.9);">
-                    <svg viewBox="0 0 170 170" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
-                    <div class="badge-text" style="text-align: left;">
-                        <span class="small-text">Download on the</span>
-                        <span class="big-text">App Store</span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Energy Token Card -->
-            <div class="pricing-card token-card">
-                <div class="card-header">
-                    <h2>ENERGY TOKEN</h2>
-                    <div style="font-size: 0.8rem; letter-spacing: 2px; color: #ff9800; margin-bottom: 1rem;">+60 MINS</div>
-                    <div class="price">$4.99<span>/once</span></div>
-                </div>
-                <div class="card-features">
-                    <p>✓ Dual-AI Hybrid Engine</p>
-                    <p>✓ 5-Stem Lossless WAV</p>
-                    <p>✓ One-Time Purchase</p>
-                    <p>✓ Never Expires</p>
-                </div>
-                <a href="javascript:void(0)" class="select-btn token-btn" style="display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.5; cursor: not-allowed; border: 1px dashed #888; background: transparent;">
-                    🔒 COMING SOON
-                </a>
-                <a href="https://apps.apple.com/app/stem-x-vocal-isolation/id6791375004" target="_blank" class="app-store-badge" style="margin-top: 15px; transform: scale(0.9);">
-                    <svg viewBox="0 0 170 170" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
-                    <div class="badge-text" style="text-align: left;">
-                        <span class="small-text">Download on the</span>
-                        <span class="big-text">App Store</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-        
-        <a href="index.html" style="margin-top: 1.5rem; color: #888; text-decoration: none; border-bottom: 1px dashed #888; padding-bottom: 2px; transition: all 0.3s ease;">← Back to Home</a>
-    </div>
     <!-- BACKGROUND LED BARS (From Main Design System) -->
     <div class="led-background">
         <div class="led-group">
@@ -244,14 +108,12 @@
 
     <!-- TOP NAVIGATION -->
     <header class="app-header" style="position: relative; z-index: 10000000; background: transparent; border-bottom: none;">
-        <div class="app-logo">
-            <a href="index.html" class="back-btn" style="color: var(--text-secondary); text-decoration: none; margin-right: 15px; font-size: 1.2rem;" title="Back to STEM-X">◂</a>
-            <img src="favicon.png" alt="FUSE VOID Logo" class="nav-logo" style="width: 36px; height: 36px; border-radius: 8px; filter: drop-shadow(0 0 10px rgba(0,243,255,0.3));">
-            <span class="logo-text">STEM-X STUDIO</span>
+        <div class="app-logo" style="display: flex; align-items: center;">
+            <a href="https://fusevoid.com/" style="color: #fff; text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold; letter-spacing: 2px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; transition: all 0.3s ease; opacity: 0.7;" onmouseover="this.style.opacity='1'; this.style.color='#00f3ff'; this.style.textShadow='0 0 10px #00f3ff';" onmouseout="this.style.opacity='0.7'; this.style.color='#fff'; this.style.textShadow='none';">
+                <span style="font-size: 1.2rem;">◂</span> HOME
+            </a>
         </div>
-        <div class="app-user-panel" style="position: relative; z-index: 10000; filter: blur(4px); opacity: 0.6;">
-            <!-- SIBER KALKAN: Bu görünmez div, alttaki tüm butonlara tıklanmasını fiziksel olarak engeller -->
-            <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; z-index: 99999999; cursor: not-allowed; background: transparent;"></div>
+        <div class="app-user-panel" style="position: relative; z-index: 10000;">
             
             <a href="javascript:void(0);" id="add-credits-btn-top" onclick="document.getElementById('pricing-modal').style.display='flex';" class="add-credits-btn" style="color: #ff0032; background: transparent; cursor: pointer; text-decoration: none; border: 1px solid #ff0032; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; letter-spacing: 1.5px; font-weight: 600; margin-right: 15px; box-shadow: 0 0 10px rgba(255, 0, 50, 0.2); transition: all 0.3s ease; text-transform: uppercase; display: inline-block;">
                 + ADD CREDITS
@@ -271,20 +133,20 @@
     <div id="auth-modal" class="auth-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 9999999; justify-content: center; align-items: center; opacity: 1 !important; pointer-events: auto !important;">
         <div class="auth-content cyber-panel" style="background: #0a0a0a; border: 1px solid rgba(0, 243, 255, 0.5); border-radius: 8px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 0 30px rgba(0,243,255,0.2);">
             <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.2); padding-bottom: 15px;">
-                <h3 id="auth-title" style="margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--accent-cyan); text-transform: uppercase;">LOG IN</h3>
+                <h3 id="auth-title" style="margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: #00f3ff; text-transform: uppercase;">LOG IN</h3>
                 <button id="close-auth-btn" onclick="document.getElementById('auth-modal').style.display='none';" style="background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">&times;</button>
             </div>
             <div class="modal-body" style="padding-top: 20px;">
                 <input type="email" id="auth-email" placeholder="Email Address" style="width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.5); border: 1px solid rgba(0,243,255,0.3); color: white; border-radius: 4px; outline: none; font-family: 'Space Mono', monospace;">
                 
                 <!-- Hidden Code Input (Revealed after email sent) -->
-                <input type="text" id="auth-code" placeholder="6-DIGIT CODE" maxlength="6" style="display: none; width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 4px; outline: none; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; text-align: center; letter-spacing: 10px;">
+                <input type="text" id="auth-code" placeholder="6-DIGIT CODE" maxlength="6" style="display: none; width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.5); border: 1px solid #00f3ff; color: #00f3ff; border-radius: 4px; outline: none; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; text-align: center; letter-spacing: 10px;">
                 
                 <button id="auth-submit-btn" style="width: 100%; padding: 12px; background: white; color: black; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; font-family: 'Orbitron', sans-serif;">INITIATE</button>
 
                 <div id="auth-terms-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 15px 0 0 0; text-align: center;">
                     <span style="color: #555; font-family: 'Space Mono', monospace; font-size: 0.75rem;">
-                        By continuing, you agree to our <a href="#" id="open-terms-btn" style="color: var(--accent-cyan); text-decoration: none; opacity: 0.8; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Terms & Privacy</a>.
+                        By continuing, you agree to our <a href="#" id="open-terms-btn" style="color: #00f3ff; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Terms & Privacy</a>.
                     </span>
                 </div>
                 
@@ -357,10 +219,10 @@
                     <p>Drag & Drop your audio file here (MP3, WAV, M4A)</p>
                     <span class="file-size-limit">MAX: 50MB / 8 MIN</span>
                     
-                    <label for="file-upload" class="cyber-button mt-4">
-                        BROWSE FILES
+                    <label class="cyber-button mt-4" style="opacity: 0.5; cursor: not-allowed; border: 1px dashed #888; color: #888; background: transparent;">
+                        🔒 COMING SOON
                     </label>
-                    <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+                    <input type="file" id="file-upload" accept="audio/*" style="display: none;" disabled>
                 </div>
             </div>
 
@@ -632,11 +494,11 @@
             <div style="color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">Select your stem separation engine</div>
 
             <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600;">
-                <span id="app-monthly-label" style="color: var(--accent-cyan); text-shadow: 0 0 10px var(--accent-cyan);">Monthly</span>
+                <span id="app-monthly-label" style="color: #fff; text-shadow: 0 0 10px #fff;">Monthly</span>
                 <label style="position: relative; display: inline-block; width: 50px; height: 26px;">
                     <input type="checkbox" id="app-billing-switch" style="opacity: 0; width: 0; height: 0;">
-                    <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.2);">
-                        <span id="app-slider-knob" style="position: absolute; content: ''; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); transition: .4s; border-radius: 50%;"></span>
+                    <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.15); transition: .4s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.6);">
+                        <span id="app-slider-knob" style="position: absolute; content: ''; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8); transition: .4s; border-radius: 50%;"></span>
                     </span>
                 </label>
                 <span id="app-yearly-label" style="color: #bbb;">Yearly</span>
@@ -660,8 +522,10 @@
 
                 if (isYearly) {
                     knob.style.transform = 'translateX(22px)';
+                    knob.style.backgroundColor = '#fff';
+                    knob.style.boxShadow = '0 0 10px rgba(255,255,255,0.8)';
                     monthlyLabel.style.color = '#bbb'; monthlyLabel.style.textShadow = 'none';
-                    yearlyLabel.style.color = 'var(--accent-cyan)'; yearlyLabel.style.textShadow = '0 0 10px var(--accent-cyan)';
+                    yearlyLabel.style.color = '#fff'; yearlyLabel.style.textShadow = '0 0 10px #fff';
                     
                     if(basicPrice) basicPrice.innerHTML = '<span style="display: block; text-decoration: line-through; color: #555; font-size: 1.5rem; margin-bottom: -10px;">$119.88</span>$99.99<span>/yr</span>';
                     if(basicSubPrice) { basicSubPrice.style.display = 'block'; basicSubPrice.innerHTML = 'or $9.99/mo'; }
@@ -676,8 +540,10 @@
                     if(proBtn) proBtn.setAttribute('onclick', "checkout('5b039d16-7b26-46a5-bcb7-95983c00ca80')");
                 } else {
                     knob.style.transform = 'translateX(0)';
+                    knob.style.backgroundColor = '#fff';
+                    knob.style.boxShadow = '0 0 10px rgba(255,255,255,0.8)';
                     yearlyLabel.style.color = '#bbb'; yearlyLabel.style.textShadow = 'none';
-                    monthlyLabel.style.color = 'var(--accent-cyan)'; monthlyLabel.style.textShadow = '0 0 10px var(--accent-cyan)';
+                    monthlyLabel.style.color = '#fff'; monthlyLabel.style.textShadow = '0 0 10px #fff';
                     
                     if(basicPrice) basicPrice.innerHTML = '$9.99<span>/mo</span>';
                     if(basicSubPrice) { basicSubPrice.style.display = 'none'; }
@@ -724,9 +590,9 @@
                 <!-- BASIC PLAN -->
                 <div class="app-pricing-card app-basic-card">
                     <div class="app-card-header">
-                        <div class="app-badge" id="app-basic-badge" style="display: none; background: var(--accent-cyan);">2 MONTHS FREE</div>
+                        <div class="app-badge" id="app-basic-badge" style="display: none; background: #fff; color: #000; box-shadow: 0 0 10px rgba(255,255,255,0.5);">2 MONTHS FREE</div>
                         <h2>BASIC PLAN</h2>
-                        <div style="font-size: 0.8rem; letter-spacing: 2px; color: var(--accent-cyan); margin-bottom: 1rem;">120 MIN / MO</div>
+                        <div style="font-size: 0.8rem; letter-spacing: 2px; color: #fff; margin-bottom: 1rem;">120 MIN / MO</div>
                         <div class="app-price" id="app-basic-price">$9.99<span>/mo</span></div>
                         <div style="font-size: 0.8rem; color: #888; display: none; margin-top: -20px; margin-bottom: 20px;" id="app-basic-sub-price">or $99.99/yr</div>
                     </div>
@@ -736,7 +602,7 @@
                         <p>✓ All Audio Formats</p>
                         <p>✓ Zero Wait Time</p>
                     </div>
-                    <button class="app-select-btn app-basic-btn" onclick="checkout('54b0894d-e745-40c8-9d7b-46636b03565e')">SUBSCRIBE</button>
+                    <button class="app-select-btn app-basic-btn" style="opacity: 0.5; cursor: not-allowed; border: 1px dashed #888; background: transparent; color: #888;">🔒 COMING SOON</button>
                 </div>
                 
                 <!-- PRO PLAN (HIGHLIGHTED) -->
@@ -754,7 +620,7 @@
                         <p>✓ Priority Server Queue</p>
                         <p>✓ Pro Audio Mastering</p>
                     </div>
-                    <button class="app-select-btn app-pro-btn" onclick="checkout('df342fd6-daae-458c-9c86-c17756377ffa')">SUBSCRIBE</button>
+                    <button class="app-select-btn app-pro-btn" style="opacity: 0.5; cursor: not-allowed; border: 1px dashed #888; background: transparent; color: #888;">🔒 COMING SOON</button>
                 </div>
                 
                 <!-- ENERGY TOKEN -->
@@ -770,7 +636,7 @@
                         <p>✓ One-Time Purchase</p>
                         <p>✓ Never Expires</p>
                     </div>
-                    <button class="app-select-btn app-token-btn" onclick="checkout('28d06974-8710-4214-a411-9e94d7aee744')">BUY TOKEN</button>
+                    <button class="app-select-btn app-token-btn" style="opacity: 0.5; cursor: not-allowed; border: 1px dashed #888; background: transparent; color: #888;">🔒 COMING SOON</button>
                 </div>
                 
             </div>
