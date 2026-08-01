@@ -98,6 +98,57 @@
             position: relative;
             z-index: 10;
         }
+
+        /* Fix for Missing Nav Styles */
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 0;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+        }
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .logo-text {
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding-bottom: 2rem;
+        }
+        .footer-manifesto {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-cyan);
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin: 0 10px;
+        }
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
     </style>
     <!-- FUSE VOID SECURITY PROTOCOL -->
     <script src="security.js"></script>
