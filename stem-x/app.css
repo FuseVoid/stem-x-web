@@ -1,0 +1,372 @@
+/* FUSE VOID Web Studio - Custom Styles */
+
+body.app-body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* No scrolling in the app, it should feel like native software */
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOP HEADER */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(10, 10, 10, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.app-logo .logo-text {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, #fff, var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.app-user-panel {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.credit-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 243, 255, 0.05);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.credit-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+.credit-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* MAIN WORKSPACE */
+.app-workspace {
+    flex: 1;
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    height: calc(100vh - 70px);
+}
+
+/* DRAG & DROP ZONE */
+.drop-zone {
+    flex: 1;
+    background: rgba(20, 20, 20, 0.5);
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+    align-self: start;
+    margin-top: 20px;
+}
+
+.drop-zone:hover {
+    border-color: rgba(0, 243, 255, 0.5);
+    background: rgba(0, 243, 255, 0.02);
+    box-shadow: inset 0 0 50px rgba(0, 243, 255, 0.05);
+}
+
+.drop-zone-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    pointer-events: none; /* Let the parent handle drop events */
+}
+
+.drop-zone h2 {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.drop-zone p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.file-size-limit {
+    font-size: 0.7rem;
+    color: #555;
+    background: rgba(255,255,255,0.05);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+    pointer-events: auto; /* Re-enable pointer for the button */
+}
+
+/* TRACKS PANEL (The ProPianoRoll Vibe) */
+.tracks-panel {
+    flex: 1.5;
+    background: rgba(10, 10, 10, 0.7);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(15px);
+    overflow: hidden;
+}
+
+.track-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.track-header h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin: 0;
+    color: #fff;
+}
+
+.status-indicator {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+
+.track-list {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+.track-item {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    height: 80px;
+    display: flex;
+    overflow: hidden;
+}
+
+.track-info {
+    width: 150px;
+    background: rgba(255, 255, 255, 0.03);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.track-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+.track-status-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #333;
+}
+
+.track-waveform {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: #444;
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 20px
+    );
+}
+
+.action-panel {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.process-button {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 15px;
+    letter-spacing: 3px;
+}
+
+.process-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    box-shadow: none;
+}
+
+/* Fix Unclickable Elements */
+#original-audio-player, 
+.drop-zone-content label.cyber-button {
+    pointer-events: auto !important;
+}
+
+.user-avatar {
+    position: relative;
+    z-index: 9999;
+    pointer-events: auto !important;
+}
+
+/* ==========================================================================
+   AUTHENTICATION MODAL (UNIVERSAL ID)
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--bg-panel);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 8px;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+    padding-bottom: 15px;
+}
+
+.modal-header h2 {
+    font-size: 1.2rem;
+    color: var(--accent-cyan);
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.cyber-input:focus {
+    outline: none;
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+
+/* Premium Audio Slider */
+.cyber-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+}
+
+.cyber-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 4px;
+    height: 16px;
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 0 10px var(--accent-cyan);
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: grab;
+}
+
+.cyber-slider::-webkit-slider-thumb:hover {
+    transform: scaleX(2) scaleY(1.1);
+    background: var(--accent-cyan);
+    box-shadow: 0 0 15px var(--accent-cyan);
+}
+
+.cyber-slider::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    background: var(--accent-magenta);
+    box-shadow: 0 0 15px var(--accent-magenta);
+}
+

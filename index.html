@@ -9,7 +9,7 @@
     <!-- Open Graph / Social Meta Tags -->
     <meta property="og:title" content="FUSE VOID | Neural Sound Engineering">
     <meta property="og:description" content="Professional iOS drum machines and AI stem separation software.">
-    <meta property="og:image" content="https://fusevoid.com/og-preview.png?v=5">
+    <meta property="og:image" content="https://fusevoid.com/og-preview-hub.png?v=5">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" href="./logo.png">
@@ -18,6 +18,47 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- FUSE VOID SECURITY PROTOCOL -->
     <script src="security.js"></script>
+    <style>
+        @keyframes pulse-alert {
+            0% { box-shadow: 0 0 10px rgba(252, 227, 0, 0.4); opacity: 0.8; }
+            50% { box-shadow: 0 0 30px rgba(252, 227, 0, 1); opacity: 1; transform: scale(1.02); }
+            100% { box-shadow: 0 0 10px rgba(252, 227, 0, 0.4); opacity: 0.8; }
+        }
+        .coming-soon-badge {
+            display: inline-block;
+            background: #fce300;
+            color: #000000;
+            font-size: 0.85rem;
+            padding: 6px 18px;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulse-alert 2s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(252, 227, 0, 0.6);
+        }
+        
+        @keyframes pulse-live {
+            0% { box-shadow: 0 0 10px rgba(0, 255, 102, 0.4); opacity: 0.8; }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 102, 1); opacity: 1; transform: scale(1.02); }
+            100% { box-shadow: 0 0 10px rgba(0, 255, 102, 0.4); opacity: 0.8; }
+        }
+        .live-now-badge {
+            display: inline-block;
+            background: #00ff66;
+            color: #000000;
+            font-size: 0.85rem;
+            padding: 6px 18px;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulse-live 2.5s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.6);
+        }
+    </style>
 </head>
 <body>
 
@@ -95,6 +136,7 @@
                     </svg>
                 </div>
                 <h2>STEM-X (Native App)</h2>
+                <div class="live-now-badge">🟢 NEW RELEASE</div>
                 <p>Professional offline processing for macOS & iOS. GPU-accelerated separation for zero-artifact stems.</p>
                 <div class="launch-btn">App Store Info</div>
             </a>
@@ -107,14 +149,20 @@
                     </svg>
                 </div>
                 <h2>STEM-X WEB</h2>
+                <div class="coming-soon-badge">⚠️ COMING SOON</div>
                 <p>Online Vocal Remover & Cloud-powered separation. Runs directly in your browser. No installation required.</p>
                 <div class="launch-btn">Launch in Browser</div>
             </a>
 
             <!-- DRUM MACHINE Card -->
             <a href="./drum-machine/index.html" class="product-card card-drum">
-                <div class="card-icon">///</div>
+                <div class="card-icon">
+                    <svg width="24" height="24" viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:inline-block; margin-bottom: -2px;">
+                        <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.3 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.3zM206.5 44.6C231.1 16.2 281.3-13.9 281.3 .1c-2.4 29.9-25.8 63.6-50.7 89.2-25.2 25.8-59.8 43.8-84.8 40.5C148.2 98.8 174.1 72.8 206.5 44.6z"/>
+                    </svg>
+                </div>
                 <h2>DRUM MACHINE</h2>
+                <div class="live-now-badge">🟢 OUT NOW</div>
                 <p>16-Step High Precision Engine featuring Micro Timing, XY Chaos FX, and 11-channel mixer. Offline-first.</p>
                 <div class="launch-btn">App Store Info</div>
             </a>
@@ -134,7 +182,7 @@
             <span style="color: var(--text-secondary);">|</span>
             <a href="manifesto.html">Manifesto (About Us)</a>
             <span style="color: var(--text-secondary);">|</span>
-            <a href="mailto:fusevoidmusic@gmail.com">Support</a>
+            <a href="mailto:support@fusevoid.com">Support</a>
             <a href="privacy.html">Privacy Policy</a>
             <span style="color: var(--text-secondary);">|</span>
             <div class="social-icons" style="display:inline-flex; gap:15px; align-items:center;">

@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="Fuse Void | Professional Drum Machine">
+    <meta property="og:description" content="Professional drum machine for iOS. 113 pro samples and studio-grade sequencer.">
+    <meta property="og:image" content="https://fusevoid.github.io/fuse-void-drum-machine/og-preview.jpg?v=5">
+    <meta property="og:image:secure_url" content="https://fusevoid.github.io/fuse-void-drum-machine/og-preview.jpg?v=5">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Fuse Void — professional drum machine for iOS">
+    <meta property="og:url" content="https://fusevoid.github.io/fuse-void-drum-machine/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fuse Void | Professional Drum Machine">
+    <meta name="twitter:description" content="Professional drum machine for iOS. 113 pro samples and studio-grade sequencer.">
+    <meta name="twitter:image" content="https://fusevoid.github.io/fuse-void-drum-machine/og-preview.jpg?v=5">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>if(matchMedia('(max-width:1023px)').matches)document.documentElement.classList.add('layout-mobile');</script>
+    <title>Fuse Void | Professional Drum Machine</title>
+    <meta name="description" content="Professional drum machine for iOS. $9.99 one-time purchase. 113 pro samples, real-time creativity, studio-grade sequencer.">
+    <meta name="keywords" content="FUSE VOID Drum Machine, iOS Drum App, iPad Beat Maker, iPhone Drum Machine, Roland TR-8S Alternative, Elektron Analog Rytm, Korg Electribe, MPC Live App, Ableton Push iOS, Native Instruments Maschine, Techno Drum App, House Music Production, Groovebox iOS, Studio Quality Drums, 16-Step Sequencer, Music Production App Store">
+    <link rel="icon" type="image/png" href="sonfuse_transparent.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="site.css?v=12">
+    <!-- FUSE VOID SECURITY PROTOCOL -->
+    <script src="security.js"></script>
+</head>
+<body>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+    <canvas id="vapor-canvas" aria-hidden="true"></canvas>
+
+    <a href="../index.html" class="header-logo header-logo--visible">
+        <img src="sonfuse_transparent.png" alt="Fuse Void" width="512" height="512">
+        <span>Fuse Void</span>
+    </a>
+    <nav class="header-actions header-actions--visible" aria-label="Site links">
+        <a href="../index.html" class="header-link">◂ FUSE VOID HUB</a>
+        <a href="https://apps.apple.com/us/app/fuse-void-drum-machine/id6782101040" class="header-link header-link--store" id="link-app-store" target="_blank" rel="noopener noreferrer">
+            <svg class="header-link__apple" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span>App Store</span>
+        </a>
+        <a href="privacy.html" class="header-link">Privacy</a>
+        <a href="mailto:support@fusevoid.com" class="header-link">Support</a>
+    </nav>
+
+    <div class="scrollbar"><div class="scrollbar__track"></div><div class="scrollbar__thumb" id="scroll-thumb"></div></div>
+    <div class="nav-dots" id="nav-dots"></div>
+
+    <div id="device-stage">
+        <div class="device-stage__inner">
+            <button type="button" class="device-arrow" id="dev-prev" aria-label="Önceki">‹</button>
+            <div class="device-duo device-duo--solo" id="device-duo">
+                <div class="device-col device-col--ipad">
+                    <span class="device-label">iPad</span>
+                    <div class="device-viewport" id="device-viewport-ipad">
+                        <div class="device-shell device-shell--ipad" id="device-shell-ipad">
+                            <video id="dev-ipad-video" playsinline muted loop preload="metadata" poster="1FuseVoidipad.png"></video>
+                            <img id="dev-ipad-img" src="1FuseVoidipad.png" alt="Fuse Void iPad">
+                            <div class="video-controls">
+                                <button type="button" class="video-play-btn" id="video-play-toggle" aria-label="Video oynat">▶</button>
+                                <div class="video-volume">
+                                    <span class="video-volume__icon" id="video-volume-icon" aria-hidden="true">🔇</span>
+                                    <input type="range" class="video-volume__slider" id="video-volume" min="0" max="100" value="0" aria-label="Ses seviyesi">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-col device-col--phone" id="device-col-phone">
+                    <span class="device-label">iPhone</span>
+                    <div class="device-viewport" id="device-viewport-phone">
+                        <div class="device-shell device-shell--phone">
+                            <img id="dev-phone-img" src="5iphone.png" alt="Fuse Void iPhone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="device-arrow" id="dev-next" aria-label="Sonraki">›</button>
+        </div>
+        <div class="device-dots" id="device-dots"></div>
+    </div>
+
+    <div id="mobile-shot-gallery" class="mobile-shot-gallery" hidden aria-label="App screenshots carousel">
+        <p class="mobile-shot-gallery__title">See the app</p>
+        <div class="mobile-shot-gallery__viewport" id="mobile-shot-viewport">
+            <div class="mobile-shot-gallery__track" id="mobile-shot-track"></div>
+        </div>
+        <div class="mobile-shot-gallery__controls">
+            <button type="button" class="mobile-shot-gallery__arrow" id="mobile-shot-prev" aria-label="Previous screenshot">‹</button>
+            <div class="mobile-shot-gallery__dots" id="mobile-shot-dots"></div>
+            <button type="button" class="mobile-shot-gallery__arrow" id="mobile-shot-next" aria-label="Next screenshot">›</button>
+        </div>
+    </div>
+
+    <div id="scroll-track">
+        <div id="pin-viewport">
+            <section class="panel" id="panel-0">
+                <div class="panel-inner">
+                    <div class="triple-title h1 split-block">
+                        <p>Make powerful</p>
+                        <p>beats in</p>
+                        <p>seconds.</p>
+                    </div>
+                    <div class="hero-tagline-box split-block">
+                        <span class="hero-tagline__hi">Just groove.</span>
+                    </div>
+                    <a href="https://apps.apple.com/us/app/fuse-void-drum-machine/id6782101040" class="price-badge price-badge--store split-block" id="link-app-store-hero" target="_blank" rel="noopener noreferrer">
+                        <span class="price-badge__head">
+                            <svg class="price-badge__apple" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            <span class="price-badge__amount">$9.99</span>
+                        </span>
+                        <span class="price-badge__label">One-time purchase · No subscription</span>
+                    </a>
+                </div>
+                <button class="hero-scroll" type="button" id="scroll-btn">
+                    <span>Scroll down to discover more</span><span class="hero-scroll__line"></span>
+                </button>
+            </section>
+
+            <section class="panel" id="panel-1">
+                <div class="panel-inner">
+                    <div class="stack-title h1 split-block">
+                        <p>Designed for</p>
+                        <p>real-time</p>
+                        <p>creativity</p>
+                    </div>
+                    <div class="panel-copy body-copy split-block">
+                        <p>Everything is instant. Fuse Void MK1 is playable. Micro timing, chaos FX, 11-channel mixer — all touch-first.</p>
+                    </div>
+                </div>
+                <div class="panel-cta"><a href="https://apps.apple.com/us/app/fuse-void-drum-machine/id6782101040" class="btn btn--sm" id="link-app-store-panel1" target="_blank" rel="noopener noreferrer">App Store — $9.99</a></div>
+                <div class="section-id"><span>//01</span> Experience</div>
+            </section>
+
+            <section class="panel" id="panel-2">
+                <div class="panel-inner panel-inner--wide">
+                    <div class="triple-title h1 split-block">
+                        <p>Shape your</p>
+                        <p>rhythm</p>
+                        <p>with micro timing</p>
+                    </div>
+                    <div class="panel-copy-right">
+                        <p class="body-copy split-block">Precision groove offset and swing control. Master the Kaos-style XY pad — lo-fi crush, sidechain pump, filtered delays.</p>
+                        <a href="#scroll-track" class="btn">Explore features</a>
+                    </div>
+                </div>
+                <div class="panel-cta"><button class="btn btn--sm" type="button">Read more</button></div>
+                <div class="section-id"><span>//02</span> Features</div>
+            </section>
+
+            <section class="panel" id="panel-3">
+                <div class="panel-inner">
+                    <div class="engine-dual h1 split-block">
+                        <p>113 Pro</p>
+                        <p>Samples</p>
+                    </div>
+                    <div class="panel-copy body-copy split-block" style="margin-top:1rem">
+                        <p>High-fidelity one-shots for Silicon. 126 pattern slots, A–H kit chaining, MIDI export. Zero latency.</p>
+                    </div>
+                    <div class="stat-row mono">
+                        <div><p class="val">M1-M5</p><p class="lbl">Silicon Native</p></div>
+                        <div><p class="val">17.6+</p><p class="lbl">iOS Required</p></div>
+                        <div><p class="val">0ms</p><p class="lbl">Core Latency</p></div>
+                    </div>
+                </div>
+                <div class="panel-cta"><button class="btn btn--sm" type="button">Full specs</button></div>
+                <div class="section-id"><span>//03</span> Engine</div>
+            </section>
+
+            <section class="panel" id="panel-4">
+                <div class="panel-inner panel-inner--footer">
+                    <div class="footer-title">
+                        <p class="split-text">Built for speed.</p>
+                        <p class="split-text dim">Built for you.</p>
+                    </div>
+                    <div class="footer-cta">
+                        <a href="https://apps.apple.com/us/app/fuse-void-drum-machine/id6782101040" class="price-badge price-badge--footer price-badge--store" id="link-app-store-price-footer" target="_blank" rel="noopener noreferrer">One-time payment: <strong>$9.99</strong></a>
+                        <a href="https://apps.apple.com/us/app/fuse-void-drum-machine/id6782101040" class="btn btn--sm btn--store" id="link-app-store-footer" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
+                    </div>
+
+                    <div class="specs-block">
+                        <div class="specs-head">
+                            <h3>Fuse Void MK1 Specs</h3>
+                            <p>Full Technical System Architecture</p>
+                        </div>
+                        <div class="specs-grid">
+                            <div class="specs-col">
+                                <h4>/ Core Sequencing</h4>
+                                <div class="spec-item"><span class="spec-label">Sequencer</span><span>16-Step High Precision Engine</span></div>
+                                <div class="spec-item"><span class="spec-label">Micro Timing</span><span>Per-step groove offset control</span></div>
+                                <div class="spec-item"><span class="spec-label">Patterns</span><span>126 save/load slots</span></div>
+                                <div class="spec-item"><span class="spec-label">Chaining</span><span>A–H Bar-aligned pattern linking</span></div>
+                                <div class="spec-item"><span class="spec-label">Switching</span><span>Bar-aligned Quantized Transitions</span></div>
+                                <div class="spec-item"><span class="spec-label">Assignment</span><span>Per-step sample / sound assignment</span></div>
+                            </div>
+                            <div class="specs-col">
+                                <h4>/ Audio &amp; Performance</h4>
+                                <div class="spec-item"><span class="spec-label">Samples</span><span>113 One-shot High Quality Library</span></div>
+                                <div class="spec-item"><span class="spec-label">Mixer</span><span>11-Channels with Per-Channel Mute</span></div>
+                                <div class="spec-item"><span class="spec-label">Chaos FX</span><span>XY Kaos Pad with Reset behavior</span></div>
+                                <div class="spec-item"><span class="spec-label">Dynamics</span><span>Swing control &amp; Accent system</span></div>
+                                <div class="spec-item"><span class="spec-label">Matrix</span><span>Full pattern multi-track editor</span></div>
+                                <div class="spec-item"><span class="spec-label">Integration</span><span>MIDI Export &amp; Real-time REC</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="spec-tags">
+                        <span>No Menu Diving</span>
+                        <span>Zero Latency</span>
+                        <span>Offline First</span>
+                        <span>Touch Optimized</span>
+                    </div>
+
+                    <div class="footer-legal">
+                        <p class="footer-privacy">Fuse Void is an offline-first engine. We do not use cookies. We do not track you. Your creativity is yours alone.</p>
+                        <p class="footer-privacy-link"><a href="privacy.html">Privacy Policy</a></p>
+                        <a href="mailto:support@fusevoid.com" class="footer-email">support@fusevoid.com</a>
+                        <div class="footer-social">
+                            <a href="https://www.instagram.com/fuse_void/" class="footer-social__link" id="link-instagram" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            </a>
+                            <a href="https://www.youtube.com/@FuseVoidStudio" class="footer-social__link" id="link-youtube" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            </a>
+                            <a href="https://www.tiktok.com/@fusevoidstudio" class="footer-social__link" id="link-tiktok" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+                            </a>
+                        </div>
+                        <div class="footer-meta">
+                            <p>© FUSE VOID MUSIC ENGINE</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-id"><span>//04</span> Specs</div>
+            </section>
+        </div>
+    </div>
+
+    <div class="feat-carousel" id="feat-carousel">
+        <div id="feat-items"></div>
+        <nav class="feat-nav">
+            <button type="button" id="feat-prev">‹</button>
+            <button type="button" id="feat-next">›</button>
+        </nav>
+    </div>
+
+    <script>
+        const HAS_GSAP = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+        if (HAS_GSAP) gsap.registerPlugin(ScrollTrigger);
+
+        const MOBILE_MQ = window.matchMedia('(max-width: 1023px)');
+        const IS_MOBILE_LAYOUT = MOBILE_MQ.matches;
+        if (IS_MOBILE_LAYOUT) document.documentElement.classList.add('layout-mobile');
+
+        /* Link placeholders — URL'leri buradan güncelle */
+        /* App Store — live */
+        const SITE_LINKS = {
+            appStore: 'https://apps.apple.com/us/app/fuse-void-drum-machine/id6782101040',
+            instagram: 'https://www.instagram.com/fuse_void/',
+            youtube: 'https://www.youtube.com/@FuseVoidStudio',
+            tiktok: 'https://www.tiktok.com/@fusevoidstudio',
+        };
+        const storeLinks = [
+            'link-app-store',
+            'link-app-store-hero',
+            'link-app-store-price-footer',
+            'link-app-store-footer',
+            'link-app-store-panel1',
+        ];
+        storeLinks.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.href = SITE_LINKS.appStore;
+                if (IS_MOBILE_LAYOUT) {
+                    el.removeAttribute('target');
+                    el.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        window.location.assign(SITE_LINKS.appStore);
+                    });
+                } else {
+                    el.target = '_blank';
+                    el.rel = 'noopener noreferrer';
+                }
+            }
+        });
+        document.getElementById('link-instagram').href = SITE_LINKS.instagram;
+        document.getElementById('link-youtube').href = SITE_LINKS.youtube;
+        document.getElementById('link-tiktok').href = SITE_LINKS.tiktok;
+
+        const FEATURES = [
+            { title: 'Micro Timing', tag: '// SEQUENCER' },
+            { title: 'Chaos FX', tag: '// KAOS PAD' },
+            { title: '11-Channel Mixer', tag: '// MIX_SYSTEM' },
+            { title: '126 Patterns', tag: '// WORKFLOW' },
+        ];
+        let featIdx = 0;
+        const featWrap = document.getElementById('feat-items');
+        const featCarousel = document.getElementById('feat-carousel');
+        FEATURES.forEach((f, i) => {
+            const d = document.createElement('div');
+            d.className = 'feat-item' + (i === 0 ? ' show' : '');
+            d.innerHTML = `<p class="h2">${f.title}</p><p class="feat-item__tag">${f.tag}</p>`;
+            featWrap.appendChild(d);
+        });
+        function showFeat(i) {
+            featIdx = (i + FEATURES.length) % FEATURES.length;
+            [...featWrap.children].forEach((c, j) => c.classList.toggle('show', j === featIdx));
+        }
+        document.getElementById('feat-prev').onclick = () => showFeat(featIdx - 1);
+        document.getElementById('feat-next').onclick = () => showFeat(featIdx + 1);
+
+        function splitDisplayEl(el) {
+            if (el.dataset.split) return;
+            el.dataset.split = '1';
+            let ci = 0;
+            const parts = el.textContent.split(/(\s+)/);
+            el.innerHTML = parts.map(part => {
+                if (/^\s+$/.test(part)) return part;
+                const chars = [...part].map(c => {
+                    const html = `<span class="split-char"><span class="split-glyph" style="--ci:${ci}">${c}</span></span>`;
+                    ci++;
+                    return html;
+                }).join('');
+                return `<span class="split-word">${chars}</span>`;
+            }).join('');
+        }
+
+        function splitEl(el) {
+            if (el.dataset.split) return;
+            el.dataset.split = '1';
+            el.innerHTML = [...el.textContent].map(c =>
+                c === ' ' ? ' ' : `<span class="split-char">${c}</span>`
+            ).join('');
+        }
+        document.querySelectorAll('.split-text').forEach(el => {
+            if (el.closest('.footer-title')) splitDisplayEl(el);
+            else splitEl(el);
+        });
+        document.querySelectorAll('.split-block').forEach(el => {
+            el.querySelectorAll('p').forEach(p => {
+                if (p.closest('.stack-title, .triple-title, .engine-dual')) splitDisplayEl(p);
+                else splitEl(p);
+            });
+        });
+
+        function fitDisplayTitles() {
+            if (IS_MOBILE_LAYOUT) {
+                document.querySelectorAll('.stack-title, .triple-title, .engine-dual, .footer-title').forEach(block => {
+                    block.style.transform = 'none';
+                });
+                return;
+            }
+            document.querySelectorAll('.stack-title, .triple-title, .engine-dual, .footer-title').forEach(block => {
+                block.style.transform = 'none';
+                const panel = block.closest('.panel');
+                if (panel && !panel.classList.contains('is-active')) return;
+                const parent = block.closest('.panel-inner') || block.parentElement;
+                if (!parent) return;
+                const parentRect = parent.getBoundingClientRect();
+                const maxW = parentRect.width - 12;
+                const blockW = block.scrollWidth;
+                if (blockW > maxW && maxW > 0) {
+                    const scale = Math.max(0.55, maxW / blockW);
+                    block.style.transform = `scale(${scale})`;
+                    block.style.transformOrigin = innerWidth >= 1024 ? 'left center' : 'center center';
+                }
+            });
+        }
+        fitDisplayTitles();
+        window.addEventListener('resize', fitDisplayTitles);
+        window.addEventListener('load', () => setTimeout(fitDisplayTitles, 120));
+
+        const panels = [...document.querySelectorAll('.panel')];
+        const PANEL_COUNT = panels.length;
+        const deviceStage = document.getElementById('device-stage');
+        const deviceDuo = document.getElementById('device-duo');
+        const deviceViewportIpad = document.getElementById('device-viewport-ipad');
+        const deviceViewportPhone = document.getElementById('device-viewport-phone');
+        const devIpad = document.getElementById('dev-ipad-img');
+        const devIpadVideo = document.getElementById('dev-ipad-video');
+        const devIpadShell = document.getElementById('device-shell-ipad');
+        const videoPlayBtn = document.getElementById('video-play-toggle');
+        const videoVolume = document.getElementById('video-volume');
+        const videoVolumeIcon = document.getElementById('video-volume-icon');
+        const devPhone = document.getElementById('dev-phone-img');
+        const deviceDotsWrap = document.getElementById('device-dots');
+
+        const IPAD_SLIDES = [
+            '1FuseVoidipad.png',
+            '2 FuseVoid ipad.png',
+            '5 FuseVoid ipad.png',
+            '6 FuseVoid ipad.png',
+            '7 FuseVoid ipad.png',
+            '8 FuseVoid ipad.png',
+        ];
+
+        const PHONE_SLIDES = [
+            '5iphone.png', '6iphone.png', '1iphone.png', '4iphone.png', '7iphone.png',
+        ];
+
+        const DEVICE_GALLERY = [
+            { videoOnly: true },
+            { ipadOnly: true, ipad: IPAD_SLIDES },
+            { phoneOnly: true, phone: PHONE_SLIDES },
+            { noDevice: true },
+            { noDevice: true },
+        ];
+
+        let scrollPanel = 0;
+        let slideIdx = 0;
+        let autoTimer = null;
+        let videoFallbackTimer = null;
+        const AUTO_MS = 3200;
+        let galleryPanel = -1;
+
+        function slideCount(g) {
+            if (g.noDevice || g.videoOnly) return 0;
+            if (g.phoneOnly) return g.phone.length;
+            if (g.ipadOnly) return g.ipad.length;
+            return g.ipad?.length || 0;
+        }
+
+        function setDeviceMode(g) {
+            deviceStage.classList.remove('is-video-only', 'is-ipad-only', 'phone-only', 'has-phone');
+            if (g.videoOnly) deviceStage.classList.add('is-video-only');
+            else if (g.ipadOnly) deviceStage.classList.add('is-ipad-only');
+            else if (g.phoneOnly) deviceStage.classList.add('phone-only');
+        }
+
+        function clearAutoTimers() {
+            clearInterval(autoTimer);
+            clearTimeout(videoFallbackTimer);
+            autoTimer = null;
+            videoFallbackTimer = null;
+            devIpadVideo.onended = null;
+        }
+
+        function updateVideoPlayBtn() {
+            const playing = !devIpadVideo.paused && !devIpadVideo.ended;
+            videoPlayBtn.textContent = playing ? '❚❚' : '▶';
+            videoPlayBtn.setAttribute('aria-label', playing ? 'Video durdur' : 'Video oynat');
+        }
+
+        function updateVolumeUI(val) {
+            const pct = Math.round(val);
+            videoVolumeIcon.textContent = pct === 0 ? '🔇' : pct < 35 ? '🔈' : pct < 70 ? '🔉' : '🔊';
+        }
+
+        function applyVolume(val) {
+            const pct = Math.max(0, Math.min(100, val));
+            const v = pct / 100;
+            devIpadVideo.volume = v;
+            devIpadVideo.muted = v === 0;
+            videoVolume.value = pct;
+            updateVolumeUI(pct);
+        }
+
+        function showVideoOnly() {
+            devIpad.style.display = 'none';
+            devIpadVideo.style.display = 'block';
+            devIpadShell.classList.add('is-video-active');
+            const src = 'fuse void video .mp4';
+            if (devIpadVideo.getAttribute('data-src') !== src) {
+                devIpadVideo.src = src;
+                devIpadVideo.setAttribute('data-src', src);
+            }
+            applyVolume(+videoVolume.value || 0);
+            devIpadVideo.pause();
+            updateVideoPlayBtn();
+        }
+
+        function hideVideo() {
+            devIpadVideo.pause();
+            devIpadVideo.style.display = 'none';
+            devIpadShell.classList.remove('is-video-active');
+        }
+
+        videoPlayBtn.addEventListener('click', () => {
+            if (devIpadVideo.style.display === 'none') return;
+            if (devIpadVideo.paused) devIpadVideo.play().catch(() => {});
+            else devIpadVideo.pause();
+            updateVideoPlayBtn();
+        });
+        videoVolume.addEventListener('input', (e) => applyVolume(+e.target.value));
+        videoVolume.addEventListener('change', (e) => applyVolume(+e.target.value));
+        updateVolumeUI(0);
+        devIpadVideo.addEventListener('play', updateVideoPlayBtn);
+        devIpadVideo.addEventListener('pause', updateVideoPlayBtn);
+        devIpadVideo.addEventListener('ended', updateVideoPlayBtn);
+
+        function renderDeviceDots(count) {
+            deviceDotsWrap.innerHTML = '';
+            deviceDotsWrap.style.display = count > 1 ? 'flex' : 'none';
+            for (let i = 0; i < count; i++) {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.addEventListener('click', () => goSlide(i));
+                deviceDotsWrap.appendChild(b);
+            }
+        }
+
+        function updateDeviceDots() {
+            [...deviceDotsWrap.children].forEach((d, i) => d.classList.toggle('on', i === slideIdx));
+        }
+
+        function applySlide(g, idx) {
+            setDeviceMode(g);
+            if (g.noDevice) return;
+            if (g.videoOnly) {
+                deviceDuo.classList.add('device-duo--solo');
+                showVideoOnly();
+                return;
+            }
+            hideVideo();
+            if (g.ipadOnly) {
+                deviceDuo.classList.add('device-duo--solo');
+                devIpad.style.display = 'block';
+                devIpad.src = g.ipad[idx];
+                updateDeviceDots();
+                return;
+            }
+            if (g.phoneOnly) {
+                devIpad.style.display = 'none';
+                deviceDuo.classList.add('device-duo--solo');
+                devPhone.src = g.phone[idx];
+                updateDeviceDots();
+                return;
+            }
+        }
+
+        function goSlide(idx, animate = true) {
+            const g = DEVICE_GALLERY[galleryPanel];
+            if (!g || g.noDevice || g.videoOnly) return;
+            const total = slideCount(g);
+            if (!total) return;
+            slideIdx = ((idx % total) + total) % total;
+            const targets = g.phoneOnly ? [deviceViewportPhone] : [deviceViewportIpad];
+            if (!animate) {
+                applySlide(g, slideIdx);
+                return;
+            }
+            gsap.to(targets, {
+                opacity: 0, x: -10, duration: 0.2, ease: 'power2.in',
+                onComplete: () => {
+                    applySlide(g, slideIdx);
+                    gsap.fromTo(targets, { opacity: 0, x: 12 }, { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' });
+                    restartAuto();
+                }
+            });
+        }
+
+        function stepSlide(dir) { goSlide(slideIdx + dir, true); }
+
+        function restartAuto() {
+            clearAutoTimers();
+            const g = DEVICE_GALLERY[galleryPanel];
+            if (!g || g.noDevice || g.videoOnly) return;
+            autoTimer = setInterval(() => stepSlide(1), AUTO_MS);
+        }
+
+        function stopAuto() {
+            clearAutoTimers();
+            devIpadVideo.pause();
+        }
+
+        function bindGallery(panelIdx) {
+            const g = DEVICE_GALLERY[panelIdx];
+            if (panelIdx === galleryPanel) {
+                if (g.videoOnly && devIpadVideo.style.display === 'none') showVideoOnly();
+                return;
+            }
+            galleryPanel = panelIdx;
+            slideIdx = 0;
+            renderDeviceDots(slideCount(g));
+            gsap.set([deviceViewportIpad, deviceViewportPhone], { opacity: 1, x: 0 });
+            applySlide(g, 0);
+            if (!g.noDevice && !g.videoOnly) restartAuto();
+            else if (g.videoOnly) showVideoOnly();
+        }
+
+        document.getElementById('dev-prev').onclick = () => stepSlide(-1);
+        document.getElementById('dev-next').onclick = () => stepSlide(1);
+
+        const dotsWrap = document.getElementById('nav-dots');
+        panels.forEach((_, i) => {
+            const b = document.createElement('button');
+            b.onclick = () => {
+                if (IS_MOBILE_LAYOUT) {
+                    panels[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    return;
+                }
+                const st = ScrollTrigger.getById('main');
+                if (!st) return;
+                window.scrollTo({ top: (i / (PANEL_COUNT - 1)) * (st.end - st.start) + st.start, behavior: 'smooth' });
+            };
+            dotsWrap.appendChild(b);
+        });
+        if (dotsWrap.children[0]) dotsWrap.children[0].classList.add('on');
+
+        function switchPanel(idx) {
+            if (idx === currentPanel) return;
+            panels.forEach((p, i) => {
+                gsap.killTweensOf(p);
+                gsap.killTweensOf(p.querySelectorAll('.split-char'));
+                p.classList.toggle('is-active', i === idx);
+                if (i !== idx) {
+                    gsap.set(p, { opacity: 0, visibility: 'hidden' });
+                    gsap.set(p.querySelectorAll('.split-char'), { opacity: 0, y: '110%' });
+                }
+            });
+            currentPanel = idx;
+            const panel = panels[idx];
+            panel.style.visibility = 'visible';
+            gsap.set(panel, { opacity: 1 });
+            gsap.fromTo(
+                panel.querySelectorAll('.split-char'),
+                { y: '110%', opacity: 0 },
+                {
+                    y: '0%', opacity: 1, duration: 0.75, stagger: 0.008, ease: 'power3.out',
+                    onComplete: fitDisplayTitles,
+                }
+            );
+            requestAnimationFrame(fitDisplayTitles);
+        }
+
+        let currentPanel = -1;
+        let humanAlpha = 0;
+        let humanMode = 'off';
+        let humanScale = 0.55;
+        let scrollProgress = 0;
+
+        function revealMobileText() {
+            document.querySelectorAll('.split-char').forEach(c => {
+                c.style.opacity = '1';
+                c.style.transform = 'none';
+            });
+        }
+
+        function initMobileShotGallery() {
+            const MOBILE_SHOWCASE = [
+                { src: '1FuseVoidipad.png', tag: 'iPad · Main UI', frame: 'ipad' },
+                { src: '7 FuseVoid ipad.png', tag: 'iPad · Chaos FX', frame: 'ipad' },
+                { src: '5 FuseVoid ipad.png', tag: 'iPad · Matrix', frame: 'ipad' },
+                { src: '2 FuseVoid ipad.png', tag: 'iPad · Studio', frame: 'ipad' },
+                { src: '5iphone.png', tag: 'iPhone', frame: 'phone' },
+                { src: '6iphone.png', tag: 'iPhone', frame: 'phone' },
+                { src: '1iphone.png', tag: 'iPhone', frame: 'phone' },
+                { src: '4iphone.png', tag: 'iPhone', frame: 'phone' },
+            ];
+
+            const track = document.getElementById('mobile-shot-track');
+            const dotsWrap = document.getElementById('mobile-shot-dots');
+            const viewport = document.getElementById('mobile-shot-viewport');
+            const prevBtn = document.getElementById('mobile-shot-prev');
+            const nextBtn = document.getElementById('mobile-shot-next');
+            if (!track || !dotsWrap || !viewport) return;
+
+            let shotIdx = 0;
+
+            MOBILE_SHOWCASE.forEach((item, i) => {
+                const slide = document.createElement('div');
+                slide.className = 'mobile-shot-slide';
+                slide.innerHTML = `
+                    <span class="mobile-shot-slide__tag">${item.tag}</span>
+                    <div class="mobile-shot-frame mobile-shot-frame--${item.frame}">
+                        <img src="${item.src}" alt="${item.tag}" loading="lazy" decoding="async">
+                    </div>`;
+                track.appendChild(slide);
+
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.setAttribute('aria-label', `Screenshot ${i + 1}`);
+                dot.addEventListener('click', () => goShot(i));
+                dotsWrap.appendChild(dot);
+            });
+
+            function goShot(i) {
+                shotIdx = (i + MOBILE_SHOWCASE.length) % MOBILE_SHOWCASE.length;
+                track.style.transform = `translate3d(-${shotIdx * 100}%, 0, 0)`;
+                [...dotsWrap.children].forEach((d, j) => d.classList.toggle('on', j === shotIdx));
+            }
+
+            prevBtn?.addEventListener('click', () => goShot(shotIdx - 1));
+            nextBtn?.addEventListener('click', () => goShot(shotIdx + 1));
+
+            let touchStartX = 0;
+            viewport.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].clientX;
+            }, { passive: true });
+            viewport.addEventListener('touchend', (e) => {
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                if (Math.abs(dx) > 36) goShot(shotIdx + (dx < 0 ? 1 : -1));
+            }, { passive: true });
+
+            goShot(0);
+        }
+
+        function initMobileLayout() {
+            revealMobileText();
+            panels.forEach(p => {
+                p.classList.add('is-active');
+                p.style.visibility = 'visible';
+                p.style.opacity = '1';
+            });
+
+            const panel0 = document.getElementById('panel-0');
+            const heroScroll = document.getElementById('scroll-btn');
+            const mobileGallery = document.getElementById('mobile-shot-gallery');
+            panel0.insertBefore(deviceStage, heroScroll);
+            if (mobileGallery) {
+                mobileGallery.hidden = false;
+                panel0.insertBefore(mobileGallery, heroScroll);
+            }
+
+            let mobileStoreBar = document.getElementById('link-app-store-mobile-bar');
+            if (!mobileStoreBar) {
+                mobileStoreBar = document.createElement('a');
+                mobileStoreBar.id = 'link-app-store-mobile-bar';
+                mobileStoreBar.className = 'mobile-store-bar';
+                mobileStoreBar.href = SITE_LINKS.appStore;
+                mobileStoreBar.innerHTML = '<svg class="mobile-store-bar__apple" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><span>Download on the App Store · $9.99</span>';
+                mobileStoreBar.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.assign(SITE_LINKS.appStore);
+                });
+                panel0.insertBefore(mobileStoreBar, heroScroll);
+            }
+
+            const panel2 = document.getElementById('panel-2');
+            const panel2Cta = panel2.querySelector('.panel-cta');
+            panel2.insertBefore(featCarousel, panel2Cta);
+            featCarousel.style.opacity = '1';
+            featCarousel.style.pointerEvents = 'auto';
+
+            deviceStage.style.opacity = '1';
+            deviceStage.classList.add('is-live', 'is-video-only');
+            bindGallery(0);
+            showVideoOnly();
+            initMobileShotGallery();
+            currentPanel = 0;
+
+            heroScroll.onclick = () => {
+                document.getElementById('panel-1')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+        }
+
+        if (IS_MOBILE_LAYOUT) {
+            initMobileLayout();
+        } else if (HAS_GSAP) {
+        ScrollTrigger.normalizeScroll(true);
+        ScrollTrigger.create({
+            id: 'main',
+            trigger: '#scroll-track',
+            start: 'top top',
+            end: 'bottom bottom',
+            pin: '#pin-viewport',
+            scrub: 0.6,
+            snap: { snapTo: 1 / (PANEL_COUNT - 1), duration: { min: 0.25, max: 0.55 }, ease: 'power2.inOut' },
+            onUpdate(self) {
+                const p = self.progress;
+                const seg = 1 / (PANEL_COUNT - 1);
+                const idx = Math.min(PANEL_COUNT - 1, Math.round(p * (PANEL_COUNT - 1)));
+                scrollPanel = idx;
+                scrollProgress = p;
+                humanAlpha = idx === 1 ? 0.4 : idx === 2 ? 0.48 : idx === 3 ? 0.82 : idx === 4 ? 0.2 : 0;
+                humanMode = idx === 4 ? 'footer' : idx === 3 ? 'engine' : idx >= 1 && idx <= 2 ? 'side' : 'off';
+                humanScale = idx === 3 ? (innerWidth < 1024 ? 0.68 : 0.88) : idx === 2 ? 0.6 : idx === 1 ? 0.56 : 0.55;
+
+                const center = idx * seg;
+                const dist = Math.abs(p - center) / seg;
+                const stageOp = Math.max(0, 1 - dist * 0.92) * (idx >= 3 ? 0 : 1);
+                deviceStage.style.opacity = stageOp;
+                deviceStage.classList.toggle('is-live', stageOp > 0.35);
+                if (stageOp > 0.35) bindGallery(idx);
+                else stopAuto();
+
+                [...dotsWrap.children].forEach((d, i) => d.classList.toggle('on', i === idx));
+                document.getElementById('scroll-thumb').style.transform = `translateY(${p * 205}px)`;
+
+                const featOn = idx === 2;
+                gsap.to(featCarousel, { opacity: featOn ? 1 : 0, duration: 0.45, pointerEvents: featOn ? 'auto' : 'none' });
+
+                if (idx !== currentPanel) switchPanel(idx);
+            }
+        });
+        switchPanel(0);
+        bindGallery(0);
+        deviceStage.classList.add('is-live', 'is-video-only');
+        deviceStage.style.opacity = 1;
+        document.getElementById('scroll-btn').onclick = () => window.scrollBy({ top: innerHeight * 0.85, behavior: 'smooth' });
+        } else {
+            panels.forEach((p, i) => {
+                p.classList.toggle('is-active', i === 0);
+                p.style.visibility = i === 0 ? 'visible' : 'hidden';
+                p.style.opacity = i === 0 ? '1' : '0';
+                p.querySelectorAll('.split-char').forEach(c => {
+                    c.style.opacity = '1';
+                    c.style.transform = 'none';
+                });
+            });
+            currentPanel = 0;
+            bindGallery(0);
+            deviceStage.classList.add('is-live', 'is-video-only');
+            deviceStage.style.opacity = 1;
+            document.getElementById('scroll-btn').onclick = () => window.scrollBy({ top: innerHeight * 0.85, behavior: 'smooth' });
+        }
+
+        MOBILE_MQ.addEventListener('change', () => location.reload());
+
+        /* Hashgraph tarzı arka plan — hafif sıvı ışık + yüzen kayalar + parçacık akışı */
+        const bgCvs = document.getElementById('bg-canvas');
+        const bg = bgCvs.getContext('2d');
+        let bgT = 0;
+        const bgDpr = () => Math.min(window.devicePixelRatio || 1, 1.75);
+
+        function makeRock() {
+            const jitter = () => 0.55 + Math.random() * 0.85;
+            const verts = [
+                [-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
+                [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1],
+            ].map(([x, y, z]) => ({ x: x * jitter(), y: y * jitter(), z: z * jitter() }));
+            const faces = [
+                [0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4],
+                [2, 3, 7, 6], [0, 3, 7, 4], [1, 2, 6, 5],
+            ];
+            const dir = Math.random() > 0.5 ? 1 : -1;
+            return {
+                x: Math.random(), y: Math.random(),
+                z: 0.12 + Math.random() * 0.88,
+                drift: dir * (0.00014 + Math.random() * 0.00022),
+                swayAmp: 0.012 + Math.random() * 0.028,
+                rotX: Math.random() * Math.PI * 2,
+                rotY: Math.random() * Math.PI * 2,
+                rotZ: Math.random() * Math.PI * 2,
+                rotVX: (Math.random() - 0.5) * 0.014,
+                rotVY: (Math.random() - 0.5) * 0.018,
+                rotVZ: (Math.random() - 0.5) * 0.011,
+                size: 16 + Math.random() * 64,
+                verts, faces,
+                ph: Math.random() * Math.PI * 2,
+            };
+        }
+
+        function rot3(v, rx, ry, rz) {
+            let { x, y, z } = v;
+            let cy = Math.cos(ry), sy = Math.sin(ry);
+            let x1 = x * cy - z * sy, z1 = x * sy + z * cy;
+            let cx = Math.cos(rx), sx = Math.sin(rx);
+            let y1 = y * cx - z1 * sx, z2 = y * sx + z1 * cx;
+            let cz = Math.cos(rz), sz = Math.sin(rz);
+            return { x: x1 * cz - y1 * sz, y: x1 * sz + y1 * cz, z: z2 };
+        }
+
+        function faceNormal3(a, b, c) {
+            const ux = b.x - a.x, uy = b.y - a.y, uz = b.z - a.z;
+            const vx = c.x - a.x, vy = c.y - a.y, vz = c.z - a.z;
+            const nx = uy * vz - uz * vy;
+            const ny = uz * vx - ux * vz;
+            const nz = ux * vy - uy * vx;
+            const len = Math.hypot(nx, ny, nz) || 1;
+            return { x: nx / len, y: ny / len, z: nz / len };
+        }
+
+        function makeStream(n) {
+            return Array.from({ length: n }, (_, i) => ({
+                t: i / n,
+                speed: 0.00012 + Math.random() * 0.0001,
+                off: Math.random() * 10,
+                r: 0.35 + Math.random() * 1.1,
+                a: 0.12 + Math.random() * 0.38,
+            }));
+        }
+
+        let bgRocks = [];
+        let bgStream = [];
+
+        function resizeBg() {
+            const d = bgDpr();
+            bgCvs.width = innerWidth * d;
+            bgCvs.height = innerHeight * d;
+            bgCvs.style.width = innerWidth + 'px';
+            bgCvs.style.height = innerHeight + 'px';
+            bg.setTransform(d, 0, 0, d, 0, 0);
+            const n = innerWidth < 768 ? 11 : 20;
+            bgRocks = Array.from({ length: n }, makeRock);
+            bgStream = makeStream(innerWidth < 768 ? 40 : 75);
+        }
+
+        function drawRock(r, t, parallax) {
+            r.x += r.drift;
+            r.rotX += r.rotVX;
+            r.rotY += r.rotVY;
+            r.rotZ += r.rotVZ;
+            if (r.x < -0.18) r.x = 1.18;
+            if (r.x > 1.18) r.x = -0.18;
+
+            const swayX = Math.sin(t * 0.11 + r.ph) * r.swayAmp;
+            const px = (r.x + swayX) * innerWidth;
+            const py = (r.y + Math.cos(t * 0.08 + r.ph) * 0.01 + parallax * 0.035) * innerHeight;
+            const scale = r.size * (0.38 + r.z * 1.05);
+            const light = { x: 0.35, y: -0.45, z: 0.82 };
+            const lLen = Math.hypot(light.x, light.y, light.z);
+            light.x /= lLen; light.y /= lLen; light.z /= lLen;
+
+            const rv = r.verts.map(v => rot3(v, r.rotX, r.rotY, r.rotZ));
+            const projected = rv.map(v => ({ x: v.x * scale, y: v.y * scale, z: v.z }));
+
+            const faceList = r.faces.map(idx => {
+                const pts = idx.map(i => projected[i]);
+                const rvPts = idx.map(i => rv[i]);
+                const zAvg = rvPts.reduce((s, p) => s + p.z, 0) / rvPts.length;
+                const n = faceNormal3(rvPts[0], rvPts[1], rvPts[2]);
+                const dot = n.x * light.x + n.y * light.y + n.z * light.z;
+                return { pts, zAvg, dot };
+            }).filter(f => f.zAvg > -0.05).sort((a, b) => a.zAvg - b.zAvg);
+
+            bg.save();
+            bg.translate(px, py);
+            faceList.forEach(f => {
+                const shade = Math.max(0, f.dot);
+                const v = 2 + shade * 14;
+                bg.beginPath();
+                f.pts.forEach((p, i) => {
+                    if (i === 0) bg.moveTo(p.x, p.y);
+                    else bg.lineTo(p.x, p.y);
+                });
+                bg.closePath();
+                bg.fillStyle = `rgba(${v},${v + 1},${v + 3},${0.9 + r.z * 0.1})`;
+                bg.fill();
+                if (shade > 0.15) {
+                    bg.strokeStyle = `rgba(210,225,255,${0.03 + shade * 0.07})`;
+                    bg.lineWidth = 0.6;
+                    bg.stroke();
+                }
+            });
+            bg.restore();
+        }
+
+        function bgFrame() {
+            requestAnimationFrame(bgFrame);
+            if (document.hidden) return;
+            bgT += 0.014;
+            const w = innerWidth;
+            const h = innerHeight;
+            bg.clearRect(0, 0, w, h);
+
+            const base = bg.createLinearGradient(0, 0, w * 0.35, h);
+            base.addColorStop(0, '#010208');
+            base.addColorStop(0.45, '#020612');
+            base.addColorStop(1, '#030818');
+            bg.fillStyle = base;
+            bg.fillRect(0, 0, w, h);
+
+            [
+                { x: 0.6, y: 0.42, r: 0.52, ph: 0 },
+                { x: 0.35, y: 0.58, r: 0.4, ph: 2.1 },
+                { x: 0.75, y: 0.25, r: 0.32, ph: 4.2 },
+            ].forEach(b => {
+                const bx = (b.x + Math.sin(bgT * 0.065 + b.ph) * 0.03) * w;
+                const by = (b.y + Math.cos(bgT * 0.048 + b.ph) * 0.022 + scrollProgress * 0.045) * h;
+                const br = b.r * Math.min(w, h);
+                const g = bg.createRadialGradient(bx, by, 0, bx, by, br);
+                g.addColorStop(0, 'rgba(52,108,185,0.24)');
+                g.addColorStop(0.45, 'rgba(22,48,88,0.11)');
+                g.addColorStop(1, 'rgba(0,2,9,0)');
+                bg.fillStyle = g;
+                bg.fillRect(0, 0, w, h);
+            });
+
+            bgStream.forEach(p => {
+                p.t = (p.t + p.speed) % 1;
+                const cx = w * (0.57 + Math.sin(p.t * Math.PI * 2 + bgT * 0.18 + p.off) * 0.055);
+                const cy = h * (1.02 - p.t * 1.05);
+                const sx = Math.sin(p.t * 14 + p.off) * (14 + p.r * 6);
+                const glow = p.a * (0.35 + p.t * 0.65);
+                bg.beginPath();
+                bg.fillStyle = `rgba(255,255,255,${glow * 0.12})`;
+                bg.arc(cx + sx, cy, p.r * 3.2, 0, Math.PI * 2);
+                bg.fill();
+                bg.beginPath();
+                bg.fillStyle = `rgba(235,245,255,${glow * 0.55})`;
+                bg.arc(cx + sx, cy, p.r, 0, Math.PI * 2);
+                bg.fill();
+            });
+
+            [...bgRocks].sort((a, b) => a.z - b.z).forEach(r => drawRock(r, bgT, scrollProgress));
+
+            const vig = bg.createRadialGradient(w * 0.5, h * 0.44, h * 0.12, w * 0.5, h * 0.44, h * 0.85);
+            vig.addColorStop(0, 'rgba(0,2,9,0)');
+            vig.addColorStop(1, 'rgba(0,2,9,0.48)');
+            bg.fillStyle = vig;
+            bg.fillRect(0, 0, w, h);
+        }
+
+        resizeBg();
+        bgFrame();
+
+        /* Mouse buhar izi — boş alanlarda hafif duman */
+        const vaporCvs = document.getElementById('vapor-canvas');
+        const vapor = vaporCvs.getContext('2d');
+        let pmx = innerWidth * 0.5, pmy = innerHeight * 0.5;
+        let vaporPts = [];
+        const vaporMax = () => (innerWidth < 768 ? 70 : 120);
+
+        function resizeVapor() {
+            const d = Math.min(window.devicePixelRatio || 1, 2);
+            vaporCvs.width = innerWidth * d;
+            vaporCvs.height = innerHeight * d;
+            vaporCvs.style.width = innerWidth + 'px';
+            vaporCvs.style.height = innerHeight + 'px';
+            vapor.setTransform(d, 0, 0, d, 0, 0);
+        }
+
+        function spawnVapor(x, y, dx, dy, speed) {
+            const n = Math.min(5, 2 + Math.floor(speed / 6));
+            for (let i = 0; i < n; i++) {
+                if (vaporPts.length >= vaporMax()) vaporPts.shift();
+                const t = n > 1 ? i / n : 0;
+                vaporPts.push({
+                    x: x - dx * t + (Math.random() - 0.5) * 14,
+                    y: y - dy * t + (Math.random() - 0.5) * 14,
+                    vx: (Math.random() - 0.5) * 0.32 + dx * 0.016,
+                    vy: (Math.random() - 0.5) * 0.32 + dy * 0.016 - 0.18 - Math.random() * 0.28,
+                    life: 0.85 + Math.random() * 0.15,
+                    decay: 0.008 + Math.random() * 0.011,
+                    r: 10 + Math.random() * 16,
+                    grow: 0.28 + Math.random() * 0.34,
+                });
+            }
+        }
+
+        function vaporFrame() {
+            requestAnimationFrame(vaporFrame);
+            if (document.hidden) return;
+            vapor.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = vaporPts.length - 1; i >= 0; i--) {
+                const p = vaporPts[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.985;
+                p.vy -= 0.014;
+                p.r += p.grow;
+                p.life -= p.decay;
+                if (p.life <= 0) {
+                    vaporPts.splice(i, 1);
+                    continue;
+                }
+                const a = p.life * 0.18;
+                const g = vapor.createRadialGradient(p.x, p.y, 0, p.x, p.y - p.r * 0.12, p.r * 1.15);
+                g.addColorStop(0, `rgba(225,240,255,${a * 0.38})`);
+                g.addColorStop(0.35, `rgba(175,200,230,${a * 0.2})`);
+                g.addColorStop(0.72, `rgba(140,175,215,${a * 0.08})`);
+                g.addColorStop(1, 'rgba(120,160,210,0)');
+                vapor.fillStyle = g;
+                vapor.beginPath();
+                vapor.arc(p.x, p.y, p.r * 1.15, 0, Math.PI * 2);
+                vapor.fill();
+
+                vapor.beginPath();
+                vapor.fillStyle = `rgba(210,228,248,${a * 0.1})`;
+                vapor.arc(p.x, p.y, p.r * 0.55, 0, Math.PI * 2);
+                vapor.fill();
+            }
+        }
+
+        resizeVapor();
+        vaporFrame();
+
+        /* Toz insan — hafif, panel 2–3 */
+        const cvs = document.getElementById('fx-canvas');
+        const fx = cvs.getContext('2d');
+        let mx = innerWidth * 0.72, my = innerHeight * 0.5;
+        let swayT = 0;
+        document.addEventListener('mousemove', e => {
+            const nx = e.clientX, ny = e.clientY;
+            const dx = nx - pmx, dy = ny - pmy;
+            const speed = Math.hypot(dx, dy);
+            pmx = nx;
+            pmy = ny;
+            mx = nx;
+            my = ny;
+            if (speed > 0.6) spawnVapor(nx, ny, dx, dy, speed);
+        });
+
+        function buildHuman() {
+            const pts = [];
+            const add = (cx, cy, cz, rx, ry, rz, n) => {
+                for (let i = 0; i < n; i++) {
+                    pts.push({
+                        hx: cx + (Math.random() - 0.5) * rx,
+                        hy: cy + (Math.random() - 0.5) * ry,
+                        hz: cz + (Math.random() - 0.5) * rz,
+                        x: 0, y: 0, s: 0.7 + Math.random() * 1.1,
+                    });
+                }
+            };
+            add(0, -95, 0, 22, 26, 18, 50);
+            add(0, -35, 0, 38, 55, 22, 100);
+            add(-48, -40, 0, 14, 50, 12, 40);
+            add(48, -40, 0, 14, 50, 12, 40);
+            add(-18, 55, 0, 16, 65, 14, 45);
+            add(18, 55, 0, 16, 65, 14, 45);
+            add(-18, 120, 0, 14, 40, 12, 30);
+            add(18, 120, 0, 14, 40, 12, 30);
+            return pts;
+        }
+
+        const human = buildHuman();
+        let rotY = 0, rotX = 0.22;
+
+        function deviceStageWidth() {
+            const pad = innerWidth >= 1024 ? Math.min(innerWidth * 0.09, 102) : 28;
+            if (deviceStage.classList.contains('is-video-only')) {
+                return Math.min(innerWidth * 0.52 - pad, 880);
+            }
+            if (deviceStage.classList.contains('is-ipad-only')) {
+                return Math.min(innerWidth * 0.54 - pad, 900);
+            }
+            if (deviceStage.classList.contains('phone-only')) {
+                return Math.min(innerWidth * 0.44 - pad, 460);
+            }
+            return Math.min(innerWidth * 0.44 - pad, 520);
+        }
+
+        function fxAnchor(mode) {
+            const pad = innerWidth >= 1024 ? Math.min(innerWidth * 0.09, 102) : 28;
+            const split = innerWidth * 0.5;
+            const deviceCenterX = split + (innerWidth - split - pad) * 0.5;
+            if (mode === 'footer') {
+                return { x: innerWidth * 0.5, y: innerHeight * 0.74, scale: 0.38 };
+            }
+            if (mode === 'engine') {
+                return {
+                    x: innerWidth * (innerWidth < 1024 ? 0.5 : 0.64),
+                    y: innerHeight * 0.47,
+                    scale: humanScale,
+                };
+            }
+            if (mode === 'side') {
+                const textRight = pad + Math.min(innerWidth * 0.36, 448);
+                const deviceLeft = deviceCenterX - deviceStageWidth() * 0.5;
+                const gapCenter = (textRight + deviceLeft) * 0.5;
+                return {
+                    x: gapCenter,
+                    y: innerHeight * (innerWidth < 1024 ? 0.42 : 0.46),
+                    scale: humanScale,
+                };
+            }
+            return { x: deviceCenterX, y: innerHeight * 0.48, scale: 0.65 };
+        }
+
+        function projectHuman(p, cx, cy, scale, sway) {
+            const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+            const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+            let x1 = p.hx * cosY - p.hz * sinY;
+            let z1 = p.hx * sinY + p.hz * cosY;
+            let y1 = p.hy * cosX - z1 * sinX;
+            let z2 = p.hy * sinX + z1 * cosX;
+            const persp = 420 / (420 + z2);
+            return {
+                sx: cx + x1 * scale * persp + Math.sin(sway + p.hx * 0.03) * 2,
+                sy: cy + y1 * scale * persp + Math.cos(sway + p.hy * 0.03) * 2,
+                persp,
+            };
+        }
+
+        function resizeFx() {
+            cvs.width = innerWidth * devicePixelRatio;
+            cvs.height = innerHeight * devicePixelRatio;
+            cvs.style.width = innerWidth + 'px';
+            cvs.style.height = innerHeight + 'px';
+            fx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+        }
+        resizeFx();
+        window.addEventListener('resize', () => {
+            resizeBg();
+            resizeVapor();
+            resizeFx();
+            if (HAS_GSAP) ScrollTrigger.refresh();
+            fitDisplayTitles();
+        });
+
+        function frame() {
+            requestAnimationFrame(frame);
+            swayT += 0.016;
+            rotY += 0.0025;
+            fx.clearRect(0, 0, innerWidth, innerHeight);
+            if (humanAlpha < 0.02 || humanMode === 'off') return;
+
+            const { x: cx, y: cy, scale } = fxAnchor(humanMode);
+            human.forEach(p => {
+                const { sx, sy, persp } = projectHuman(p, cx, cy + Math.sin(swayT * 0.5) * 4, scale, swayT);
+                const dx = sx - mx, dy = sy - my;
+                const dist = Math.hypot(dx, dy);
+                let tx = sx, ty = sy;
+                if (dist < 120 && dist > 0) {
+                    const f = (1 - dist / 120) * 0.85;
+                    tx = sx + (dx / dist) * f * 48;
+                    ty = sy + (dy / dist) * f * 48;
+                }
+                p.x += (tx - p.x) * 0.12;
+                p.y += (ty - p.y) * 0.12;
+                const a = humanAlpha * (0.3 + persp * 0.55);
+                fx.fillStyle = `rgba(155,184,225,${Math.min(1, a)})`;
+                fx.beginPath();
+                fx.arc(p.x, p.y, p.s * persp * 0.85, 0, Math.PI * 2);
+                fx.fill();
+            });
+        }
+        frame();
+    </script>
+</body>
+</html>

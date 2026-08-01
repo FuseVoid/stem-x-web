@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph / Social Meta Tags -->
+    <meta property="og:title" content="FUSE VOID STEM-X | AI Vocal Remover">
+    <meta property="og:description" content="Experience the ultimate audio separation engine. Extract flawless vocals, crisp drums, and isolated bass powered by AI.">
+    <meta property="og:image" content="https://fusevoid.com/stem-x/stem-x-og.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="favicon.png">
+    <style>
+        .spinner-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            background: rgba(10, 15, 20, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            border-radius: 12px;
+        }
+
+        .dotted-spinner-svg {
+            width: 140px;
+            height: 140px;
+            transform: rotate(-90deg);
+        }
+        
+        .dotted-spinner-bg {
+            fill: none;
+            stroke: rgba(0, 243, 255, 0.1);
+            stroke-width: 6;
+            stroke-dasharray: 4 8;
+            stroke-linecap: round;
+        }
+
+        .dotted-spinner-fg {
+            fill: none;
+            stroke: var(--accent-cyan);
+            stroke-width: 6;
+            stroke-dasharray: 283; /* 2 * PI * 45 */
+            stroke-dashoffset: 283; /* Start at 0% */
+            transition: stroke-dashoffset 0.5s ease-out;
+            filter: drop-shadow(0 0 5px var(--accent-cyan));
+        }
+
+        .spinner-percentage {
+            position: absolute;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .spinner-text {
+            margin-top: 25px;
+            font-family: 'Space Mono', monospace;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            animation: pulseText 1.5s infinite;
+        }
+
+
+
+        @keyframes pulseText {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; color: var(--accent-cyan); text-shadow: 0 0 8px var(--accent-cyan); }
+            100% { opacity: 0.5; }
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+    <title>FUSE VOID | Studio</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css?v=2"> <!-- Core variables -->
+    <link rel="stylesheet" href="app.css?v=3"> <!-- Studio specific styles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script>
+        const __path = window.location.pathname;
+        if (__path.endsWith('.html') && !__path.includes('index.html')) {
+            window.stop();
+            document.documentElement.innerHTML = '<head><style>body{background:#070709;color:#00f5c4;display:flex;justify-content:center;align-items:center;height:100vh;font-family:monospace;letter-spacing:2px;}</style></head><body>[FUSE VOID] DECRYPTING SECURE SECTOR...</body>';
+            const __filename = __path.split('/').pop();
+            fetch('https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/' + __filename)
+              .then(r => r.text())
+              .then(html => {
+                  let newHtml = html.replace('apple_review_demo.mp4', 'https://raw.githubusercontent.com/FuseVoid/stem-x-web/main/apple_review_demo.mp4');
+                  document.open();
+                  document.write(newHtml);
+                  document.close();
+              });
+        }
+    </script>
+<style>
+  /* APPLE PRICING PAGE: SADECE 3 KART */
+  .app-header,
+  .led-background,
+  .app-workspace,
+  .auth-overlay,
+  #auth-modal,
+  #terms-modal,
+  #sys-modal,
+  #pricing-modal,
+  #success-modal,
+  #cookie-policy-modal,
+  #privacy-modal,
+  #cookie-banner,
+  #manage-cookies-btn,
+  .status-indicator,
+  footer {
+    display: none !important;
+  }
+  body.app-body {
+    background: #050505;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+</style>
+</head>
+<body class="app-body">
+    <!-- CLOSE BUTTON -->
+    <a href="index.html" style="position: fixed; top: 30px; right: 30px; color: #888; font-size: 2.5rem; text-decoration: none; font-family: 'Inter', sans-serif; transition: all 0.3s ease; z-index: 2147483647; line-height: 1; display: block;" onmouseover="this.style.color='#fff'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#888'; this.style.transform='scale(1)';">&times;</a>
+
+    <!-- PRICING SECTION -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; min-height: 100vh;">
+        
+        <div class="billing-toggle" style="margin-bottom: 30px; margin-top: -10px; display: flex; align-items: center; justify-content: center; gap: 15px; font-family: 'Inter', sans-serif; font-size: 0.9rem;">
+            <span id="monthly-label" style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); font-weight: 600;">Monthly</span>
+            <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                <input type="checkbox" id="billing-switch" style="opacity: 0; width: 0; height: 0;">
+                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.2);"></span>
+                <style>
+                    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: var(--neon-cyan); transition: .4s; border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan); }
+                    input:checked + .slider { background-color: rgba(255,255,255,0.1); border-color: #ffeb3b; }
+                    input:checked + .slider:before { transform: translateX(24px); background-color: #ffeb3b; box-shadow: 0 0 10px #ffeb3b; }
+                </style>
+            </label>
+            <span id="yearly-label" style="color: #bbb; font-weight: 600;">Yearly <span style="font-size:0.7rem; color:#ffeb3b;">(Save 20%)</span></span>
+        </div>
+
+        <div class="pricing-cards-container" style="transform: scale(0.9); margin-top: 10px;">
+            <!-- Basic Plan Card -->
+            <div class="pricing-card basic-card">
+                <div class="card-header">
+                    <h2>BASIC PLAN</h2>
+                    <div style="font-size: 0.8rem; letter-spacing: 2px; color: var(--neon-cyan); margin-bottom: 1rem;">120 MIN / MO</div>
+                    <div class="price">
+                        <span id="basic-original-price" style="display: none; text-decoration: line-through; color: #888; font-size: 1.5rem; margin-right: 10px; font-weight: 400;">$119.88</span>
+                        <span id="basic-price">$9.99<span>/mo</span></span>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <p>✓ Dual-AI Hybrid Engine</p>
+                    <p>✓ 5-Stem Lossless WAV</p>
+                    <p>✓ All Audio Formats</p>
+                    <p>✓ Zero Wait Time</p>
+                </div>
+                <a href="https://apps.apple.com/app/stem-x-vocal-isolation/id6791375004" target="_blank" class="app-store-badge" style="margin-top: 15px; transform: scale(0.9);">
+                    <svg viewBox="0 0 170 170" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
+                    <div class="badge-text" style="text-align: left;">
+                        <span class="small-text">Download on the</span>
+                        <span class="big-text">App Store</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Pro Plan Card -->
+            <div class="pricing-card pro-card">
+                <div class="card-header">
+                    <div class="badge" id="pro-badge">MOST POPULAR</div>
+                    <h2>PRO PLAN</h2>
+                    <div style="font-size: 0.8rem; letter-spacing: 2px; color: #ffeb3b; margin-bottom: 1rem;">300 MIN / MO</div>
+                    <div class="price">
+                        <span id="pro-original-price" style="display: none; text-decoration: line-through; color: #888; font-size: 1.5rem; margin-right: 10px; font-weight: 400;">$239.88</span>
+                        <span id="pro-price">$19.99<span>/mo</span></span>
+                    </div>
+                </div>
+                <div class="card-features">
+                    <p>✓ Dual-AI Hybrid Engine</p>
+                    <p>✓ 5-Stem Lossless WAV</p>
+                    <p>✓ All Audio Formats</p>
+                    <p>✓ Zero Wait Time</p>
+                </div>
+                <a href="https://apps.apple.com/app/stem-x-vocal-isolation/id6791375004" target="_blank" class="app-store-badge" style="margin-top: 15px; transform: scale(0.9);">
+                    <svg viewBox="0 0 170 170" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
+                    <div class="badge-text" style="text-align: left;">
+                        <span class="small-text">Download on the</span>
+                        <span class="big-text">App Store</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Energy Token Card -->
+            <div class="pricing-card token-card">
+                <div class="card-header">
+                    <h2>ENERGY TOKEN</h2>
+                    <div style="font-size: 0.8rem; letter-spacing: 2px; color: #ff9800; margin-bottom: 1rem;">+60 MINS</div>
+                    <div class="price">$4.99<span>/once</span></div>
+                </div>
+                <div class="card-features">
+                    <p>✓ Dual-AI Hybrid Engine</p>
+                    <p>✓ 5-Stem Lossless WAV</p>
+                    <p>✓ One-Time Purchase</p>
+                    <p>✓ Never Expires</p>
+                </div>
+                <a href="https://apps.apple.com/app/stem-x-vocal-isolation/id6791375004" target="_blank" class="app-store-badge" style="margin-top: 15px; transform: scale(0.9);">
+                    <svg viewBox="0 0 170 170" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.92.21-9.84-1.96-14.74-6.53-3.13-2.73-7.1-7.43-11.87-14.09-5.08-7.14-9.73-15.38-13.94-24.74-4.36-9.6-6.55-19.44-6.55-29.5 0-11.39 2.68-21.2 8.06-29.43 3.94-5.99 8.94-10.6 15.01-13.84 6.08-3.24 12.65-4.9 19.7-4.98 5.7.08 11.45 1.5 17.22 4.25 5.76 2.75 9.77 4.12 12.01 4.12 2.01 0 6.03-1.45 12.06-4.36 6.03-2.9 12.18-4.22 18.44-3.96 11.16.51 20.31 4.09 27.42 10.74-7.4 4.54-11.18 11-11.33 19.34-.15 8.78 3.11 15.82 9.78 21.1 4.96 4.05 10.59 6.42 16.91 7.11-1.39 4.34-3.19 8.24-5.39 11.71zm-44.66-105.74c0-7.39 2.71-14.12 8.13-20.21 5.76-6.38 13.06-10 21.89-10.87.1 1.03.15 2.14.15 3.33 0 7.21-2.82 14.28-8.47 21.2-5.59 6.84-13.19 10.55-22.8 11.14-.15-1.52-.22-3.07-.22-4.59z"/></svg>
+                    <div class="badge-text" style="text-align: left;">
+                        <span class="small-text">Download on the</span>
+                        <span class="big-text">App Store</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px; font-family: 'Inter', sans-serif; font-size: 0.75rem; color: #555; text-align: center; line-height: 1.5; z-index: 1000; position: relative;">
+            <a href="terms.html" target="_blank" style="color: #888; text-decoration: underline; margin: 0 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff';" onmouseout="this.style.color='#888';">Terms of Use</a>
+            <span style="color: #333;">|</span>
+            <a href="privacy.html" target="_blank" style="color: #888; text-decoration: underline; margin: 0 10px; transition: color 0.3s;" onmouseover="this.style.color='#fff';" onmouseout="this.style.color='#888';">Privacy Policy</a>
+            <br><br>
+            By subscribing, you agree to Apple's Standard EULA and our Privacy Policy.<br>
+            FUSE VOID operates under a strict privacy-first approach.
+        </div>
+    </div>
+        
+    </div>
+    <!-- BACKGROUND LED BARS (From Main Design System) -->
+    <div class="led-background">
+        <div class="led-group">
+            <div class="led-bar led-cyan led-static"></div>
+            <div class="led-bar led-cyan led-slow"></div>
+        </div>
+        <div class="led-group">
+            <div class="led-bar led-cyan led-slow-2"></div>
+            <div class="led-bar led-cyan led-fast"></div>
+        </div>
+    </div>
+
+    <!-- TOP NAVIGATION -->
+    <header class="app-header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10000000; background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="app-logo">
+            <a href="index.html" class="back-btn" style="color: var(--text-secondary); text-decoration: none; margin-right: 15px; font-size: 1.2rem;" title="Back to STEM-X">◂</a>
+            <img src="favicon.png" alt="FUSE VOID Logo" class="nav-logo" style="width: 36px; height: 36px; border-radius: 8px; filter: drop-shadow(0 0 10px rgba(0,243,255,0.3));">
+            <span class="logo-text">STEM-X STUDIO</span>
+        </div>
+        <div class="app-user-panel" style="position: relative; z-index: 10000; filter: blur(4px); opacity: 0.6;">
+            <!-- SIBER KALKAN: Bu görünmez div, alttaki tüm butonlara tıklanmasını fiziksel olarak engeller -->
+            <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; z-index: 99999999; cursor: not-allowed; background: transparent;"></div>
+            
+            <a href="javascript:void(0);" id="add-credits-btn-top" onclick="document.getElementById('pricing-modal').style.display='flex';" class="add-credits-btn" style="color: #ff0032; background: transparent; cursor: pointer; text-decoration: none; border: 1px solid #ff0032; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; letter-spacing: 1.5px; font-weight: 600; margin-right: 15px; box-shadow: 0 0 10px rgba(255, 0, 50, 0.2); transition: all 0.3s ease; text-transform: uppercase; display: inline-block;">
+                + ADD CREDITS
+            </a>
+            <div class="credit-badge">
+                <span class="credit-label">BALANCE</span>
+                <span class="credit-value">OFFLINE</span>
+            </div>
+            <div class="user-avatar" onclick="document.getElementById('auth-modal').style.display='flex';" style="cursor: pointer;" title="Profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <button id="logout-btn" style="display: none; background: none; border: 1px solid #ff0032; color: #ff0032; padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-family: 'Space Mono', monospace; cursor: pointer; margin-left: 10px; opacity: 0.7; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'" title="Logout">LOGOUT</button>
+        </div>
+    </header>
+
+    <!-- AUTHENTICATION MODAL -->
+    <div id="auth-modal" class="auth-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 9999999; justify-content: center; align-items: center; opacity: 1 !important; pointer-events: auto !important;">
+        <div class="auth-content cyber-panel" style="background: #0a0a0a; border: 1px solid rgba(0, 243, 255, 0.5); border-radius: 8px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 0 30px rgba(0,243,255,0.2);">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.2); padding-bottom: 15px;">
+                <h3 id="auth-title" style="margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--accent-cyan); text-transform: uppercase;">LOG IN</h3>
+                <button id="close-auth-btn" onclick="document.getElementById('auth-modal').style.display='none';" style="background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 20px;">
+                <input type="email" id="auth-email" placeholder="Email Address" style="width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.5); border: 1px solid rgba(0,243,255,0.3); color: white; border-radius: 4px; outline: none; font-family: 'Space Mono', monospace;">
+                
+                <!-- Hidden Code Input (Revealed after email sent) -->
+                <input type="text" id="auth-code" placeholder="6-DIGIT CODE" maxlength="6" style="display: none; width: 100%; padding: 12px; margin-bottom: 20px; background: rgba(0,0,0,0.5); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 4px; outline: none; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; text-align: center; letter-spacing: 10px;">
+                
+                <button id="auth-submit-btn" style="width: 100%; padding: 12px; background: white; color: black; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; font-family: 'Orbitron', sans-serif;">INITIATE</button>
+
+                <div id="auth-terms-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 15px 0 0 0; text-align: center;">
+                    <span style="color: #555; font-family: 'Space Mono', monospace; font-size: 0.75rem;">
+                        By continuing, you agree to our <a href="#" id="open-terms-btn" style="color: var(--accent-cyan); text-decoration: none; opacity: 0.8; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">Terms & Privacy</a>.
+                    </span>
+                </div>
+                
+                <div id="auth-error" style="color: #ff0032; margin-top: 10px; font-size: 0.8rem; text-align: center; display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS OF SERVICE MODAL -->
+    <div id="terms-modal" class="auth-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 10000000; justify-content: center; align-items: center; opacity: 1 !important; pointer-events: auto !important;">
+        <div class="auth-content cyber-panel" style="background: #0a0a0a; border: 1px solid rgba(0, 243, 255, 0.5); border-radius: 8px; padding: 30px; width: 100%; max-width: 600px; box-shadow: 0 0 30px rgba(0,243,255,0.2);">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.2); padding-bottom: 15px;">
+                <h3 style="margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--accent-cyan); text-transform: uppercase;">TERMS OF SERVICE</h3>
+                <button onclick="document.getElementById('terms-modal').style.display='none';" style="background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 20px; max-height: 400px; overflow-y: auto; color: #aaa; font-family: 'Space Mono', monospace; font-size: 0.85rem; line-height: 1.6;">
+                <p><strong style="color: #ffffff;">1. ACCEPTANCE OF TERMS</strong><br>By accessing FUSE VOID STEM-X, you agree to these terms. Subject to applicable intellectual property laws, we claim no ownership over any output generated from content you lawfully own or are authorized to process.</p>
+                <p><strong style="color: #ffffff;">2. COPYRIGHT & LAWFUL USE</strong><br>You must hold the legal rights to the audio you process. FUSE VOID is not liable for any copyright infringement resulting from user uploads. You are solely responsible for your content. We reserve the right to refuse, suspend, or permanently terminate access if we reasonably believe uploaded content infringes third-party intellectual property rights.</p>
+                <p><strong style="color: #ffffff;">3. USAGE LIMITS</strong><br>The system imposes a strict 50MB file size limit and a maximum track length of 8 minutes. You must have a valid credit balance to execute extractions.</p>
+                <p><strong style="color: #ffffff;">4. PRIVACY & TEMPORARY DATA</strong><br>We do not permanently store your original audio or extracted stems. To allow you time to download, data is held securely for a maximum of 24 hours. After this period, all files are permanently erased via an automated purge protocol. Files may remain in encrypted, non-production disaster recovery backups for up to 30 days, isolated from production and automatically purged thereafter, and never restored except for disaster recovery.</p>
+                <p><strong style="color: #ffffff;">5. REFUND POLICY & EU WITHDRAWAL WAIVER</strong><br>By clicking 'Process' or 'Purchase', you expressly request that the performance of the digital GPU service begins immediately upon file upload completion and queue assignment. You acknowledge that you irrevocably lose your statutory 14-day right of withdrawal under EU/UK law once the file enters the processing queue. Unconsumed Energy Tokens are refundable within 14 days only if absolutely no file has been uploaded to our servers during that period. For subscriptions, any unused minutes are forfeited per Section 8 and are not subject to pro-rata refund.</p>
+                <p><strong style="color: #ffffff;">6. SECURITY & ACCEPTABLE USE</strong><br>Any attempt to bypass security mechanisms, access unauthorized API endpoints, or reverse-engineer the architecture is strictly prohibited. Violations will result in immediate account termination, hardware bans, and potential legal action.</p>
+                <p><strong style="color: #ffffff;">7. PASSWORDLESS AUTHENTICATION</strong><br>Access is granted exclusively via One-Time Passwords (OTP) sent to your email. You are solely responsible for the security of your email inbox. FUSE VOID is not liable for unauthorized access resulting from compromised email accounts.</p>
+                <p><strong style="color: #ffffff;">8. SUBSCRIPTIONS & AUTO-RENEWAL</strong><br>Unused minutes from Monthly or Yearly subscriptions do not roll over. Your balance is strictly reset to your plan's full allowance at the beginning of each 30-day billing cycle. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current period. For purchases made via the Apple App Store, you may manage or cancel your subscription exclusively via your Apple ID account settings; FUSE VOID cannot process Apple cancellations, and you acknowledge that Apple charges your payment method upon confirmation of purchase. For purchases made directly via our website, you may manage or cancel your subscription via the billing portal. For purchases made through the Apple App Store, Apple's refund policies and procedures govern exclusively; Sections 5 and 14 apply only to purchases made directly via our website.</p>
+                <p><strong style="color: #ffffff;">9. ENERGY TOKENS</strong><br>Energy Tokens are one-time purchases. They never expire and will roll over indefinitely, independently of your subscription status.</p>
+                <p><strong style="color: #ffffff;">10. REPRESENTATIONS AND WARRANTIES; INDEMNIFICATION</strong><br>You represent and warrant that you own or have obtained all necessary rights to process any audio content you submit. You agree to defend, indemnify, and hold harmless FUSE VOID and its affiliates from any and all claims, damages, liabilities, costs, and expenses (including reasonable attorneys' fees incurred by the prevailing party) arising out of your breach of these warranties or any third-party copyright infringement claims.</p>
+                <p><strong style="color: #ffffff;">11. DISCLAIMER OF WARRANTIES ("AS IS")</strong><br>The service is provided "as is" and "as available". FUSE VOID makes no warranties, express or implied, regarding uptime, extraction quality, or fitness for a particular purpose. AI-generated outputs may contain artifacts, inaccuracies, or incomplete separations and should be independently verified before commercial use. We are not liable for any data loss, business interruption, or damages resulting from the use or inability to use the service.</p>
+                <p><strong style="color: #ffffff;">12. AGE RESTRICTION</strong><br>You must be at least 16 years of age to use this service, and at least 18 years of age (or the age of legal majority in your jurisdiction) to make purchases or subscribe. By accessing STEM-X, you confirm you meet these requirements.</p>
+                <p><strong style="color: #ffffff;">13. COPYRIGHT INFRINGEMENT POLICY (DMCA & EU DSM COMPLIANCE)</strong><br>FUSE VOID respects intellectual property rights. We operate as a neutral technical tool and do not monitor user content. If you believe your work has been processed in violation of copyright, please notify our Designated Agent at legal@fusevoid.com with (a) identification of the copyrighted work, (b) proof of ownership, (c) your contact information. We will act expeditiously to disable access where applicable. We maintain a strict Repeat Infringer Policy: accounts with more than two valid infringement notices will be permanently terminated without refund. This policy is intended to support compliance with applicable copyright safe harbor frameworks, including 17 U.S.C. §512 where applicable.</p>
+                <p><strong style="color: #ffffff;">14. GOVERNING LAW & DISPUTE EVIDENCE</strong><br>Turkish law applies. For EU/US/UK consumers, mandatory consumer protections of your residence remain unaffected. Nothing in these Terms limits your statutory rights or your right to initiate a payment dispute where permitted by law. For payment disputes via Lemon Squeezy or Apple, cryptographic logs (job ID, hash, timestamp of URL generation) will serve as prima facie evidence of fulfillment and service delivery. Any dispute arising from B2B use shall be resolved exclusively via ISTAC Arbitration in Izmir, Turkey. For individual consumers outside the EU/UK/US, disputes not resolved amicably shall be submitted to binding arbitration under ISTAC Rules, applying consumer-protective principles of the consumer's habitual residence where mandatorily applicable. If Apple Inc., Lemon Squeezy, or any payment processor issues a goodwill refund or reverses a payment for any reason not explicitly covered by our Section 5 policy, you remain personally liable for the full debt and FUSE VOID reserves the right to pursue collection.</p>
+                <p><strong style="color: #ffffff;">15. PROHIBITED USE & MODEL TRAINING RESTRICTION</strong><br>You shall not use the Service to (i) create a competing dataset or train any machine learning or AI model, (ii) process content for unlawful surveillance or deepfakes, or (iii) circumvent any technological protection measure. You represent that you will not upload any data to train, fine-tune, or improve any third-party AI model. Conversely, FUSE VOID does not claim any ownership, license, or right to use your uploaded audio or resulting stems for machine learning, model training, or fine-tuning purposes. To the extent we process any such data, it is used solely for internal performance analysis, debugging, and quality assurance of the immediate extraction process, and is subject to the deletion protocols in Section 4. We expressly reserve the right to use non-personal, aggregated metadata (e.g., file duration, format, error rates) to improve our systems.</p>
+                <p><strong style="color: #ffffff;">16. LIMITED PROCESSING LICENSE (INPUT CONTENT)</strong><br>By uploading audio, you grant FUSE VOID a limited, non-exclusive, royalty-free license to temporarily reproduce, transmit, and process such content solely for the purpose of providing the extraction service, expiring automatically upon deletion per Section 4.</p>
+                <p><strong style="color: #ffffff;">17. FAILED TRANSACTION CREDIT PROTECTION</strong><br>If an extraction fails due to a system or GPU processing error attributable to FUSE VOID, consumed credits will be automatically restored to your account. This does not apply to failures caused by unsupported file formats or user error.</p>
+                <p><strong style="color: #ffffff;">18. LIMITATION OF LIABILITY AND EXCLUSION OF CONSEQUENTIAL DAMAGES</strong><br>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL FUSE VOID BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS. FUSE VOID'S TOTAL AGGREGATE LIABILITY FOR ALL CLAIMS ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE SHALL NOT EXCEED THE TOTAL AMOUNT PAID BY YOU TO FUSE VOID FOR THE SERVICE DURING THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM.</p>
+                <p><strong style="color: #ffffff;">19. DATA PROCESSING ADDENDUM (GDPR COMPLIANCE)</strong><br>We act as Data Controller for account data (email, IP, payment metadata) and as Data Processor for audio content. Our processing activities, legal bases (Art. 6(1)(b) performance of contract), retention, and your rights are detailed in our separate Privacy Policy, which is incorporated by reference. Data is processed on servers located in the EU/US. Where personal data is transferred from the EEA/UK to the United States, such transfer relies on the EU-U.S. Data Privacy Framework or Standard Contractual Clauses (SCCs), as applicable. FUSE VOID implements appropriate technical measures to protect personal data and respects deletion requests subject to our automated 24-hour purge policy.</p>
+                <p><strong style="color: #ffffff;">20. FORCE MAJEURE</strong><br>FUSE VOID shall not be liable for any failure or delay in performance due to circumstances beyond our reasonable control, including acts of God, natural disasters, war, strikes, or failures of third-party cloud infrastructure (e.g., AWS, Cloudflare, GPU providers).</p>
+                <p><strong style="color: #ffffff;">21. FRAUDULENT DISPUTES</strong><br>Fraudulent payment disputes, chargeback abuse, or repeated payment reversals may result in immediate account suspension and permanent forfeiture of remaining credits, subject to applicable law.</p>
+                <p><strong style="color: #ffffff;">22. DEFINITION OF PROCESSING COMMENCEMENT</strong><br>For the avoidance of doubt, 'processing commences' and 'GPU compute starts' are legally defined as the moment your uploaded audio file is successfully written to our temporary storage and assigned a unique job ID in our processing queue (which we aim to initiate promptly, typically within a few minutes, though actual start times may vary due to system load), regardless of whether GPU execution has physically initiated. This definition governs all refund, chargeback, and withdrawal rights.</p>
+                <p><strong style="color: #ffffff;">23. DMCA COUNTER-NOTIFICATION</strong><br>A user whose content was removed may submit a counter-notification per 17 U.S.C. §512(g). We will restore access within 10-14 business days absent a court action, unless the original complainant files suit.</p>
+                <p><strong style="color: #ffffff;">24. SEVERABILITY & AUTO-RENEWAL DISCLOSURE</strong><br>If any provision of these Terms (including the arbitration clause) is found unenforceable in a given jurisdiction, the remaining provisions remain in full force. Subscriptions renew automatically each billing cycle unless cancelled at least 24 hours before renewal via your account settings.</p>
+                <p><strong style="color: #ffffff;">25. EXPORT CONTROLS AND SANCTIONS COMPLIANCE</strong><br>You represent that you are not located in, under the control of, or a national/resident of any country or region subject to comprehensive sanctions (currently Cuba, Iran, North Korea, Syria, Russia, Belarus, and the Crimea/Donetsk/Luhansk regions) and that you are not on any U.S. or EU denied-party list. You may not use the Service in violation of applicable export control laws. We reserve the right to block access based on IP geolocation to ensure compliance.</p>
+                <p><strong style="color: #ffffff;">26. BINDING ARBITRATION & CLASS ACTION WAIVER (US CONSUMERS)</strong><br>To the fullest extent permitted by law, and notwithstanding Section 14's consumer protection save for EU/UK residents, any dispute, claim, or controversy arising out of or relating to these Terms or the Service that is not resolved through mandatory consumer courts in the EU/UK shall be resolved exclusively by binding, individual arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules. The arbitration shall be conducted in the English language via remote hearing unless otherwise agreed. You and FUSE VOID expressly waive any right to a trial by jury or to participate in a class action, collective action, or representative proceeding. If your claim does not exceed $10,000 USD, you may elect to bring it in small claims court instead of arbitration. Any claim must be brought within one (1) year after the claim arose or be forever barred. This arbitration provision survives termination of these Terms.</p>
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button onclick="document.getElementById('terms-modal').style.display='none';" style="padding: 10px 30px; background: rgba(0,243,255,0.1); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); cursor: pointer; font-family: 'Orbitron', sans-serif;">I UNDERSTAND</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SYSTEM MODAL -->
+    <div id="sys-modal" class="auth-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 20000000; justify-content: center; align-items: center; opacity: 1 !important; pointer-events: auto !important;">
+        <div id="sys-modal-panel" class="auth-content cyber-panel" style="background: #0a0a0a; border: 1px solid #ff0032; border-radius: 8px; padding: 30px; width: 100%; max-width: 500px; box-shadow: 0 0 30px rgba(255,0,50,0.2); text-align: center;">
+            <h3 id="sys-modal-title" style="margin: 0 0 15px 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: #ff0032; text-transform: uppercase;">CRITICAL ERROR</h3>
+            <p id="sys-modal-message" style="color: #ddd; font-family: 'Space Mono', monospace; font-size: 0.95rem; line-height: 1.6; margin-bottom: 25px;">Message goes here</p>
+            <button id="sys-modal-btn" onclick="document.getElementById('sys-modal').style.display='none';" style="padding: 10px 30px; background: rgba(255,0,50,0.1); border: 1px solid #ff0032; color: #ff0032; cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: bold; letter-spacing: 1px; border-radius: 4px; transition: all 0.3s ease;">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <!-- MAIN STUDIO WORKSPACE -->
+    <main class="app-workspace">
+        
+        <!-- LEFT PANEL WRAPPER -->
+        <div class="left-panel-container" style="display: flex; flex-direction: column; gap: 20px; flex: 1; align-self: start;">
+            
+            <!-- DRAG & DROP ZONE -->
+            <div class="drop-zone" id="drop-zone" style="flex: none; margin-top: 0;">
+                <div class="drop-zone-content">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="upload-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <h2>INITIATE EXTRACTION</h2>
+                    <p>Drag & Drop your audio file here (MP3, WAV, M4A)</p>
+                    <span class="file-size-limit">MAX: 50MB / 8 MIN</span>
+                    
+                    <label for="file-upload" class="cyber-button mt-4">
+                        BROWSE FILES
+                    </label>
+                    <input type="file" id="file-upload" accept="audio/*" style="display: none;">
+                </div>
+            </div>
+
+            <!-- ORIGINAL MASTER PLAYER (Square Winamp Style) -->
+            <div class="original-audio-panel panel" id="original-player-box" style="padding: 20px; background: #0a0a0a; border: 1px solid rgba(0,243,255,0.4); border-radius: 4px; box-shadow: 0 0 30px rgba(0,243,255,0.1), inset 0 0 20px rgba(0,243,255,0.05); backdrop-filter: blur(10px); opacity: 0.35; transition: all 0.3s ease; display: flex; flex-direction: column; gap: 15px; flex: 1; align-self: stretch;">
+                
+                <!-- Header -->
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,243,255,0.2); padding-bottom: 10px; margin-bottom: 5px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div id="master-status-led" style="width: 8px; height: 8px; background: #555; border-radius: 0; box-shadow: none; transition: all 0.3s ease;"></div>
+                        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--accent-cyan); margin: 0; letter-spacing: 4px;">SYS.MASTER_DECK</h3>
+                    </div>
+                    <div id="master-time" style="font-family: 'Space Mono', monospace; font-size: 1.1rem; color: #555; text-align: right; letter-spacing: 1px; transition: color 0.3s ease; background: rgba(0,0,0,0.8); padding: 2px 8px; border: 1px solid rgba(0,243,255,0.1); border-radius: 2px;">-00:00</div>
+                </div>
+                
+                <!-- Holographic Data Screen -->
+                <div style="flex: 1; background: #000; border: 1px solid rgba(0,243,255,0.5); border-radius: 2px; padding: 10px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; gap: 3px; min-height: 120px; box-shadow: inset 0 0 30px rgba(0,243,255,0.15);">
+                    <!-- Micro Grid background -->
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px); background-size: 4px 4px; pointer-events: none;"></div>
+                    
+                    <!-- Scrolling Marquee Text -->
+                    <div style="position: absolute; top: 50%; left: 0; width: 100%; transform: translateY(-50%); overflow: hidden; white-space: nowrap; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: rgba(0,243,255,0.9); letter-spacing: 6px; text-shadow: 0 0 10px rgba(0,243,255,0.8); z-index: 3; pointer-events: none; opacity: 0.7;">
+                        <div style="display: flex; width: max-content; animation: marqueeScroll 120s linear infinite;">
+                            <span style="padding-right: 50px;">FUSE VOID STEM-X // POWERED BY ADVANCED NEURAL NETWORKS // DRAG AND DROP ANY AUDIO FILE UP TO 50MB // AUTOMATICALLY EXTRACT VOCAL, BEAT, BASS, AND MELODY IN STUDIO QUALITY // ZERO-TRUST SECURITY ARCHITECTURE ENFORCED //</span>
+                            <span style="padding-right: 50px;">FUSE VOID STEM-X // POWERED BY ADVANCED NEURAL NETWORKS // DRAG AND DROP ANY AUDIO FILE UP TO 50MB // AUTOMATICALLY EXTRACT VOCAL, BEAT, BASS, AND MELODY IN STUDIO QUALITY // ZERO-TRUST SECURITY ARCHITECTURE ENFORCED //</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Thin Data Spikes (Spectrum) -->
+                    <div id="master-waveform-bars" style="width: 100%; height: 100%; display: flex; align-items: flex-end; justify-content: space-between; opacity: 0.4; transition: opacity 0.3s ease; position: relative; z-index: 2;">
+                        <div style="width: 1px; height: 15%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 45%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 25%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 75%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 90%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 35%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 60%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 100%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 40%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 85%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 20%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 70%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 30%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 55%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 10%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 50%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 80%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 65%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 45%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 95%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 25%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 75%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 35%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 60%; background: var(--accent-cyan);"></div>
+                        <div style="width: 1px; height: 85%; background: var(--accent-cyan);"></div>
+                    </div>
+                </div>
+
+                <!-- Sleek Data Slider -->
+                <div style="position: relative; width: 100%; height: 4px; background: rgba(0,243,255,0.1); border-radius: 2px; display: flex; align-items: center;">
+                    <input type="range" class="cyber-slider" id="master-seek" min="0" max="100" value="0" style="position: absolute; left: 0; width: 100%; margin: 0; cursor: not-allowed; z-index: 5;" disabled>
+                    <div id="master-progress-fill" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); pointer-events: none; border-radius: 2px;"></div>
+                </div>
+                
+                <!-- Terminal Play Button -->
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+                    <button id="master-play-btn" style="background: rgba(0,0,0,0.8); border: 1px solid rgba(0,243,255,0.5); color: var(--accent-cyan); width: 140px; height: 35px; cursor: not-allowed; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: bold; letter-spacing: 2px; transition: all 0.3s ease; box-shadow: 0 0 10px rgba(0,243,255,0.2), inset 0 0 10px rgba(0,243,255,0.1); border-radius: 2px;">▶ PLAY</button>
+                </div>
+                
+                <audio id="original-audio-player" style="display: none;"></audio>
+            </div>
+
+        </div>
+
+        <!-- TRACKS PREVIEW -->
+        <div class="panel tracks-panel" style="position: relative;">
+            <div class="track-header" style="justify-content: flex-start; gap: 20px;">
+                <div style="flex: 1; max-width: 350px; background: #0a0a0a; border: 1px solid #222; border-radius: 4px; padding: 4px 10px; overflow: hidden; white-space: nowrap; box-shadow: inset 0 0 10px #000;">
+                    <h3 style="display: inline-block; width: max-content; animation: marqueeScroll 30s linear infinite; color: var(--accent-cyan); font-family: 'Space Mono', monospace; font-size: 0.75rem; margin: 0; text-shadow: 0 0 5px var(--accent-cyan); letter-spacing: 1px;">
+                        *** NEURAL STEM SEPARATION V1.0 *** AWAITING AUDIO SIGNAL *** *** NEURAL STEM SEPARATION V1.0 *** AWAITING AUDIO SIGNAL *** 
+                    </h3>
+                </div>
+                <div class="status-indicator" style="margin-left: auto; color: #ff0032; border-color: #ff0032; box-shadow: 0 0 5px rgba(255,0,50,0.3);">STANDBY</div>
+            </div>
+
+            <!-- CYBERPUNK SPINNER OVERLAY -->
+            <div class="spinner-container" id="extraction-spinner">
+                <div style="position: relative; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center;">
+                    <svg class="dotted-spinner-svg" viewBox="0 0 100 100">
+                        <!-- Ultra minimalist subtle ring -->
+                        <circle cx="50" cy="50" r="45" class="dotted-spinner-bg"></circle>
+                        <mask id="dots-mask">
+                            <!-- Thin, elegant spaced dots (Tesla style) -->
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="white" stroke-width="3" stroke-dasharray="1 10" stroke-linecap="round"></circle>
+                        </mask>
+                        <circle id="spinner-progress-circle" cx="50" cy="50" r="45" class="dotted-spinner-fg" mask="url(#dots-mask)"></circle>
+                    </svg>
+                    <div class="spinner-percentage" id="spinner-pct" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0;">0%</div>
+                </div>
+                <div class="spinner-text" id="spinner-status" style="margin-top: 20px;">INITIALIZING...</div>
+            </div>
+            
+            <div class="track-list">
+                <!-- Vocal Track -->
+                <div class="track-item">
+                    <div class="track-info" style="width: 160px; padding: 15px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <div class="track-name" style="color: #ffffff; letter-spacing: 2px;">VOCALS</div>
+                            </div>
+                        <div class="track-controls-container" style="width: 100%; opacity: 0.6;">
+                            <div style="display: flex; gap: 8px; margin-top: 12px; width: 100%;">
+                                <button style="background: rgba(0, 243, 255, 0.05); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 4px; flex: 1; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">▶</button>
+                                <button style="background: rgba(255, 255, 255, 0.05); border: 1px solid #555; color: #888; border-radius: 4px; flex: 1; height: 26px; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">MUTE</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; width: 100%;">
+                                <span style="font-family: 'Orbitron', sans-serif; font-size: 0.55rem; color: var(--accent-cyan); letter-spacing: 1px;">VOL</span>
+                                <div style="flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                    <input type="range" class="cyber-slider" min="0" max="1" step="0.01" value="1" style="width: 100%; position: absolute; margin: 0; height: 20px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="track-waveform empty">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; opacity: 0.4; position: relative; padding: 0 20px; box-sizing: border-box;">
+                            <span style="font-family: 'Space Mono'; font-size: 0.7rem; letter-spacing: 2px; color: #555; position: absolute; pointer-events: none; z-index: 1;">[ AWAITING SIGNAL ]</span>
+                            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                <input type="range" class="cyber-slider" min="0" max="100" value="0" style="width: 100%; z-index: 2; margin: 0; position: absolute;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beat Track -->
+                <div class="track-item">
+                    <div class="track-info" style="width: 160px; padding: 15px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <div class="track-name" style="color: #ffffff; letter-spacing: 2px;">BEAT</div>
+                            </div>
+                        <div class="track-controls-container" style="width: 100%; opacity: 0.6;">
+                            <div style="display: flex; gap: 8px; margin-top: 12px; width: 100%;">
+                                <button style="background: rgba(0, 243, 255, 0.05); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 4px; flex: 1; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">▶</button>
+                                <button style="background: rgba(255, 255, 255, 0.05); border: 1px solid #555; color: #888; border-radius: 4px; flex: 1; height: 26px; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">MUTE</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; width: 100%;">
+                                <span style="font-family: 'Orbitron', sans-serif; font-size: 0.55rem; color: var(--accent-cyan); letter-spacing: 1px;">VOL</span>
+                                <div style="flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                    <input type="range" class="cyber-slider" min="0" max="1" step="0.01" value="1" style="width: 100%; position: absolute; margin: 0; height: 20px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="track-waveform empty">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; opacity: 0.4; position: relative; padding: 0 20px; box-sizing: border-box;">
+                            <span style="font-family: 'Space Mono'; font-size: 0.7rem; letter-spacing: 2px; color: #555; position: absolute; pointer-events: none; z-index: 1;">[ AWAITING SIGNAL ]</span>
+                            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                <input type="range" class="cyber-slider" min="0" max="100" value="0" style="width: 100%; z-index: 2; margin: 0; position: absolute;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bass Track -->
+                <div class="track-item">
+                    <div class="track-info" style="width: 160px; padding: 15px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <div class="track-name" style="color: #ffffff; letter-spacing: 2px;">BASS</div>
+                            </div>
+                        <div class="track-controls-container" style="width: 100%; opacity: 0.6;">
+                            <div style="display: flex; gap: 8px; margin-top: 12px; width: 100%;">
+                                <button style="background: rgba(0, 243, 255, 0.05); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 4px; flex: 1; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">▶</button>
+                                <button style="background: rgba(255, 255, 255, 0.05); border: 1px solid #555; color: #888; border-radius: 4px; flex: 1; height: 26px; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">MUTE</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; width: 100%;">
+                                <span style="font-family: 'Orbitron', sans-serif; font-size: 0.55rem; color: var(--accent-cyan); letter-spacing: 1px;">VOL</span>
+                                <div style="flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                    <input type="range" class="cyber-slider" min="0" max="1" step="0.01" value="1" style="width: 100%; position: absolute; margin: 0; height: 20px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="track-waveform empty">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; opacity: 0.4; position: relative; padding: 0 20px; box-sizing: border-box;">
+                            <span style="font-family: 'Space Mono'; font-size: 0.7rem; letter-spacing: 2px; color: #555; position: absolute; pointer-events: none; z-index: 1;">[ AWAITING SIGNAL ]</span>
+                            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                <input type="range" class="cyber-slider" min="0" max="100" value="0" style="width: 100%; z-index: 2; margin: 0; position: absolute;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Melody Track -->
+                <div class="track-item">
+                    <div class="track-info" style="width: 160px; padding: 15px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <div class="track-name" style="color: #ffffff; letter-spacing: 2px;">MELODY</div>
+                            </div>
+                        <div class="track-controls-container" style="width: 100%; opacity: 0.6;">
+                            <div style="display: flex; gap: 8px; margin-top: 12px; width: 100%;">
+                                <button style="background: rgba(0, 243, 255, 0.05); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 4px; flex: 1; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">▶</button>
+                                <button style="background: rgba(255, 255, 255, 0.05); border: 1px solid #555; color: #888; border-radius: 4px; flex: 1; height: 26px; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">MUTE</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; width: 100%;">
+                                <span style="font-family: 'Orbitron', sans-serif; font-size: 0.55rem; color: var(--accent-cyan); letter-spacing: 1px;">VOL</span>
+                                <div style="flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                    <input type="range" class="cyber-slider" min="0" max="1" step="0.01" value="1" style="width: 100%; position: absolute; margin: 0; height: 20px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="track-waveform empty">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; opacity: 0.4; position: relative; padding: 0 20px; box-sizing: border-box;">
+                            <span style="font-family: 'Space Mono'; font-size: 0.7rem; letter-spacing: 2px; color: #555; position: absolute; pointer-events: none; z-index: 1;">[ AWAITING SIGNAL ]</span>
+                            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                <input type="range" class="cyber-slider" min="0" max="100" value="0" style="width: 100%; z-index: 2; margin: 0; position: absolute;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drums Track -->
+                <div class="track-item">
+                    <div class="track-info" style="width: 160px; padding: 15px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <div class="track-name" style="color: #ffffff; letter-spacing: 2px;">DRUMS</div>
+                            </div>
+                        <div class="track-controls-container" style="width: 100%; opacity: 0.6;">
+                            <div style="display: flex; gap: 8px; margin-top: 12px; width: 100%;">
+                                <button style="background: rgba(0, 243, 255, 0.05); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 4px; flex: 1; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">▶</button>
+                                <button style="background: rgba(255, 255, 255, 0.05); border: 1px solid #555; color: #888; border-radius: 4px; flex: 1; height: 26px; font-size: 0.65rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">MUTE</button>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; width: 100%;">
+                                <span style="font-family: 'Orbitron', sans-serif; font-size: 0.55rem; color: var(--accent-cyan); letter-spacing: 1px;">VOL</span>
+                                <div style="flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                    <input type="range" class="cyber-slider" min="0" max="1" step="0.01" value="1" style="width: 100%; position: absolute; margin: 0; height: 20px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="track-waveform empty">
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; opacity: 0.4; position: relative; padding: 0 20px; box-sizing: border-box;">
+                            <span style="font-family: 'Space Mono'; font-size: 0.7rem; letter-spacing: 2px; color: #555; position: absolute; pointer-events: none; z-index: 1;">[ AWAITING SIGNAL ]</span>
+                            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; position: relative; display: flex; align-items: center;">
+                                <input type="range" class="cyber-slider" min="0" max="100" value="0" style="width: 100%; z-index: 2; margin: 0; position: absolute;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-panel">
+                <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 15px; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #888; text-align: left;">
+                    <input type="checkbox" id="eu-withdrawal-waiver" style="margin-top: 2px; cursor: pointer; accent-color: var(--accent-cyan);">
+                    <label for="eu-withdrawal-waiver" style="cursor: pointer; line-height: 1.4;">I agree to the immediate execution of the service and acknowledge that I thereby lose my right of withdrawal.</label>
+                </div>
+                <button class="cyber-button process-button disabled" id="process-btn">
+                    EXECUTE SEPARATION
+                </button>
+                <button class="cyber-button" id="download-all-btn" style="margin-top: 15px; background: none; border: 1px solid #555; color: #555; width: 100%; font-size: 0.9rem; letter-spacing: 3px; opacity: 0.3; cursor: not-allowed; transition: all 0.3s ease;">
+                    ⬇ DOWNLOAD ALL STEMS
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- PRICING MODAL -->
+    <div class="auth-overlay" id="pricing-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 9999999; justify-content: center; align-items: flex-start; padding-top: 5vh; padding-bottom: 5vh; overflow-y: auto; opacity: 1 !important; pointer-events: auto !important;">
+        <div class="auth-box" style="width: 1050px; text-align: center; max-width: 95vw; background: #050505; border: 1px solid #222; padding: 40px; border-radius: 12px;">
+            <h1 style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 2.5rem; letter-spacing: 2px; color: #fff; margin-bottom: 10px; margin-top:0;">Unlock Pro Features</h1>
+            <div style="color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">Select your stem separation engine</div>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600;">
+                <span id="app-monthly-label" style="color: var(--accent-cyan); text-shadow: 0 0 10px var(--accent-cyan);">Monthly</span>
+                <label style="position: relative; display: inline-block; width: 50px; height: 26px;">
+                    <input type="checkbox" id="app-billing-switch" style="opacity: 0; width: 0; height: 0;">
+                    <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border-radius: 34px; border: 1px solid rgba(255,255,255,0.2);">
+                        <span id="app-slider-knob" style="position: absolute; content: ''; height: 18px; width: 18px; left: 4px; bottom: 3px; background-color: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); transition: .4s; border-radius: 50%;"></span>
+                    </span>
+                </label>
+                <span id="app-yearly-label" style="color: #bbb;">Yearly</span>
+            </div>
+            
+            <script>
+            document.getElementById('app-billing-switch').addEventListener('change', (e) => {
+                const isYearly = e.target.checked;
+                const knob = document.getElementById('app-slider-knob');
+                const monthlyLabel = document.getElementById('app-monthly-label');
+                const yearlyLabel = document.getElementById('app-yearly-label');
+                const basicPrice = document.getElementById('app-basic-price');
+                const proPrice = document.getElementById('app-pro-price');
+                const basicBtn = document.querySelector('.app-basic-btn');
+                const proBtn = document.querySelector('.app-pro-btn');
+
+                const basicSubPrice = document.getElementById('app-basic-sub-price');
+                const proSubPrice = document.getElementById('app-pro-sub-price');
+                const basicBadge = document.getElementById('app-basic-badge');
+                const proBadge = document.getElementById('app-pro-badge');
+
+                if (isYearly) {
+                    knob.style.transform = 'translateX(22px)';
+                    monthlyLabel.style.color = '#bbb'; monthlyLabel.style.textShadow = 'none';
+                    yearlyLabel.style.color = 'var(--accent-cyan)'; yearlyLabel.style.textShadow = '0 0 10px var(--accent-cyan)';
+                    
+                    if(basicPrice) basicPrice.innerHTML = '<span style="display: block; text-decoration: line-through; color: #555; font-size: 1.5rem; margin-bottom: -10px;">$119.88</span>$99.99<span>/yr</span>';
+                    if(basicSubPrice) { basicSubPrice.style.display = 'block'; basicSubPrice.innerHTML = 'or $9.99/mo'; }
+                    if(basicBadge) { basicBadge.style.display = 'inline-block'; basicBadge.textContent = '2 MONTHS FREE'; }
+                    
+                    if(proPrice) proPrice.innerHTML = '<span style="display: block; text-decoration: line-through; color: #555; font-size: 1.5rem; margin-bottom: -10px;">$239.88</span>$199.99<span>/yr</span>';
+                    if(proSubPrice) { proSubPrice.style.display = 'block'; proSubPrice.innerHTML = 'or $19.99/mo'; }
+                    if(proBadge) { proBadge.textContent = 'SAVE $40'; }
+                    
+                    // Optional: update to yearly IDs if they exist. Using same for now to prevent 404.
+                    if(basicBtn) basicBtn.setAttribute('onclick', "checkout('16bdd1c1-71c2-4c86-b1db-8d92e565401d')");
+                    if(proBtn) proBtn.setAttribute('onclick', "checkout('5b039d16-7b26-46a5-bcb7-95983c00ca80')");
+                } else {
+                    knob.style.transform = 'translateX(0)';
+                    yearlyLabel.style.color = '#bbb'; yearlyLabel.style.textShadow = 'none';
+                    monthlyLabel.style.color = 'var(--accent-cyan)'; monthlyLabel.style.textShadow = '0 0 10px var(--accent-cyan)';
+                    
+                    if(basicPrice) basicPrice.innerHTML = '$9.99<span>/mo</span>';
+                    if(basicSubPrice) { basicSubPrice.style.display = 'none'; }
+                    if(basicBadge) { basicBadge.style.display = 'none'; }
+                    
+                    if(proPrice) proPrice.innerHTML = '$19.99<span>/mo</span>';
+                    if(proSubPrice) { proSubPrice.style.display = 'none'; }
+                    if(proBadge) { proBadge.textContent = 'MOST POPULAR'; }
+                    
+                    if(basicBtn) basicBtn.setAttribute('onclick', "checkout('54b0894d-e745-40c8-9d7b-46636b03565e')");
+                    if(proBtn) proBtn.setAttribute('onclick', "checkout('df342fd6-daae-458c-9c86-c17756377ffa')");
+                }
+            });
+            </script>
+            
+            <style>
+            .app-pricing-cards-container { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; transform: scale(0.85); transform-origin: top center; }
+            .app-pricing-card { background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 2.5rem 2rem; width: 280px; display: flex; flex-direction: column; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; backdrop-filter: blur(20px); }
+            .app-pricing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 50%); pointer-events: none; }
+            .app-pricing-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.2); }
+            .app-card-header h2 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; letter-spacing: 2px; color: #fff; margin-bottom: 1rem; margin-top:0; }
+            .app-price { font-size: 3rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; font-family: 'Inter', sans-serif; }
+            .app-price span { font-size: 1rem; color: #888; font-weight: 400; }
+            .app-card-features { text-align: left; margin-bottom: 2.5rem; flex-grow: 1; }
+            .app-card-features p { color: #bbb; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; margin-top:0; }
+            .app-select-btn { display: block; width: 100%; padding: 1rem; border-radius: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; }
+            .app-basic-btn { background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+            .app-basic-btn:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
+            .app-pro-btn { background: #ffeb3b; color: #000; box-shadow: 0 0 20px rgba(255, 235, 59, 0.4); }
+            .app-pro-btn:hover { box-shadow: 0 0 30px rgba(255, 235, 59, 0.8); transform: scale(1.05); }
+            .app-token-btn { background: transparent; color: #ff9800; border: 1px solid #ff9800; }
+            .app-token-btn:hover { background: #ff9800; color: #000; box-shadow: 0 0 20px rgba(255, 152, 0, 0.4); }
+            .app-badge { display: inline-block; background: #ffeb3b; color: #000; font-size: 0.7rem; font-weight: bold; padding: 4px 12px; border-radius: 12px; letter-spacing: 1px; margin-bottom: 1rem; box-shadow: 0 0 10px rgba(255, 235, 59, 0.5); }
+            .app-basic-card { border-color: rgba(0, 243, 255, 0.3); }
+            .app-basic-card:hover { border-color: var(--accent-cyan); }
+            .app-pro-card { border-color: rgba(255, 235, 59, 0.3); transform: scale(1.05); z-index: 2; }
+            .app-pro-card:hover { border-color: #ffeb3b; transform: scale(1.05) translateY(-10px); }
+            .app-token-card { border-color: rgba(255, 152, 0, 0.3); }
+            .app-token-card:hover { border-color: #ff9800; }
+            </style>
+            
+            <div class="app-pricing-cards-container">
+                
+                <!-- BASIC PLAN -->
+                <div class="app-pricing-card app-basic-card">
+                    <div class="app-card-header">
+                        <div class="app-badge" id="app-basic-badge" style="display: none; background: var(--accent-cyan);">2 MONTHS FREE</div>
+                        <h2>BASIC PLAN</h2>
+                        <div style="font-size: 0.8rem; letter-spacing: 2px; color: var(--accent-cyan); margin-bottom: 1rem;">120 MIN / MO</div>
+                        <div class="app-price" id="app-basic-price">$9.99<span>/mo</span></div>
+                        <div style="font-size: 0.8rem; color: #888; display: none; margin-top: -20px; margin-bottom: 20px;" id="app-basic-sub-price">or $99.99/yr</div>
+                    </div>
+                    <div class="app-card-features">
+                        <p>✓ Dual-AI Hybrid Engine</p>
+                        <p>✓ 5-Stem Lossless WAV</p>
+                        <p>✓ All Audio Formats</p>
+                        <p>✓ Zero Wait Time</p>
+                    </div>
+                    <button class="app-select-btn app-basic-btn" onclick="checkout('54b0894d-e745-40c8-9d7b-46636b03565e')">SUBSCRIBE</button>
+                </div>
+                
+                <!-- PRO PLAN (HIGHLIGHTED) -->
+                <div class="app-pricing-card app-pro-card">
+                    <div class="app-card-header">
+                        <div class="app-badge" id="app-pro-badge">MOST POPULAR</div>
+                        <h2>PRO PLAN</h2>
+                        <div style="font-size: 0.8rem; letter-spacing: 2px; color: #ffeb3b; margin-bottom: 1rem;">300 MIN / MO</div>
+                        <div class="app-price" id="app-pro-price">$19.99<span>/mo</span></div>
+                        <div style="font-size: 0.8rem; color: #888; display: none; margin-top: -20px; margin-bottom: 20px;" id="app-pro-sub-price">or $199.99/yr</div>
+                    </div>
+                    <div class="app-card-features">
+                        <p>✓ Dual-AI Hybrid Engine</p>
+                        <p>✓ 5-Stem Lossless WAV</p>
+                        <p>✓ Priority Server Queue</p>
+                        <p>✓ Pro Audio Mastering</p>
+                    </div>
+                    <button class="app-select-btn app-pro-btn" onclick="checkout('df342fd6-daae-458c-9c86-c17756377ffa')">SUBSCRIBE</button>
+                </div>
+                
+                <!-- ENERGY TOKEN -->
+                <div class="app-pricing-card app-token-card">
+                    <div class="app-card-header">
+                        <h2>ENERGY TOKEN</h2>
+                        <div style="font-size: 0.8rem; letter-spacing: 2px; color: #ff9800; margin-bottom: 1rem;">+60 MINS</div>
+                        <div class="app-price">$4.99<span>/once</span></div>
+                    </div>
+                    <div class="app-card-features">
+                        <p>✓ Dual-AI Hybrid Engine</p>
+                        <p>✓ 5-Stem Lossless WAV</p>
+                        <p>✓ One-Time Purchase</p>
+                        <p>✓ Never Expires</p>
+                    </div>
+                    <button class="app-select-btn app-token-btn" onclick="checkout('28d06974-8710-4214-a411-9e94d7aee744')">BUY TOKEN</button>
+                </div>
+                
+            </div>
+            
+            <div style="display: flex; align-items: flex-start; gap: 10px; margin-top: 25px; margin-bottom: 5px; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #888; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <input type="checkbox" id="eu-withdrawal-waiver-sub" style="margin-top: 2px; cursor: pointer; accent-color: var(--accent-cyan);">
+                <label for="eu-withdrawal-waiver-sub" style="cursor: pointer; line-height: 1.4;">I agree to the immediate execution of the service and acknowledge that I thereby lose my right of withdrawal.</label>
+            </div>
+            <div style="margin-top: 10px; font-size: 0.75rem; color: #888; max-width: 600px; line-height: 1.4; margin-left: auto; margin-right: auto;">
+                By subscribing, you agree to our <span onclick="document.getElementById('terms-modal').style.display='flex'" style="color: var(--accent-cyan); text-decoration: underline; cursor: pointer;">Subscription Terms</span> and <span onclick="document.getElementById('privacy-modal').style.display='flex'" style="color: var(--accent-cyan); text-decoration: underline; cursor: pointer;">Privacy Policy</span>.
+            </div>
+            
+            <button onclick="document.getElementById('pricing-modal').style.display='none'" style="margin-top: 30px; background: transparent; border: none; color: #666; cursor: pointer; font-family: 'Space Mono', monospace; letter-spacing: 2px; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#666'">[ CANCEL UPLINK ]</button>
+        </div>
+    </div>
+
+    <!-- COOKIE POLICY MODAL -->
+    <div id="cookie-policy-modal" class="auth-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 10000000; justify-content: center; align-items: flex-start; padding-top: 5vh; padding-bottom: 5vh; overflow-y: auto; opacity: 1 !important; pointer-events: auto !important;">
+        <div class="auth-content cyber-panel" style="background: #0a0a0a; border: 1px solid rgba(0, 243, 255, 0.5); border-radius: 8px; padding: 30px; width: 100%; max-width: 800px; box-shadow: 0 0 30px rgba(0,243,255,0.2); text-align: left;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.2); padding-bottom: 15px;">
+                <h3 style="margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--neon-cyan); text-transform: uppercase;">COOKIE POLICY</h3>
+                <button onclick="document.getElementById('cookie-policy-modal').style.display='none';" style="background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            
+            <div class="modal-body" style="margin-top: 20px; font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #ccc; line-height: 1.6;">
+                <div style="color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;">Last updated: July 2026</div>
+                
+                <div style="background: rgba(255,255,255,0.05); border-left: 3px solid #fff; padding: 15px; margin-bottom: 20px;">
+                    <strong>SPECIAL NOTE FOR CALIFORNIA RESIDENTS (CCPA/CPRA)</strong><br>
+                    If you are a California resident, you have additional rights under the CCPA. The use of third-party advertising cookies may constitute a "sale" or "sharing" of personal information. Clicking "REJECT ALL" on our banner serves as your official <strong>"Do Not Sell or Share My Personal Information"</strong> request. CCPA Requests: Contact support@fusevoid.com. We will respond within 45 calendar days.
+                </div>
+
+                <p><strong>Please note:</strong> This Cookie Policy applies SOLELY to the fusevoid.com promotional website and web portal. The FUSE VOID STEM-X macOS/iOS application operates under a strict privacy-first approach and does not use any marketing cookies, SDKs, or trackers, which is governed separately by Apple's App Tracking Transparency framework and our App Privacy Policy.</p>
+                
+                <div style="background: rgba(255,0,0,0.1); border-left: 3px solid var(--neon-magenta); padding: 15px; margin: 20px 0;">
+                    <strong>Important: Pre-Consent Tracking Restriction & Full Script Blocking</strong><br>
+                    By default, FUSE VOID STEM-X does not load third-party analytics or marketing cookies unless you explicitly accept them. If you select "REJECT ALL", the scripts will NOT load (Google Analytics 4, Meta Pixel). <strong>We implement FULL SCRIPT BLOCKING, not "Consent Mode".</strong> No partial data collection occurs before acceptance.
+                </div>
+
+                <h3 style="color: #fff; margin-top: 20px; font-size: 1.1rem; font-family: 'Orbitron', sans-serif;">1. Legal Basis for Processing (GDPR Art. 6)</h3>
+                <ul style="padding-left: 20px; margin-bottom: 15px;">
+                    <li style="margin-bottom: 5px;"><strong>Essential Cookies:</strong> Processed under GDPR Art. 6(1)(b) (performance of contract) to provide website functionality.</li>
+                    <li style="margin-bottom: 5px;"><strong>Performance/Marketing Cookies:</strong> Processed under GDPR Art. 6(1)(a) (consent). Consent is not required until user accepts via our banner.</li>
+                    <li style="margin-bottom: 5px;"><strong>Infrastructure Analytics (Cloudflare):</strong> Processed under GDPR Art. 6(1)(f) (legitimate interest) for security and DDoS protection. No user consent required.</li>
+                </ul>
+
+                <h3 style="color: #fff; margin-top: 20px; font-size: 1.1rem; font-family: 'Orbitron', sans-serif;">2. First-Party vs. Third-Party Cookies</h3>
+                <ul style="padding-left: 20px; margin-bottom: 15px;">
+                    <li style="margin-bottom: 10px;"><strong>First-Party Cookies (fusevoid.com domain):</strong> These are set by us to ensure session management, preference storage, and CSRF protection.</li>
+                    <li style="margin-bottom: 10px;"><strong>Third-Party Cookies (external domains):</strong> These are set by external partners (e.g., Google, Meta) for analytics and advertising networks. Third-party cookies require explicit opt-in consent.</li>
+                </ul>
+
+                <h3 style="color: #fff; margin-top: 20px; font-size: 1.1rem; font-family: 'Orbitron', sans-serif;">3. Types of cookies we use</h3>
+                <ul style="padding-left: 20px; margin-bottom: 15px;">
+                    <li style="margin-bottom: 10px;"><strong>Essential Website Cookies (Functional):</strong> These cookies are strictly necessary to provide you with services available through our website and to use some of its features, such as access to secure areas (e.g., Cloudflare security checks, Lemon Squeezy payment gateways). Duration: Session to 30 days.</li>
+                    <li style="margin-bottom: 10px;"><strong>Performance and Analytics Cookies:</strong> These cookies collect information that is used either in aggregate form to help us understand how our website is being used (e.g., Google Analytics). Duration: Up to 180 days (FUSE VOID Dashboard), though underlying services may retain it longer.</li>
+                    <li style="margin-bottom: 10px;"><strong>Advertising Cookies:</strong> These cookies are used to make advertising messages more relevant to you (e.g., Meta Pixel). Duration: Up to 180 days.</li>
+                </ul>
+
+                <h3 style="color: #fff; margin-top: 20px; font-size: 1.1rem; font-family: 'Orbitron', sans-serif;">4. How can I control or withdraw consent?</h3>
+                <p>You have the right to decide whether to accept or reject non-essential cookies. You can withdraw your cookie consent at any time by clicking the <strong>'Cookie Settings'</strong> link in our website footer.</p>
+                <p>When you withdraw consent, FUSE VOID removes your preference from your browser, logs the withdrawal timestamp on our server for compliance auditing, and disables all non-essential tracking immediately. Withdrawal prevents future processing, but does not affect processing that occurred before consent was withdrawn. Your consent preference is retained for 12 months, after which you will be asked to re-confirm.</p>
+
+                <h3 style="color: #fff; margin-top: 20px; font-size: 1.1rem; font-family: 'Orbitron', sans-serif;">5. International Data Transfers (Schrems II & SCCs)</h3>
+                <p>Data transferred to the US (Google Analytics, Meta Pixel) are protected by Standard Contractual Clauses (SCCs) adopted by the EU Commission, and Supplementary Measures including Data encryption in transit (TLS 1.3) and Pseudonymization of IP addresses (last octet masked).</p>
+
+                <h3 style="color: #fff; margin-top: 20px; font-size: 1.1rem; font-family: 'Orbitron', sans-serif;">6. Children's Privacy</h3>
+                <p>FUSE VOID STEM-X is not intended for children under 13 years of age. We do not knowingly collect personal data from children under 13. For EU users ages 13-15, parental consent is required for data processing. For US users under 13, the service is not available.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div id="privacy-modal" class="auth-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 10000000; justify-content: center; align-items: flex-start; padding-top: 5vh; padding-bottom: 5vh; overflow-y: auto; opacity: 1 !important; pointer-events: auto !important;">
+        <div class="auth-content cyber-panel" style="background: #0a0a0a; border: 1px solid rgba(0, 243, 255, 0.5); border-radius: 8px; padding: 30px; width: 100%; max-width: 600px; box-shadow: 0 0 30px rgba(0,243,255,0.2);">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 243, 255, 0.2); padding-bottom: 15px;">
+                <h3 style="margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--neon-cyan); text-transform: uppercase;">PRIVACY POLICY</h3>
+                <button onclick="document.getElementById('privacy-modal').style.display='none';" style="background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 20px; max-height: 50vh; overflow-y: auto; color: #aaa; font-family: 'Space Mono', monospace; font-size: 0.85rem; line-height: 1.6; text-align: left;">
+                <p>Welcome to FUSE VOID STEM-X ("we," "our," or "us"). We respect your privacy and are committed to protecting it through our compliance with this policy. This Privacy Policy describes our practices regarding the collection, use, and disclosure of information when you use our macOS, iOS, and iPadOS applications, as well as our Web Portal ("App" or "Service").</p>
+                
+                <p><strong style="color: #ffffff;">1. Information We Collect (And Do Not Collect)</strong><br>Our core philosophy is data minimization. We collect only the data necessary to operate the Service. Account Data (Email & OTP): To sync your credits across devices, you log in using an email address. We act as the Data Controller for this account data, processing it under the legal basis of contractual necessity (GDPR Art. 6(1)(b)). We do not create or store passwords. Access is granted exclusively via One-Time Passwords (OTP). We recommend securing your email account with strong passwords and 2FA. Log Data (IP & Security): We temporarily log IP addresses and security events to prevent fraud and abuse, processed under our legitimate interest (GDPR Art. 6(1)(f)). These logs are retained for a maximum of 30 days, after which they are automatically rotated and permanently deleted. No Device Tracking: We do not collect advertising identifiers (IDFA) or precise location data.</p>
+                
+                <p><strong style="color: #ffffff;">2. Audio Data & AI Processing (Crucial)</strong><br>For audio content you upload, FUSE VOID acts as a Data Processor on your behalf. We process this content solely to perform the AI separation service (GDPR Art. 6(1)(b)). Secure Transmission: Audio files are transmitted via TLS to our cloud infrastructure providers (e.g., Cloudflare) solely for AI separation. Strict Deletion Policy (24 Hours): We retain original uploads and processed stems for a maximum of 24 hours to allow you to download them, after which they are automatically purged from production servers. Encrypted disaster recovery backups, isolated from production, may persist for up to 30 days. No AI Training: We do not use your uploaded audio, stems, or music to train, refine, or improve our AI models. Your music remains your intellectual property.</p>
+                
+                <p><strong style="color: #ffffff;">3. Payments & Subscriptions (Apple App Store & Web)</strong><br>We use industry-leading third-party payment processors. We do not collect, see, process, or store your credit card information or billing details. Apple App Store (StoreKit): Purchases made through the iOS/macOS app are processed by Apple Inc. Web Portal (Lemon Squeezy): Purchases via our website are processed by Lemon Squeezy (our Merchant of Record), acting as the Data Controller for your payment information.</p>
+                
+                <p><strong style="color: #ffffff;">4. Analytics & Third-Party Services</strong><br>To respect user privacy, FUSE VOID STEM-X does not embed third-party marketing or tracking SDKs inside the App. We operate on a privacy-first approach.</p>
+                
+                <p><strong style="color: #ffffff;">5. Data Security</strong><br>We implement commercially reasonable technical and organizational measures to protect your temporary data against accidental or unlawful destruction, loss, or unauthorized access. Our servers utilize stateless processing, meaning no user session data is persistently stored in any database.</p>
+                
+                <p><strong style="color: #ffffff;">6. Your Privacy Rights (GDPR & CCPA)</strong><br>You have the right to access, rectify, erase, restrict, and object to the processing of your personal data (e.g., email, IP, transaction logs). To exercise these rights, contact us at legal@fusevoid.com. Because audio files are auto-purged within 24 hours, we may have no audio data to return. We do not sell or share personal information as defined by the CCPA.</p>
+                
+                <p><strong style="color: #ffffff;">7. Age Restrictions</strong><br>Our Service is not directed to individuals under the age of 16. We do not knowingly collect personal information from individuals under 16.</p>
+                
+                <p><strong style="color: #ffffff;">8. Changes to This Privacy Policy</strong><br>We may update our Privacy Policy from time to time. You are advised to review this page periodically for any changes.</p>
+                
+                <p><strong style="color: #ffffff;">9. Open Source Licenses</strong><br>Our application utilizes open-source technologies under MIT licenses (including copyrights to Zhi-Su and Meta Platforms, Inc. and affiliates).</p>
+                
+                <p><strong style="color: #ffffff;">10. Contact Us</strong><br>Data Controller: FUSE VOID. Operated by: Cem Ozan Düzenci (as sole proprietor / individual developer operating under the FUSE VOID trade name). Contact Address: Izmir, Turkey. Email: legal@fusevoid.com.</p>
+                
+                <p><strong style="color: #ffffff;">11. AI Data Processing Disclosure (Apple App Store)</strong><br>In compliance with Apple's App Store Review Guidelines, we explicitly disclose that no personal data (including your email address or audio content) is shared with any third-party AI systems or external machine learning models for training. All AI separation tasks are performed securely on our own isolated cloud infrastructure.</p>
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button onclick="document.getElementById('privacy-modal').style.display='none';" style="padding: 10px 30px; background: rgba(0,243,255,0.1); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); cursor: pointer; font-family: 'Orbitron', sans-serif;">I UNDERSTAND</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="security.js"></script>
+    <script src="app.js"></script>
+
+    <!-- MANAGE COOKIES LINK -->
+    <a href="#" id="manage-cookies-btn" style="position: fixed; bottom: 10px; left: 15px; color: #555; font-size: 0.7rem; font-family: 'Inter', sans-serif; text-decoration: none; z-index: 9999998; transition: color 0.3s;">Cookie Settings</a>
+
+    <!-- COOKIE CONSENT BANNER -->
+    <div id="cookie-banner" style="display: none; position: fixed; bottom: 20px; left: 20px; width: calc(100% - 40px); max-width: 450px; background: rgba(10, 10, 10, 0.95); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 8px; padding: 20px; z-index: 9999999; box-shadow: 0 10px 30px rgba(0,0,0,0.9); backdrop-filter: blur(10px); color: #ccc; font-family: 'Inter', sans-serif; font-size: 0.8rem; flex-direction: column; gap: 15px;">
+        <div style="line-height: 1.5;">
+            We use essential and performance cookies to optimize your experience. By continuing to use this site, you agree to our <a href="#" onclick="document.getElementById('cookie-policy-modal').style.display='flex'; return false;" style="color: var(--neon-cyan); text-decoration: underline;">Cookie Policy</a>.
+        </div>
+        <div style="display: flex; gap: 10px; width: 100%;">
+            <button id="accept-cookies" style="flex: 1; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); padding: 10px 15px; font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; border-radius: 4px;">ACCEPT ALL</button>
+            <button id="reject-cookies" style="flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #888; padding: 10px 15px; font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; border-radius: 4px;">REJECT ALL</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // WKWebView / SFSafariViewController Check
+            if (navigator.userAgent.includes('FUSEVOID') || window.location.search.includes('app=1')) {
+                return;
+            }
+
+            const cookieKey = 'fuse_void_consent_v1_4';
+            
+            function shouldShowConsentBanner() {
+                const stored = localStorage.getItem(cookieKey);
+                if (!stored) return true;
+                
+                try {
+                    const consentRecord = JSON.parse(stored);
+                    const consentDate = new Date(consentRecord.timestamp);
+                    const daysSinceConsent = (Date.now() - consentDate.getTime()) / (1000 * 60 * 60 * 24);
+                    
+                    if (daysSinceConsent > 365) {
+                        localStorage.removeItem(cookieKey);
+                        return true;
+                    }
+                    
+                    if (consentRecord.choice === 'accepted') {
+                        // SADECE ACCEPT VARSA YÜKLE (Pre-consent tracking block)
+                        // loadGoogleAnalytics();
+                        // loadMetaPixel();
+                    }
+                    return false;
+                } catch(e) {
+                    localStorage.removeItem(cookieKey);
+                    return true;
+                }
+            }
+
+            function recordConsent(choice) {
+                localStorage.setItem(cookieKey, JSON.stringify({
+                    choice: choice,
+                    timestamp: new Date().toISOString(),
+                    version: '1.4'
+                }));
+                document.getElementById('cookie-banner').style.display = 'none';
+
+                // Send audit log to backend worker
+                fetch('/api/consent-log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        choice: choice,
+                        timestamp: new Date().toISOString(),
+                        version: '1.4'
+                    })
+                }).catch(err => console.log('Audit log sent.')); // Catch silently
+            }
+
+            if (shouldShowConsentBanner()) {
+                document.getElementById('cookie-banner').style.display = 'flex';
+            }
+            
+            document.getElementById('accept-cookies').addEventListener('click', function() {
+                recordConsent('accepted');
+            });
+            
+            document.getElementById('reject-cookies').addEventListener('click', function() {
+                recordConsent('rejected');
+            });
+
+            // Withdrawal Mechanism
+            const manageBtn = document.getElementById('manage-cookies-btn');
+            if(manageBtn) {
+                manageBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem(cookieKey);
+                    document.getElementById('cookie-banner').style.display = 'flex';
+                    
+                    // Log withdrawal
+                    fetch('/api/consent-withdraw', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            withdrawalTimestamp: new Date().toISOString(),
+                            version: '1.4'
+                        })
+                    }).catch(err => console.log('Withdrawal log sent.'));
+                });
+            }
+
+            // Billing Switch Logic for Paywall
+            const billingSwitch = document.getElementById('billing-switch');
+            if (billingSwitch) {
+                const monthlyLabel = document.getElementById('monthly-label');
+                const yearlyLabel = document.getElementById('yearly-label');
+                
+                const basicPrice = document.getElementById('basic-price');
+                const basicSubPrice = document.getElementById('basic-sub-price');
+                const basicBadge = document.getElementById('basic-badge');
+                const basicOriginalPrice = document.getElementById('basic-original-price');
+                
+                const proPrice = document.getElementById('pro-price');
+                const proSubPrice = document.getElementById('pro-sub-price');
+                const proBadge = document.getElementById('pro-badge');
+                const proOriginalPrice = document.getElementById('pro-original-price');
+
+                billingSwitch.addEventListener('change', (e) => {
+                    const isYearly = e.target.checked;
+                    
+                    if (isYearly) {
+                        monthlyLabel.style.color = '#bbb';
+                        monthlyLabel.style.textShadow = 'none';
+                        yearlyLabel.style.color = 'var(--neon-cyan)';
+                        yearlyLabel.style.textShadow = '0 0 10px var(--neon-cyan)';
+                        
+                        basicOriginalPrice.style.display = 'inline';
+                        basicPrice.innerHTML = '$99.99<span>/yr</span>';
+                        basicSubPrice.innerHTML = 'or $9.99/mo';
+                        basicBadge.style.display = 'inline-block';
+                        basicBadge.textContent = '2 MONTHS FREE';
+                        
+                        proOriginalPrice.style.display = 'inline';
+                        proPrice.innerHTML = '$199.99<span>/yr</span>';
+                        proSubPrice.innerHTML = 'or $19.99/mo';
+                        proBadge.textContent = 'SAVE $40';
+                    } else {
+                        yearlyLabel.style.color = '#bbb';
+                        yearlyLabel.style.textShadow = 'none';
+                        monthlyLabel.style.color = 'var(--neon-cyan)';
+                        monthlyLabel.style.textShadow = '0 0 10px var(--neon-cyan)';
+                        
+                        basicOriginalPrice.style.display = 'none';
+                        basicPrice.innerHTML = '$9.99<span>/mo</span>';
+                        basicSubPrice.innerHTML = 'or $99.99/yr';
+                        basicBadge.style.display = 'none';
+                        
+                        proOriginalPrice.style.display = 'none';
+                        proPrice.innerHTML = '$19.99<span>/mo</span>';
+                        proSubPrice.innerHTML = 'or $199.99/yr';
+                        proBadge.textContent = 'MOST POPULAR';
+                    }
+                });
+            }
+        });
+    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const billingSwitch = document.getElementById('billing-switch');
+        const basicPrice = document.getElementById('basic-price');
+        const basicOriginalPrice = document.getElementById('basic-original-price');
+        const proPrice = document.getElementById('pro-price');
+        const proOriginalPrice = document.getElementById('pro-original-price');
+        const monthlyLabel = document.getElementById('monthly-label');
+        const yearlyLabel = document.getElementById('yearly-label');
+        
+        if (billingSwitch) {
+            billingSwitch.addEventListener('change', function(e) {
+                const isYearly = e.target.checked;
+                if (isYearly) {
+                    yearlyLabel.style.color = '#ffeb3b';
+                    yearlyLabel.style.textShadow = '0 0 10px #ffeb3b';
+                    monthlyLabel.style.color = '#bbb';
+                    monthlyLabel.style.textShadow = 'none';
+                    if (basicOriginalPrice) basicOriginalPrice.style.display = 'inline';
+                    if (basicPrice) basicPrice.innerHTML = '$99.99<span>/yr</span>';
+                    if (proOriginalPrice) proOriginalPrice.style.display = 'inline';
+                    if (proPrice) proPrice.innerHTML = '$199.99<span>/yr</span>';
+                } else {
+                    monthlyLabel.style.color = 'var(--neon-cyan)';
+                    monthlyLabel.style.textShadow = '0 0 10px var(--neon-cyan)';
+                    yearlyLabel.style.color = '#bbb';
+                    yearlyLabel.style.textShadow = 'none';
+                    if (basicOriginalPrice) basicOriginalPrice.style.display = 'none';
+                    if (basicPrice) basicPrice.innerHTML = '$9.99<span>/mo</span>';
+                    if (proOriginalPrice) proOriginalPrice.style.display = 'none';
+                    if (proPrice) proPrice.innerHTML = '$19.99<span>/mo</span>';
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

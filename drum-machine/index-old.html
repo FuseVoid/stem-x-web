@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuse Void | Professional Drum Machine</title>
+    
+    <!-- FACEBOOK & WHATSAPP (OPEN GRAPH) META TAGS -->
+    <meta property="og:title" content="Fuse Void | Professional Drum Machine">
+    <meta property="og:description" content="Create your own beats. Professional web-based drum machine and sequencer.">
+    <!-- Yeni profesyonel görsel yolu -->
+    <meta property="og:image" content="https://fusevoid.github.io/fuse-void-drum-machine-/post.jpg">
+    <meta property="og:url" content="https://fusevoid.github.io/fuse-void-drum-machine-/">
+    <meta property="og:type" content="website">
+
+    <!-- TWITTER / X META TAGS -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fuse Void | Professional Drum Machine">
+    <meta name="twitter:description" content="Professional web-based drum machine and sequencer.">
+    <meta name="twitter:image" content="https://fusevoid.github.io/fuse-void-drum-machine-/post.jpg">
+
+    <!-- Sekme Logosu (Favicon) -->
+    <link rel="icon" type="image/png" href="FuseVoid_Export_favicon (3).png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --accent: #3b82f6;
+            --bg: #000000;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff 20%, #ffffff 80%, #cccccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-right: 0.25em;
+            display: inline-block;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ipad-frame {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 4/3;
+            background: #080808;
+            border-radius: 3rem;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 100px 200px -50px rgba(0,0,0,1);
+        }
+
+        .iphone-frame {
+            width: 280px;
+            height: 580px;
+            background: #080808;
+            border-radius: 3.5rem;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .slider-content img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .arrow-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 50;
+        }
+
+        .arrow-btn:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.1); }
+
+        .video-container {
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .spec-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+        .spec-label { color: #ffffff; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasyon -->
+    <nav class="fixed w-full z-[100] px-6 py-5 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <img src="FuseVoid_Export_favicon (3).png" alt="Logo" class="h-8">
+            <span class="font-black italic tracking-tighter uppercase text-lg">FUSE VOID</span>
+        </div>
+        <div class="hidden md:flex gap-10">
+            <a href="#experience" class="text-[10px] font-bold uppercase tracking-widest opacity-50 hover:opacity-100 transition">Experience</a>
+            <a href="#features" class="text-[10px] font-bold uppercase tracking-widest opacity-50 hover:opacity-100 transition">Features</a>
+            <a href="#specs" class="text-[10px] font-bold uppercase tracking-widest opacity-50 hover:opacity-100 transition">Full Specs</a>
+        </div>
+        <a href="mailto:support@fusevoid.com" class="bg-white text-black text-[9px] px-5 py-2.5 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-all">Support</a>
+    </nav>
+
+    <!-- 1. HERO -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+        <div class="text-center max-w-5xl mb-16">
+            <h1 class="hero-title italic uppercase mb-6">
+                Make powerful <br> <span class="text-gradient">beats in seconds.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-zinc-500 font-medium mb-10">No complexity. Just groove.</p>
+            <div class="flex justify-center">
+                <a href="#" class="bg-white text-black px-10 py-4 rounded-2xl font-black uppercase text-sm flex items-center gap-3 shadow-2xl hover:bg-zinc-200 transition">
+                    <i class="fab fa-apple text-xl"></i> App Store
+                </a>
+            </div>
+        </div>
+        <div class="w-full max-w-4xl opacity-80 scale-95 hover:opacity-100 hover:scale-100 transition-all duration-1000">
+            <img src="1FuseVoidipad.png" alt="Fuse Void MK1" class="w-full h-auto drop-shadow-[0_50px_100px_rgba(59,130,246,0.15)]">
+        </div>
+    </section>
+
+    <!-- 2. EXPERIENCE (Video) -->
+    <section id="experience" class="py-32 px-6 flex flex-col items-center bg-zinc-950/50">
+        <div class="max-w-4xl text-center mb-20">
+            <h2 class="section-title italic uppercase mb-6">Designed for <br> real-time creativity</h2>
+            <p class="text-zinc-500 text-lg">Everything is instant. <span class="text-white">Fuse Void MK1</span> is playable.</p>
+        </div>
+        <div class="video-container shadow-2xl">
+            <video controls preload="metadata" class="w-full h-full">
+                <source src="fuse void video .mp4#t=1" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="mt-16 flex gap-12 text-center">
+            <div><p class="mono text-2xl font-bold">M1-M5</p><p class="text-[10px] uppercase tracking-widest text-zinc-500 mt-2">Silicon Native</p></div>
+            <div class="w-px h-12 bg-zinc-800"></div>
+            <div><p class="mono text-2xl font-bold">17.6+</p><p class="text-[10px] uppercase tracking-widest text-zinc-500 mt-2">iOS Required</p></div>
+            <div class="w-px h-12 bg-zinc-800"></div>
+            <div><p class="mono text-2xl font-bold">0ms</p><p class="text-[10px] uppercase tracking-widest text-zinc-500 mt-2">Core Latency</p></div>
+        </div>
+    </section>
+
+    <!-- 3. CORE FEATURES -->
+    <section id="features" class="py-32 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="glass-card p-12 rounded-[2.5rem] group">
+                <h3 class="text-3xl font-black italic uppercase mb-4 leading-tight">Shape your rhythm <br> with micro timing</h3>
+                <p class="text-zinc-400 mb-8">Precision groove offset and swing control. The hardware soul of <span class="text-white">MK1</span> in a digital body.</p>
+                <div class="rounded-xl overflow-hidden bg-black border border-white/5">
+                    <img src="2 FuseVoid ipad.png" alt="Sequencer" class="w-full opacity-60 group-hover:opacity-100 transition-all duration-700">
+                </div>
+            </div>
+            <div class="glass-card p-12 rounded-[2.5rem] group">
+                <h3 class="text-3xl font-black italic uppercase mb-4 leading-tight">Control the sound <br> with Chaos FX</h3>
+                <p class="text-zinc-400 mb-8">Master the Kaos-style XY pad. Lo-fi crush, sidechain pump, and filtered delays at your fingertips.</p>
+                <div class="rounded-xl overflow-hidden bg-black border border-white/5">
+                    <img src="5 FuseVoid ipad.png" alt="FX Unit" class="w-full opacity-60 group-hover:opacity-100 transition-all duration-700">
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 grid md:grid-cols-3 gap-6">
+            <div class="glass-card p-10 rounded-3xl">
+                <p class="mono text-blue-500 text-sm mb-4">// SOUND_ENGINE</p>
+                <h4 class="text-xl font-bold uppercase italic mb-4">113 Pro Samples</h4>
+                <p class="text-zinc-500 text-sm leading-relaxed">High-fidelity one-shots optimized for the Silicon neural engine. Instant impact.</p>
+            </div>
+            <div class="glass-card p-10 rounded-3xl">
+                <p class="mono text-blue-500 text-sm mb-4">// MIX_SYSTEM</p>
+                <h4 class="text-xl font-bold uppercase italic mb-4">11-Channel Mixer</h4>
+                <p class="text-zinc-500 text-sm leading-relaxed">Dedicated per-channel mutes, panning, and echo sends. Bar-aligned quantized switching.</p>
+            </div>
+            <div class="glass-card p-10 rounded-3xl">
+                <p class="mono text-blue-500 text-sm mb-4">// WORKFLOW</p>
+                <h4 class="text-xl font-bold uppercase italic mb-4">Advanced Chaining</h4>
+                <p class="text-zinc-500 text-sm leading-relaxed">A–H Kit system with 126 pattern slots. MIDI export for your favorite DAW.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri -->
+    <section class="py-32 bg-zinc-950 flex flex-col items-center gap-32">
+        <div class="w-full flex flex-col items-center">
+            <h2 class="text-sm font-bold uppercase tracking-[0.4em] text-zinc-600 mb-12 italic">The Studio Experience</h2>
+            <div class="flex items-center gap-6 px-6">
+                <button onclick="move('ipad', -1)" class="arrow-btn"><i class="fas fa-chevron-left"></i></button>
+                <div class="ipad-frame">
+                    <div id="ipad-slider" class="slider-content">
+                        <img src="1FuseVoidipad.png" alt="iPad 1">
+                        <img src="2 FuseVoid ipad.png" alt="iPad 2">
+                        <img src="5 FuseVoid ipad.png" alt="iPad 5">
+                        <img src="6 FuseVoid ipad.png" alt="iPad 6">
+                        <img src="7 FuseVoid ipad.png" alt="iPad 7">
+                        <img src="8 FuseVoid ipad.png" alt="iPad 8">
+                    </div>
+                </div>
+                <button onclick="move('ipad', 1)" class="arrow-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col items-center">
+            <h2 class="text-sm font-bold uppercase tracking-[0.4em] text-zinc-600 mb-12 italic">Pocket Workflow</h2>
+            <div class="flex items-center gap-10 px-6">
+                <button onclick="move('iphone', -1)" class="arrow-btn"><i class="fas fa-chevron-left"></i></button>
+                <div class="iphone-frame">
+                    <div id="iphone-slider" class="slider-content">
+                        <img src="1iphone.png" alt="iPhone 1">
+                        <img src="4iphone.png" alt="iPhone 4">
+                        <img src="5iphone.png" alt="iPhone 5">
+                        <img src="6iphone.png" alt="iPhone 6">
+                        <img src="7iphone.png" alt="iPhone 7">
+                    </div>
+                </div>
+                <button onclick="move('iphone', 1)" class="arrow-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. TEKNİK ÖZELLİKLER TABLOSU -->
+    <section id="specs" class="py-32 bg-black px-6 border-t border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-16">
+                <h3 class="text-3xl font-black italic uppercase tracking-tighter text-white">Fuse Void MK1 Specs</h3>
+                <p class="text-zinc-500 mono text-xs mt-2 uppercase tracking-widest">Full Technical System Architecture</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-x-20">
+                <div>
+                    <h4 class="mono text-blue-500 text-[10px] font-bold uppercase tracking-widest mb-6">/ Core Sequencing</h4>
+                    <div class="spec-item"><span class="spec-label">Sequencer</span><span>16-Step High Precision Engine</span></div>
+                    <div class="spec-item"><span class="spec-label">Micro Timing</span><span>Per-step groove offset control</span></div>
+                    <div class="spec-item"><span class="spec-label">Patterns</span><span>126 save/load slots</span></div>
+                    <div class="spec-item"><span class="spec-label">Chaining</span><span>A–H Bar-aligned pattern linking</span></div>
+                    <div class="spec-item"><span class="spec-label">Switching</span><span>Bar-aligned Quantized Transitions</span></div>
+                    <div class="spec-item"><span class="spec-label">Assignment</span><span>Per-step sample / sound assignment</span></div>
+                </div>
+                <div class="mt-12 md:mt-0">
+                    <h4 class="mono text-blue-500 text-[10px] font-bold uppercase tracking-widest mb-6">/ Audio & Performance</h4>
+                    <div class="spec-item"><span class="spec-label">Samples</span><span>113 One-shot High Quality Library</span></div>
+                    <div class="spec-item"><span class="spec-label">Mixer</span><span>11-Channels with Per-Channel Mute</span></div>
+                    <div class="spec-item"><span class="spec-label">Chaos FX</span><span>XY Kaos Pad with Reset behavior</span></div>
+                    <div class="spec-item"><span class="spec-label">Dynamics</span><span>Swing control & Accent system</span></div>
+                    <div class="spec-item"><span class="spec-label">Matrix</span><span>Full pattern multi-track editor</span></div>
+                    <div class="spec-item"><span class="spec-label">Integration</span><span>MIDI Export & Real-time REC</span></div>
+                </div>
+            </div>
+
+            <div class="mt-20 flex flex-wrap gap-x-12 gap-y-4 opacity-30 text-[10px] mono uppercase tracking-widest">
+                <span>No Menu Diving</span>
+                <span>Zero Latency</span>
+                <span>Offline First</span>
+                <span>Touch Optimized</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. KAPANIŞ -->
+    <section class="py-40 text-center px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="hero-title uppercase italic mb-12">Built for speed. <br> <span class="opacity-20">Built for you.</span></h2>
+            <a href="#" class="bg-white text-black px-16 py-6 rounded-3xl font-black uppercase text-lg hover:bg-zinc-300 transition-all scale-110">Download on App Store</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-32 bg-black border-t border-white/5 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20">
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <img src="FuseVoid_Export_favicon (3).png" alt="Logo" class="h-6 opacity-40">
+                    <span class="font-black italic tracking-tighter uppercase opacity-30 text-xl">FUSE VOID</span>
+                </div>
+                <p class="text-zinc-600 text-xs leading-loose tracking-widest uppercase mb-6">
+                    Fuse Void is an offline-first engine. We do not use cookies. We do not track you. Your creativity is yours alone.
+                </p>
+                <a href="mailto:support@fusevoid.com" class="text-zinc-400 hover:text-white transition mono text-sm underline decoration-zinc-800">support@fusevoid.com</a>
+            </div>
+            <div class="flex flex-col justify-end items-end text-right">
+                <p class="text-zinc-800 mono text-[9px] uppercase tracking-[0.6em]">Designed on MacBook M1 // 2026</p>
+                <p class="text-zinc-800 mono text-[9px] uppercase tracking-[0.6em] mt-2">© FUSE VOID MUSIC ENGINE</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let indices = { ipad: 0, iphone: 0 };
+        const totals = { ipad: 6, iphone: 5 };
+
+        function move(type, dir) {
+            indices[type] = (indices[type] + dir + totals[type]) % totals[type];
+            document.getElementById(`${type}-slider`).style.transform = `translateX(-${indices[type] * 100}%)`;
+        }
+    </script>
+
+</body>
+</html>

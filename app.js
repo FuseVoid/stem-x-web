@@ -116,11 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
         authModal.style.display = 'none';
     });
     
-    document.getElementById('open-terms-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('terms-modal').style.display = 'flex';
-    });
-
     let authStep = 1; // 1: Email, 2: Code
 
     authSubmitBtn.addEventListener('click', async () => {

@@ -372,3 +372,66 @@ body.app-body {
     box-shadow: 0 0 15px var(--accent-magenta);
 }
 
+/* MOBILE RESPONSIVE FIX (TELEFON EKRANLARI ICIN KAYDIRMA VE DIZILIM) */
+@media (max-width: 900px) {
+    html, body {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        position: relative !important;
+    }
+    body.app-body {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        display: block !important;
+    }
+    
+    /* TOP HEADER FIX */
+    .credit-badge { display: none !important; }
+    #add-credits-btn-top { margin-right: 5px !important; padding: 4px 8px !important; font-size: 0.65rem !important; }
+    .app-user-panel { gap: 8px !important; }
+    
+    /* WORKSPACE FIX */
+    .app-workspace {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: 100% !important;
+        padding: 1rem !important;
+        gap: 1.5rem !important;
+    }
+
+    .drop-zone {
+        height: 250px !important;
+        align-self: stretch !important;
+        margin-top: 10px !important;
+    }
+    
+    .tracks-panel {
+        min-height: 400px !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    /* PRICING MODAL FIX (3 KUTUYU ALT ALTA DIZ) */
+    .app-pricing-cards-container {
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        transform: scale(1) !important;
+        gap: 2rem !important;
+        margin-top: 1rem !important;
+    }
+    .app-pricing-card {
+        width: 100% !important;
+        max-width: 320px !important;
+    }
+    .app-pro-card {
+        transform: scale(1.02) !important;
+    }
+    .app-pro-card:hover {
+        transform: scale(1.02) translateY(-5px) !important;
+    }
+}
