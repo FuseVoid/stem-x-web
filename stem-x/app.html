@@ -150,6 +150,10 @@
         -webkit-overflow-scrolling: touch;
         padding-top: 20px;
     }
+    .pricing-section-wrapper {
+        justify-content: flex-start !important;
+        padding-top: 80px !important;
+    }
   }
 </style>
 </head>
@@ -158,7 +162,7 @@
     <a href="index.html" style="position: fixed; top: 20px; right: 20px; color: #fff; font-size: 3rem; text-decoration: none; font-family: 'Inter', sans-serif; transition: all 0.3s ease; z-index: 2147483647; line-height: 1; display: block; text-shadow: 0 0 15px rgba(255,255,255,0.8); background: rgba(0,0,0,0.5); width: 50px; height: 50px; text-align: center; border-radius: 25px; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255,255,255,0.1);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='rgba(255,255,255,0.2)'; this.style.boxShadow='0 0 30px rgba(255,255,255,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(0,0,0,0.5)'; this.style.boxShadow='0 0 20px rgba(255,255,255,0.1)';">&times;</a>
 
     <!-- PRICING SECTION -->
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; min-height: 100vh;">
+    <div class="pricing-section-wrapper" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; min-height: 100vh;">
         
         <div class="billing-toggle" style="margin-bottom: 30px; margin-top: -10px; display: flex; align-items: center; justify-content: center; gap: 15px; font-family: 'Inter', sans-serif; font-size: 0.9rem;">
             <span id="monthly-label" style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); font-weight: 600;">Monthly</span>
