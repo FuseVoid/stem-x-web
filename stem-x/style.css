@@ -910,4 +910,17 @@ footer {
     .features { flex-direction: column; gap: 1rem; }
     .glass-panel { padding: 2rem; }
     .spec-row { flex-direction: column; gap: 0.3rem; }
+    .main-nav {
+        padding: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .nav-links {
+        gap: 1rem;
+        font-size: 0.8rem;
+    }
+    .nav-btn-text {
+        font-size: 0.8rem;
+    }
 }
