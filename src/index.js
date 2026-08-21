@@ -281,7 +281,11 @@ export default {
                         file_key: file_key,
                         job_id: fuse_tx_id, // Custom job_id instead of RunPod's
                         mode: "fiveStem",
-                        web_secret: env.FUSE_VOID_WEB_SECRET
+                        web_secret: env.FUSE_VOID_WEB_SECRET,
+                        r2_access_key: env.R2_ACCESS_KEY_ID,
+                        r2_secret_key: env.R2_SECRET_ACCESS_KEY,
+                        r2_endpoint: env.R2_ENDPOINT_URL,
+                        r2_bucket: env.R2_BUCKET_NAME
                     }
                 };
 
