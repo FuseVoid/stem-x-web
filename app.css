@@ -5,8 +5,10 @@ body.app-body {
     color: var(--text-primary);
     margin: 0;
     padding: 0;
-    height: 100vh;
-    overflow: hidden; /* No scrolling in the app, it should feel like native software */
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden; 
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
 }
@@ -73,18 +75,21 @@ body.app-body {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 0, 85, 0.05);
+    border: 1px solid rgba(255, 0, 85, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-secondary);
+    color: var(--accent-magenta);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .user-avatar:hover {
     color: #fff;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 0, 85, 0.2);
+    border-color: var(--accent-magenta);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.5);
 }
 
 /* MAIN WORKSPACE */
@@ -96,7 +101,8 @@ body.app-body {
     max-width: 1600px;
     margin: 0 auto;
     width: 100%;
-    height: calc(100vh - 70px);
+    min-height: calc(100vh - 70px);
+    height: auto;
 }
 
 /* DRAG & DROP ZONE */
@@ -208,7 +214,7 @@ body.app-body {
     background: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 8px;
-    height: 80px;
+    height: 110px;
     display: flex;
     overflow: hidden;
 }
@@ -277,6 +283,26 @@ body.app-body {
     border-color: rgba(255, 255, 255, 0.1);
     color: var(--text-secondary);
     box-shadow: none;
+}
+
+.cyber-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--accent-cyan);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.cyber-button:hover {
+    background: var(--accent-cyan);
+    color: #000;
+    box-shadow: 0 0 15px var(--accent-cyan);
 }
 
 /* Fix Unclickable Elements */
@@ -351,9 +377,9 @@ body.app-body {
 
 .cyber-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 4px;
-    height: 16px;
-    border-radius: 2px;
+    width: 16px;
+    height: 20px;
+    border-radius: 4px;
     background: #fff;
     box-shadow: 0 0 10px var(--accent-cyan);
     transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -361,7 +387,7 @@ body.app-body {
 }
 
 .cyber-slider::-webkit-slider-thumb:hover {
-    transform: scaleX(2) scaleY(1.1);
+    transform: scaleX(1.2) scaleY(1.1);
     background: var(--accent-cyan);
     box-shadow: 0 0 15px var(--accent-cyan);
 }
@@ -372,8 +398,8 @@ body.app-body {
     box-shadow: 0 0 15px var(--accent-magenta);
 }
 
-/* MOBILE RESPONSIVE FIX (TELEFON EKRANLARI ICIN KAYDIRMA VE DIZILIM) */
-@media (max-width: 900px) {
+/* MOBILE RESPONSIVE FIX (TELEFON VE IPAD EKRANLARI ICIN KAYDIRMA VE DIZILIM) */
+@media (max-width: 1200px) {
     html, body {
         height: auto !important;
         min-height: 100vh !important;
@@ -402,6 +428,11 @@ body.app-body {
         min-height: 100% !important;
         padding: 1rem !important;
         gap: 1.5rem !important;
+    }
+
+    .left-panel-container {
+        align-self: stretch !important;
+        width: 100% !important;
     }
 
     .drop-zone {

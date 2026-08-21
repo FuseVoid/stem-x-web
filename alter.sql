@@ -1,0 +1,2 @@
+ALTER TABLE users ADD COLUMN monthly_allowance INTEGER DEFAULT 0;
+ALTER TABLE users ADD COLUMN next_reset_date DATETIME;
