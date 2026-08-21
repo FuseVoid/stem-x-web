@@ -1,0 +1,12 @@
+name = "fuse-void-api"
+main = "src/index.js"
+compatibility_date = "2024-03-20"
+
+[[d1_databases]]
+binding = "DB" # Available in your Worker as env.DB
+database_name = "stem-x-kasa"
+database_id = "c1e17ab9-b3e3-44b9-9b0b-3bb2aad69ef2"
+
+
+[triggers]
+crons = ["0 0 * * *"]
