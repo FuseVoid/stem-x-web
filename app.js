@@ -1029,34 +1029,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// --- PREVIEW SPINNER WITHOUT RUNPOD ---
-window.testSpinner = function() {
-    const spinnerContainer = document.getElementById('extraction-spinner');
-    const spinnerPct = document.getElementById('spinner-pct');
-    const spinnerCircle = document.getElementById('spinner-progress-circle');
-    const spinnerStatus = document.getElementById('spinner-status');
-    
-    if(!spinnerContainer) return;
-    
-    spinnerContainer.style.display = 'flex';
-    spinnerStatus.textContent = 'SIMULATING UPLINK...';
-    
-    let pct = 0;
-    const interval = setInterval(() => {
-        pct += 2;
-        if(pct > 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-                spinnerContainer.style.display = 'none';
-            }, 1000);
-            return;
-        }
-        
-        spinnerPct.textContent = pct + "%";
-        if (spinnerCircle) {
-            const circumference = 2 * Math.PI * 45; 
-            const offset = circumference - (pct / 100) * circumference;
-            spinnerCircle.style.strokeDashoffset = offset;
-        }
-    }, 100);
-};
+
