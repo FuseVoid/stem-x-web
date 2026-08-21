@@ -3,6 +3,16 @@
 const API_URL = "https://fuse-void-api.fuseboogie.workers.dev";
 let authToken = null;
 
+// --- SİBER GÜVENLİK (ANTI-COPY & ANTI-INSPECT) ---
+document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
+document.addEventListener('selectstart', (e) => { e.preventDefault(); });
+document.addEventListener('keydown', (e) => {
+    if(e.keyCode === 123 || 
+       (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 67 || e.keyCode === 74)) ||
+       (e.ctrlKey && e.keyCode === 85) || (e.metaKey && e.altKey && e.keyCode === 73)) {
+        e.preventDefault();
+    }
+});
 // System Modal Logic
 window.showSysMsg = function(message, isError = true) {
     const modal = document.getElementById('sys-modal');
@@ -106,11 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
         authModal.style.display = 'none';
     });
     
-    document.getElementById('open-terms-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('terms-modal').style.display = 'flex';
-    });
-
     let authStep = 1; // 1: Email, 2: Code
 
     authSubmitBtn.addEventListener('click', async () => {
@@ -176,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('fuse_void_token', authToken);
                 
                 let minutes = data.minutes !== undefined ? data.minutes : 0;
-                creditValue.textContent = parseFloat(minutes).toFixed(2) + " MIN";
+                creditValue.textContent = minutes + " MIN";
                 userAvatar.style.color = "var(--accent-cyan)";
                 
                 authModal.style.display = 'none';
@@ -375,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 processBtn.classList.remove('disabled');
                 processBtn.style.boxShadow = '0 0 20px rgba(0, 243, 255, 0.3)';
-                statusIndicator.textContent = `READY (${(durationSeconds / 60).toFixed(2)} MIN)`;
+                statusIndicator.textContent = `READY (${Math.ceil(durationSeconds / 60)} MIN)`;
                 statusIndicator.style.color = 'var(--accent-cyan)';
                 statusIndicator.style.borderColor = 'var(--accent-cyan)';
                 
@@ -461,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.error || "Extraction Failed");
             }
 
-            // Deduct minute from UI (Format to whole number)
+            // Deduct minute from UI (Format to 2 decimals)
             creditValue.textContent = Math.floor(data.remaining_minutes) + " MIN";
             
             // Here we start polling RunPod for the separated files
