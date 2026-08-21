@@ -222,7 +222,33 @@
                         BROWSE FILES
                     </label>
                     <input type="file" id="file-upload" accept="audio/*,.mp3,.wav,.m4a,audio/mpeg,audio/wav,audio/x-wav,audio/x-m4a,audio/mp4,audio/aac" style="display: none;">
-                    <button type="button" onclick="testSpinner()" style="margin-top: 15px; background: transparent; border: 1px solid #ff9800; color: #ff9800; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">[ TEST UI ]</button>
+                    <script>
+                    function testSpinnerInline() {
+                        const sc = document.getElementById("extraction-spinner");
+                        const sp = document.getElementById("spinner-pct");
+                        const sr = document.getElementById("spinner-progress-circle");
+                        const ss = document.getElementById("spinner-status");
+                        if(!sc) return;
+                        sc.style.display = "flex";
+                        if(ss) ss.textContent = "SIMULATING...";
+                        let pct = 0;
+                        const iv = setInterval(() => {
+                            pct += 2;
+                            if(pct > 100) {
+                                clearInterval(iv);
+                                setTimeout(() => sc.style.display = "none", 1000);
+                                return;
+                            }
+                            if(sp) sp.textContent = pct + "%";
+                            if (sr) {
+                                const circ = 2 * Math.PI * 45;
+                                sr.style.strokeDashoffset = circ - (pct / 100) * circ;
+                            }
+                        }, 100);
+                    }
+                    </script>
+
+                    <button type="button" onclick="testSpinnerInline()" style="margin-top: 15px; background: transparent; border: 1px solid #ff9800; color: #ff9800; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 2px;">[ TEST UI ]</button>
                 </div>
             </div>
 
